@@ -83,7 +83,7 @@ export default function UserManagementModule() {
   return (
     <div className="space-y-6">
       <div className="bg-orange-50 border border-orange-100 p-6 rounded-[32px] flex items-center gap-6">
-         <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-orange-600 shadow-sm border border-orange-200">
+         <div className="w-16 h-16 leather-light-textured rounded-2xl flex items-center justify-center text-orange-600 shadow-sm border border-orange-200">
             <Shield size={32} />
          </div>
          <div className="flex-1">
@@ -100,7 +100,7 @@ export default function UserManagementModule() {
 
       <div className="grid grid-cols-1 gap-4">
         {mockUsers.map(u => (
-          <div key={u.id} className="bg-white p-6 rounded-[32px] border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-md transition-shadow">
+          <div key={u.id} className="leather-light-textured p-6 rounded-[32px] border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-md transition-shadow">
              <div className="flex items-center gap-4">
                 <div className="w-14 h-14 bg-slate-50 flex items-center justify-center rounded-2xl text-slate-400">
                    <UserCheck size={28} />
@@ -140,7 +140,7 @@ export default function UserManagementModule() {
            <motion.div 
              initial={{ opacity: 0, scale: 0.9 }}
              animate={{ opacity: 1, scale: 1 }}
-             className="bg-white w-full max-w-xl rounded-[40px] shadow-2xl overflow-hidden"
+             className="leather-light-textured w-full max-w-xl rounded-[40px] shadow-2xl overflow-hidden"
            >
               <div className="bg-navy-dark p-8 text-white leather-texture flex justify-between items-center">
                  <div className="flex items-center gap-3">
@@ -158,7 +158,7 @@ export default function UserManagementModule() {
                      <motion.div 
                        initial={{ opacity: 0 }}
                        animate={{ opacity: 1 }}
-                       className="absolute inset-0 bg-white/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-center p-8"
+                       className="absolute inset-0 leather-light-textured backdrop-blur-sm z-50 flex flex-col items-center justify-center text-center p-8"
                      >
                         <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center text-green-500 mb-4 border border-green-100 shadow-inner">
                            <CheckCircle2 size={40} />
@@ -187,7 +187,7 @@ export default function UserManagementModule() {
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
                         placeholder="Nome do representante" 
-                        className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-navy-dark font-bold text-navy-dark" 
+                        className="w-full p-4 leather-light-textured border border-slate-200 rounded-2xl outline-none focus:border-navy-dark font-bold text-navy-dark" 
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -198,7 +198,7 @@ export default function UserManagementModule() {
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
                         placeholder="email@exemplo.com" 
-                        className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-navy-dark font-bold text-navy-dark" 
+                        className="w-full p-4 leather-light-textured border border-slate-200 rounded-2xl outline-none focus:border-navy-dark font-bold text-navy-dark" 
                       />
                     </div>
                     
@@ -215,7 +215,7 @@ export default function UserManagementModule() {
                               value={formData.password}
                               onChange={(e) => setFormData({...formData, password: e.target.value})}
                               placeholder="Defina a senha temporária" 
-                              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-navy-dark font-mono text-sm" 
+                              className="w-full p-4 leather-light-textured border border-slate-200 rounded-2xl outline-none focus:border-navy-dark font-mono text-sm" 
                             />
                             <Lock size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300" />
                          </div>
@@ -228,7 +228,7 @@ export default function UserManagementModule() {
                           <select 
                             value={isCreatingRole ? 'CREATE_NEW' : selectedRole || editingUser?.role} 
                             onChange={handleRoleChange}
-                            className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-navy-dark font-bold text-navy-dark"
+                            className="w-full p-4 leather-light-textured border border-slate-200 rounded-2xl outline-none focus:border-navy-dark font-bold text-navy-dark"
                           >
                              <option value="" disabled>Selecione um cargo...</option>
                              {roles.map(r => <option key={r} value={r}>{r}</option>)}
@@ -261,7 +261,7 @@ export default function UserManagementModule() {
                                        value={newRoleName}
                                        onChange={(e) => setNewRoleName(e.target.value)}
                                        placeholder="ex: Gerente Regional" 
-                                       className="flex-1 p-3 bg-white border border-slate-200 rounded-xl outline-none focus:border-orange-300 text-sm font-bold" 
+                                       className="flex-1 p-3 leather-light-textured border border-slate-200 rounded-xl outline-none focus:border-orange-300 text-sm font-bold" 
                                      />
                                      <button 
                                        onClick={addNewRole}

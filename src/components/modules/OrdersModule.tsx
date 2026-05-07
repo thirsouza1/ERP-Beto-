@@ -131,7 +131,7 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
-           <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-leather-dark leather-texture">
+           <div className="w-12 h-12 leather-light-textured rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-leather-dark leather-texture">
               <FileText size={24} />
            </div>
            <div>
@@ -149,8 +149,7 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {mockOrders.map((order) => (
-          <div key={order.id} className="bg-white/80 backdrop-blur-md rounded-[40px] p-6 shadow-xl border-2 border-slate-200/50 relative overflow-hidden group leather-texture">
-             <div className="absolute inset-0 bg-white/60 pointer-events-none" />
+          <div key={order.id} className="leather-light-textured backdrop-blur-md rounded-[40px] p-6 shadow-xl border-2 border-slate-200/50 relative overflow-hidden group">
              <div className="relative z-10">
                <div className="flex justify-between items-start mb-6">
                   <div>
@@ -203,7 +202,7 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
 
       {/* Hidden Order Template for PDF Generation */}
       <div className="fixed -left-[2000px] top-0">
-        <div id="order-pdf-template" className="w-[210mm] p-10 bg-white text-navy-dark font-sans relative">
+        <div id="order-pdf-template" className="w-[210mm] p-10 leather-light-textured text-navy-dark font-sans relative">
            <div className="flex justify-between items-start border-b-2 border-leather-tan pb-8 mb-8">
               <div className="flex items-center gap-6">
                  <Logo variant="compact" className="origin-left scale-110" />
@@ -325,7 +324,7 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                <div className="flex-1 overflow-y-auto p-10 space-y-10">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                      <div className="space-y-6">
-                        <div className="bg-white/40 p-6 rounded-[32px] border border-white/60 backdrop-blur-sm">
+                        <div className="bg-white/40 p-6 rounded-[32px] border border-white/60 leather-light-textured backdrop-blur-sm shadow-inner-lg">
                            <h4 className="text-[10px] font-bold text-leather-tan uppercase tracking-widest mb-2">Dados do Cliente</h4>
                            <p className="text-xl font-bold text-navy-dark leading-tight">{viewOrder.client}</p>
                            <p className="text-xs text-slate-400 font-bold mb-3">CNPJ/CPF: {viewOrder.cnpj}</p>
@@ -377,7 +376,7 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
 
                   <div>
                      <h4 className="text-[10px] font-bold text-leather-tan uppercase tracking-widest mb-4">Itens da Venda</h4>
-                     <div className="bg-white/60 rounded-[32px] overflow-hidden border border-white/80 backdrop-blur-sm shadow-inner">
+                     <div className="bg-white/60 rounded-[32px] overflow-hidden border border-white/80 leather-light-textured backdrop-blur-sm shadow-inner shadow-black/5">
                         <table className="w-full text-left">
                            <thead>
                               <tr className="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-100/50">
@@ -422,15 +421,14 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
       {/* New Order Drawer - Unchanged Logic, just ensuring icons and structure */}
       <AnimatePresence>
         {showNewOrder && (
-          <motion.div 
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-y-0 right-0 w-full max-w-4xl bg-[#fdfaf6] bg-opacity-95 shadow-2xl z-[150] flex flex-col border-l-4 border-leather-tan leather-texture relative"
-          >
-             <div className="absolute inset-0 bg-[#fdfaf6]/40 pointer-events-none" />
-             <div className="bg-navy-dark p-8 text-white flex justify-between items-center relative overflow-hidden">
+            <motion.div 
+               initial={{ x: '100%' }}
+               animate={{ x: 0 }}
+               exit={{ x: '100%' }}
+               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+               className="fixed inset-y-0 right-0 w-full max-w-4xl leather-light-textured shadow-2xl z-[150] flex flex-col border-l-4 border-leather-tan relative"
+            >
+               <div className="bg-navy-dark p-8 text-white flex justify-between items-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-white/5 pointer-events-none"></div>
                 <div className="flex items-center gap-6 relative z-10">
                    <Logo variant="compact" className="scale-125 origin-left" />
@@ -458,7 +456,7 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                        value={newOrderData.client}
                        onChange={handleNewOrderChange}
                        placeholder="Buscar cliente cadastrado..."
-                       className="w-full pl-12 pr-4 py-4 bg-white rounded-2xl border-2 border-transparent focus:border-leather-tan outline-none shadow-sm transition-all"
+                       className="w-full pl-12 pr-4 py-4 leather-light-textured rounded-2xl border-2 border-transparent focus:border-leather-tan outline-none shadow-sm transition-all"
                      />
                   </div>
                </section>
@@ -476,10 +474,9 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                     </button>
                   </div>
 
-                  <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 leather-texture relative overflow-hidden">
-                     <div className="absolute inset-0 bg-white/40 pointer-events-none"></div>
+                  <div className="leather-light-textured rounded-3xl overflow-hidden shadow-sm border border-slate-100 relative overflow-hidden">
                      <table className="w-full text-left relative z-10">
-                        <thead className="bg-slate-50 border-b border-slate-100">
+                        <thead className="bg-[#fdfcf9]/40 border-b border-slate-100">
                            <tr className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                               <th className="px-6 py-4">Produto / Descrição</th>
                               <th className="px-6 py-4 text-center text-center">Qtd.</th>
@@ -549,7 +546,7 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                       name="paymentTerm"
                       value={newOrderData.paymentTerm}
                       onChange={handleNewOrderChange}
-                      className="w-full p-4 bg-white rounded-2xl border-2 border-transparent focus:border-leather-tan outline-none shadow-sm cursor-pointer"
+                      className="w-full p-4 leather-light-textured rounded-2xl border-2 border-transparent focus:border-leather-tan outline-none shadow-sm cursor-pointer"
                     >
                        <option>30 dias</option>
                        <option>30 / 60 dias</option>
@@ -563,7 +560,7 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                     <div className="flex items-center gap-2 text-xs font-bold text-leather-tan uppercase tracking-widest">
                        <Calculator size={14} /> Resumo Financeiro
                     </div>
-                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 space-y-4 leather-texture relative overflow-hidden">
+                    <div className="leather-light-textured rounded-3xl p-6 shadow-sm border border-slate-100 space-y-4 leather-texture relative overflow-hidden">
                        <div className="absolute inset-0 bg-white/40 pointer-events-none"></div>
                        <div className="flex justify-between items-center text-sm relative z-10">
                           <span className="text-slate-400 font-medium">Subtotal</span>
@@ -596,8 +593,8 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                </section>
             </div>
 
-            <div className="p-8 bg-white/50 backdrop-blur-md border-t-2 border-slate-200 flex gap-4 relative z-10">
-               <button className="flex-1 py-4 bg-white text-slate-600 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors border-2 border-slate-200 shadow-sm transition-all">
+            <div className="p-8 bg-[#fdfcf9]/50 backdrop-blur-md border-t-2 border-slate-200 flex gap-4 relative z-10">
+               <button className="flex-1 py-4 leather-light-textured text-slate-600 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors border-2 border-slate-200 shadow-sm transition-all">
                   <Printer size={20} /> Preview do Pedido
                </button>
                <button className="flex-1 py-4 bg-navy-dark text-white rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.4)] hover:bg-black hover:scale-[1.02] active:scale-[0.98] transition-all border-2 border-white/10 relative overflow-hidden group">

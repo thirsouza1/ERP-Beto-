@@ -236,10 +236,10 @@ export default function ReportsModule() {
 
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
           {/* DATE PICKER PANEL */}
-          <div className="xl:col-span-4 bg-white paper-texture rounded-[32px] border border-slate-200 shadow-xl overflow-hidden relative group">
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="xl:col-span-4 leather-light-textured rounded-[32px] border border-slate-200 shadow-xl overflow-hidden relative group">
+            <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-[#fdfcf9]/50">
                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center border border-slate-200 text-leather-tan shadow-sm">
+                  <div className="w-10 h-10 leather-light-textured rounded-xl flex items-center justify-center border border-slate-200 text-leather-tan shadow-sm">
                     <Calendar size={18} />
                   </div>
                   <div>
@@ -271,7 +271,7 @@ export default function ReportsModule() {
                        "px-4 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all border",
                        dateRange === preset 
                         ? "bg-navy-dark text-white border-navy-dark shadow-lg scale-[1.02]" 
-                        : "bg-slate-50 text-slate-500 border-slate-100 hover:border-leather-tan/30"
+                        : "leather-light-textured text-slate-500 border-slate-100 hover:border-leather-tan/30 shadow-sm"
                      )}
                    >
                      {preset}
@@ -284,7 +284,7 @@ export default function ReportsModule() {
                 <motion.div 
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
-                  className="bg-slate-50/50 rounded-2xl p-4 border border-slate-100"
+                  className="leather-light-textured rounded-2xl p-4 border border-slate-100 shadow-inner-lg"
                 >
                    <div className="flex items-center justify-between mb-4">
                       <span className="text-[11px] font-black text-navy-dark uppercase">Maio 2026</span>
@@ -318,7 +318,7 @@ export default function ReportsModule() {
 
           {/* MULTI-SELECT DROPDOWNS BAR */}
           <div className="xl:col-span-8 space-y-4">
-            <div className="bg-white/40 backdrop-blur-md paper-texture p-4 rounded-[32px] border border-slate-200/60 shadow-xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative z-30">
+            <div className="leather-light-textured backdrop-blur-md p-4 rounded-[32px] border border-slate-200/60 shadow-xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative z-30">
               <AdvancedDropdown 
                 label="Categoria" 
                 icon={<Layers size={14} />} 
@@ -374,7 +374,7 @@ export default function ReportsModule() {
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     key={`${key}-${val}`} 
-                    className="flex items-center gap-2 px-4 py-2 bg-white/60 border border-leather-tan/20 rounded-full shadow-sm"
+                    className="flex items-center gap-2 px-4 py-2 leather-light-textured border border-leather-tan/20 rounded-full shadow-sm"
                    >
                      <span className="text-[9px] font-black text-leather-tan uppercase tracking-widest">{key}:</span>
                      <span className="text-xs font-bold text-navy-dark">{val}</span>
@@ -409,11 +409,11 @@ export default function ReportsModule() {
                      <p className="text-white/40 text-xs max-w-md">Exibindo faturamento e volume de pedidos cruzando {selectedFilters.category.length} categorias e {selectedFilters.branch.length} unidades operacionais.</p>
                   </div>
                   <div className="flex gap-4">
-                     <div className="bg-white/5 border border-white/10 p-5 rounded-3xl text-center min-w-[140px] backdrop-blur-xl">
+                     <div className="p-5 leather-light-textured border border-white/10 rounded-3xl text-center min-w-[140px] backdrop-blur-xl">
                         <p className="text-[9px] font-black text-white/40 uppercase mb-1">Impacto Filtros</p>
                         <p className="text-xl font-black text-leather-tan">+12.4%</p>
                      </div>
-                     <div className="bg-white/5 border border-white/10 p-5 rounded-3xl text-center min-w-[140px] backdrop-blur-xl">
+                     <div className="p-5 leather-light-textured border border-white/10 rounded-3xl text-center min-w-[140px] backdrop-blur-xl">
                         <p className="text-[9px] font-black text-white/40 uppercase mb-1">Volumetria</p>
                         <p className="text-xl font-black text-white">842 un.</p>
                      </div>
@@ -457,7 +457,7 @@ export default function ReportsModule() {
                   <KPICard title="Ticket Médio" value="R$ 1.250,00" delta="4.2" positive={true} icon={<TrendingUp />} premium />
                   <KPICard title="Volume de Pedidos" value="228" delta="8.5" positive={true} icon={<ShoppingCart />} premium />
                   <KPICard title="Market Growth" value="18.4%" delta="2.1" positive={true} icon={<TrendingUp />} />
-                  <div className="bg-white p-7 rounded-[40px] border border-slate-200/60 shadow-lg flex flex-col justify-between group overflow-hidden relative paper-texture">
+                  <div className="leather-light-textured p-7 rounded-[40px] border border-slate-200/60 shadow-lg flex flex-col justify-between group overflow-hidden relative">
                      <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none group-hover:scale-110 group-hover:rotate-6 transition-all duration-500"><TrendingUp size={80} /></div>
                      <div className="space-y-2 relative z-10">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Meta Mensal</p>
@@ -473,7 +473,7 @@ export default function ReportsModule() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                   <div className="lg:col-span-2 bg-white p-10 rounded-[56px] border border-slate-200/60 shadow-xl paper-texture relative">
+                   <div className="lg:col-span-2 leather-light-textured p-10 rounded-[56px] border border-slate-200/60 shadow-xl relative">
                       <h4 className="text-2xl font-black text-navy-dark tracking-tight mb-8">Performance Analítica</h4>
                       <div className="h-[440px] w-full">
                          <ResponsiveContainer width="100%" height="100%">
@@ -493,7 +493,7 @@ export default function ReportsModule() {
                          </ResponsiveContainer>
                       </div>
                    </div>
-                   <div className="bg-white p-10 rounded-[56px] border border-slate-200/60 shadow-xl flex flex-col paper-texture">
+                   <div className="leather-light-textured p-10 rounded-[56px] border border-slate-200/60 shadow-xl flex flex-col">
                       <h4 className="text-2xl font-black text-navy-dark tracking-tight mb-8">Mix de Vendas</h4>
                       <ResponsiveContainer width="100%" height={280}>
                          <PieChart>
@@ -525,12 +525,12 @@ export default function ReportsModule() {
                   <KPICard title="Taxa de Conversão" value="8.4%" delta="1.2" positive={true} icon={<TrendingUp />} premium />
                   <KPICard title="Tempo Médio Despacho" value="1.5 dias" delta="4.0" positive={true} icon={<Clock />} premium />
                 </div>
-                <div className="bg-white p-10 rounded-[56px] border border-slate-200/60 shadow-xl paper-texture overflow-hidden">
+                <div className="leather-light-textured p-10 rounded-[56px] border border-slate-200/60 shadow-xl overflow-hidden">
                    <h4 className="text-2xl font-black text-navy-dark tracking-tight mb-8">Auditoria de Pedidos Recentes</h4>
                    <div className="overflow-x-auto">
                      <table className="w-full text-left">
                        <thead>
-                         <tr className="bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
+                         <tr className="bg-[#fdfcf9]/60 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 italic">
                            <th className="px-8 py-6">Pedido</th>
                            <th className="px-8 py-6">Cliente</th>
                            <th className="px-8 py-6 text-right">Valor</th>
@@ -561,7 +561,7 @@ export default function ReportsModule() {
                   <KPICard title="Saldo Projetado" value="R$ 63.500" delta="8.1" positive={true} icon={<Wallet />} premium />
                   <KPICard title="Inadimplência" value="1.8%" delta="0.4" positive={true} icon={<FileText />} />
                 </div>
-                <div className="bg-white p-10 rounded-[56px] border border-slate-200/60 shadow-xl paper-texture">
+                <div className="leather-light-textured p-10 rounded-[56px] border border-slate-200/60 shadow-xl">
                    <h4 className="text-2xl font-black text-navy-dark tracking-tight mb-8">Saúde Financeira - Fluxo de Caixa</h4>
                    <div className="h-[350px] w-full">
                      <ResponsiveContainer width="100%" height="100%">
@@ -587,7 +587,7 @@ export default function ReportsModule() {
                   <KPICard title="Média por Consultor" value="R$ 2.810" delta="1.2" positive={false} icon={<Users />} premium />
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                  <div className="bg-white p-10 rounded-[56px] border border-slate-200/60 shadow-xl paper-texture">
+                  <div className="leather-light-textured p-10 rounded-[56px] border border-slate-200/60 shadow-xl">
                      <h4 className="text-2xl font-black text-navy-dark tracking-tight mb-8">Gastos por Categoria</h4>
                      <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
@@ -598,11 +598,11 @@ export default function ReportsModule() {
                         </PieChart>
                      </ResponsiveContainer>
                   </div>
-                  <div className="bg-white p-10 rounded-[56px] border border-slate-200/60 shadow-xl paper-texture overflow-hidden">
+                  <div className="leather-light-textured p-10 rounded-[56px] border border-slate-200/60 shadow-xl overflow-hidden">
                      <h4 className="text-2xl font-black text-navy-dark tracking-tight mb-8">Aprovações Pendentes</h4>
                      <div className="space-y-4">
                        {[1,2,3].map((i) => (
-                         <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-md transition-all">
+                         <div key={i} className="flex items-center justify-between p-4 leather-light-textured rounded-2xl border border-slate-100 hover:shadow-md transition-all">
                             <div className="flex items-center gap-4">
                                <div className="w-10 h-10 rounded-full bg-leather-tan/10 flex items-center justify-center text-leather-tan font-black">CP</div>
                                <div>
@@ -678,7 +678,7 @@ function AdvancedDropdown({
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute top-full left-0 right-0 mt-3 bg-white paper-texture border border-slate-200 shadow-2xl rounded-2xl z-[100] overflow-hidden"
+            className="absolute top-full left-0 right-0 mt-3 leather-light-textured border border-slate-200 shadow-2xl rounded-2xl z-[100] overflow-hidden"
           >
             <div className="p-3 border-b border-slate-100 bg-slate-50/50">
                <div className="relative">
@@ -760,7 +760,7 @@ function KPICard({ title, value, delta, positive, icon, premium }: any) {
     <motion.div 
       whileHover={{ y: -8 }}
       className={cn(
-        "bg-white p-8 rounded-[40px] border border-slate-200/60 shadow-lg flex flex-col gap-6 transition-all paper-texture group relative overflow-hidden",
+        "leather-light-textured p-8 rounded-[40px] border border-slate-200/60 shadow-lg flex flex-col gap-6 transition-all group relative overflow-hidden",
         premium && "shadow-leather-tan/5 border-leather-tan/10"
       )}
     >

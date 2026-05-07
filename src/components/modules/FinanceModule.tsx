@@ -22,26 +22,25 @@ export default function FinanceModule() {
 
   return (
     <div className="space-y-6">
-      <div className="flex p-1 bg-navy-dark/5 rounded-2xl w-fit">
-        <button 
-          onClick={() => setActiveTab('receivable')}
-          className={`px-8 py-3 rounded-xl font-bold text-sm transition-all ${activeTab === 'receivable' ? 'bg-white text-navy-dark shadow-md' : 'text-slate-500 hover:text-navy-dark'}`}
-        >
-          Contas a Receber (Cheques)
-        </button>
-        <button 
-          onClick={() => setActiveTab('payable')}
-          className={`px-8 py-3 rounded-xl font-bold text-sm transition-all ${activeTab === 'payable' ? 'bg-white text-navy-dark shadow-md' : 'text-slate-500 hover:text-navy-dark'}`}
-        >
-          Contas a Pagar
-        </button>
-      </div>
+          <div className="flex p-1 bg-navy-dark/5 rounded-2xl w-fit">
+            <button 
+              onClick={() => setActiveTab('receivable')}
+              className={`px-8 py-3 rounded-xl font-bold text-sm transition-all ${activeTab === 'receivable' ? 'leather-light-textured text-navy-dark shadow-md' : 'text-slate-500 hover:text-navy-dark'}`}
+            >
+              Contas a Receber (Cheques)
+            </button>
+            <button 
+              onClick={() => setActiveTab('payable')}
+              className={`px-8 py-3 rounded-xl font-bold text-sm transition-all ${activeTab === 'payable' ? 'leather-light-textured text-navy-dark shadow-md' : 'text-slate-500 hover:text-navy-dark'}`}
+            >
+              Contas a Pagar
+            </button>
+          </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* List Section */}
         <div className="flex-1 space-y-4">
-          <div className="bg-white/80 backdrop-blur-md rounded-[40px] border-2 border-slate-200/50 shadow-xl p-8 overflow-hidden leather-texture relative">
-             <div className="absolute inset-0 bg-white/60 pointer-events-none" />
+          <div className="leather-light-textured backdrop-blur-md rounded-[40px] border-2 border-slate-200/50 shadow-xl p-8 overflow-hidden relative">
              <div className="relative z-10">
                 <div className="flex items-center justify-between mb-8">
                    <h3 className="font-black text-navy-dark text-lg uppercase tracking-tight">Últimos Lançamentos</h3>
@@ -55,7 +54,7 @@ export default function FinanceModule() {
                 
                 <div className="space-y-4">
                    {[1, 2, 3].map((i) => (
-                     <div key={i} className="p-5 bg-[#fdfaf6]/50 rounded-[28px] flex items-center justify-between border-2 border-transparent hover:border-leather-tan/40 hover:bg-white transition-all cursor-pointer group shadow-sm">
+                     <div key={i} className="p-5 leather-light-textured rounded-[28px] flex items-center justify-between border-2 border-transparent hover:border-leather-tan/40 transition-all cursor-pointer group shadow-sm">
                         <div className="flex items-center gap-5">
                            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner ${activeTab === 'receivable' ? 'bg-green-100/50 text-green-700' : 'bg-red-100/50 text-red-700'}`}>
                               <AlertCircle size={22} />
@@ -89,11 +88,11 @@ export default function FinanceModule() {
                        <h2 className="text-5xl font-black italic tracking-tighter">R$ 145.200</h2>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                       <div className="bg-white/5 p-5 rounded-[32px] border border-white/10 text-center backdrop-blur-md">
+                       <div className="p-5 leather-light-textured rounded-[32px] border border-white/10 text-center backdrop-blur-md">
                           <p className="text-[10px] uppercase font-black tracking-widest text-red-400 mb-1">Vencidos</p>
                           <p className="text-xl font-black">R$ 4.3K</p>
                        </div>
-                       <div className="bg-white/5 p-5 rounded-[32px] border border-white/10 text-center backdrop-blur-md">
+                       <div className="p-5 leather-light-textured rounded-[32px] border border-white/10 text-center backdrop-blur-md">
                           <p className="text-[10px] uppercase font-black tracking-widest text-green-400 mb-1">A Receber</p>
                           <p className="text-xl font-black">R$ 130K</p>
                        </div>
@@ -105,7 +104,7 @@ export default function FinanceModule() {
 
             <button 
               onClick={() => setShowCheckScanner(true)}
-              className="w-full bg-white p-8 rounded-3xl border-2 border-dashed border-slate-200 text-slate-400 flex flex-col items-center gap-4 hover:border-leather-tan hover:text-leather-dark transition-all group shadow-sm"
+              className="w-full leather-light-textured p-8 rounded-3xl border-2 border-dashed border-slate-200 text-slate-400 flex flex-col items-center gap-4 hover:border-leather-tan hover:text-leather-dark transition-all group shadow-sm"
             >
               <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Camera size={32} />
@@ -169,7 +168,7 @@ export default function FinanceModule() {
                 </div>
 
                 <div className="mt-8 grid grid-cols-2 gap-4 relative z-10">
-                   <button className="flex items-center justify-center gap-2 py-5 border-2 border-slate-200 rounded-2xl font-black text-[10px] uppercase tracking-widest text-slate-500 hover:bg-white hover:shadow-md transition-all">
+                   <button className="flex items-center justify-center gap-2 py-5 border-2 border-slate-200 rounded-2xl font-black text-[10px] uppercase tracking-widest text-slate-500 hover:leather-light-textured hover:shadow-md transition-all">
                       <ImageIcon size={20} className="text-leather-tan" /> Carregar Imagem
                    </button>
                    <button 

@@ -70,7 +70,7 @@ export default function ExpensesModule() {
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2">Recentes</h3>
             <div className="space-y-3">
                {[1, 2, 3, 4].map(i => (
-                 <div key={i} className="bg-white p-5 rounded-[32px] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-leather-tan/20 transition-all">
+                 <div key={i} className="leather-light-textured p-5 rounded-[32px] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-leather-tan/20 transition-all">
                     <div className="flex items-center gap-4">
                        <div className="w-12 h-12 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center">
                           <Fuel size={24} />
@@ -135,7 +135,7 @@ export default function ExpensesModule() {
 
             <button 
               onClick={() => setShowAdd(true)}
-              className="w-full p-8 bg-white border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col items-center gap-4 text-slate-400 hover:border-leather-tan hover:text-leather-dark transition-all group shadow-sm bg-gradient-to-br from-white to-slate-50"
+              className="w-full p-8 leather-light-textured border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col items-center gap-4 text-slate-400 hover:border-leather-tan hover:text-leather-dark transition-all group shadow-sm bg-gradient-to-br from-[#fdfcf9] to-slate-50"
             >
                <div className="w-16 h-16 bg-navy-dark/5 rounded-full flex items-center justify-center group-hover:bg-leather-tan group-hover:text-white transition-all transform group-hover:rotate-6">
                   <Camera size={28} />
@@ -149,13 +149,12 @@ export default function ExpensesModule() {
         {showAdd && (
           <div className="fixed inset-0 bg-navy-dark/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-[#fdfaf6] w-full max-w-2xl rounded-[40px] shadow-2xl overflow-hidden border-2 border-white/50 leather-texture relative"
+               initial={{ opacity: 0, scale: 0.95 }}
+               animate={{ opacity: 1, scale: 1 }}
+               exit={{ opacity: 0, scale: 0.95 }}
+               className="leather-light-textured w-full max-w-2xl rounded-[40px] shadow-2xl overflow-hidden border-2 border-white/50 relative"
             >
-              <div className="absolute inset-0 bg-[#fdfaf6]/40 pointer-events-none" />
-              <div className="bg-navy-dark p-8 text-white flex justify-between items-center relative overflow-hidden">
+               <div className="bg-navy-dark p-8 text-white flex justify-between items-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-white/5 pointer-events-none"></div>
                 <h3 className="text-xl font-bold relative z-10 flex items-center gap-2">
                    <DollarSign /> Lançar Despesa
@@ -174,7 +173,7 @@ export default function ExpensesModule() {
                       value={formData.description}
                       onChange={handleChange}
                       placeholder="Ex: Almoço Cliente"
-                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none bg-white font-bold text-navy-dark"
+                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none leather-light-textured font-bold text-navy-dark"
                     />
                  </div>
                  <div className="grid grid-cols-2 gap-6">
@@ -187,7 +186,7 @@ export default function ExpensesModule() {
                          value={formData.value}
                          onChange={handleChange}
                          placeholder="0,00"
-                         className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none bg-white font-bold text-navy-dark"
+                         className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none leather-light-textured font-bold text-navy-dark"
                        />
                     </div>
                     <div className="space-y-2">
@@ -207,7 +206,7 @@ export default function ExpensesModule() {
                       name="category"
                       value={formData.category}
                       onChange={handleChange}
-                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none bg-white font-bold text-navy-dark appearance-none"
+                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none leather-light-textured font-bold text-navy-dark appearance-none"
                     >
                        {CATEGORIES.map(cat => (
                          <option key={cat.id} value={cat.id}>{cat.label}</option>
@@ -222,7 +221,7 @@ export default function ExpensesModule() {
                       value={formData.location}
                       onChange={handleChange}
                       placeholder="Ex: Poços de Caldas - MG"
-                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none bg-white font-bold text-navy-dark"
+                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none leather-light-textured font-bold text-navy-dark"
                     />
                  </div>
 

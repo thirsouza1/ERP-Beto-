@@ -63,13 +63,13 @@ export default function ClientsModule() {
           <input 
             type="text" 
             placeholder="Pesquisar por nome, CNPJ ou cidade..."
-            className="w-full pl-12 pr-4 py-3 bg-white rounded-2xl border border-slate-200 outline-none focus:ring-2 focus:ring-leather-tan/20 transition-all shadow-sm"
+            className="w-full pl-12 pr-4 py-3 leather-light-textured rounded-2xl border border-slate-200 outline-none focus:ring-2 focus:ring-leather-tan/20 transition-all shadow-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <div className="flex gap-2">
-          <button className="px-4 py-3 bg-white border border-slate-200 rounded-2xl text-slate-600 flex items-center gap-2 hover:bg-slate-50 transition-colors shadow-sm">
+          <button className="px-4 py-3 leather-light-textured border border-slate-200 rounded-2xl text-slate-600 flex items-center gap-2 hover:bg-slate-50 transition-colors shadow-sm">
             <Filter size={18} /> Filtros
           </button>
           <button 
@@ -81,11 +81,10 @@ export default function ClientsModule() {
         </div>
       </div>
 
-      <div className="bg-white/80 backdrop-blur-md rounded-3xl border-2 border-slate-200/50 shadow-xl overflow-hidden leather-texture relative">
-        <div className="absolute inset-0 bg-white/60 pointer-events-none" />
+      <div className="leather-light-textured backdrop-blur-md rounded-3xl border-2 border-slate-200/50 shadow-xl overflow-hidden relative">
         <table className="w-full text-left border-collapse relative z-10">
           <thead>
-            <tr className="bg-slate-50/50 border-b border-slate-100">
+            <tr className="bg-[#fdfcf9]/40 border-b border-slate-100">
               <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Razão Social / CNPJ</th>
               <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Contato</th>
               <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Localização</th>
@@ -151,9 +150,8 @@ export default function ClientsModule() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-[#fdfaf6] w-full max-w-4xl rounded-[40px] shadow-2xl overflow-hidden border-2 border-white/50 leather-texture relative"
+            className="leather-light-textured w-full max-w-4xl rounded-[40px] shadow-2xl overflow-hidden border-2 border-white/50 relative"
           >
-            <div className="absolute inset-0 bg-[#fdfaf6]/40 pointer-events-none" />
             <div className="bg-navy-dark p-6 flex justify-between items-center text-white relative overflow-hidden">
                <div className="absolute inset-0 bg-navy-dark/20 mix-blend-overlay"></div>
                <div className="flex items-center gap-4 relative z-10">

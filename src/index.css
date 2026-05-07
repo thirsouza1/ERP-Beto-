@@ -19,11 +19,11 @@
 }
 
 /* Leather Texture Overlay */
-.leather-texture {
+@utility leather-texture {
   background-image: url('https://www.transparenttextures.com/patterns/leather.png');
 }
 
-.leather-texture-dark {
+@utility leather-texture-dark {
   background-color: #AD7D52; /* Premium Tan Leather base from reference */
   position: relative;
   overflow: hidden;
@@ -67,23 +67,21 @@
   z-index: 1;
 }
 
-.content-overlay {
+@utility content-overlay {
   background-color: rgba(43, 26, 18, 0.6); /* Subtle dark overlay to help text pop */
 }
 
-.paper-texture {
+@utility paper-texture {
   background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
 }
 
-.linen-texture {
+@utility linen-texture {
   background-image: url('https://www.transparenttextures.com/patterns/linen-design.png');
 }
 
 /* Skeuomorphism & Tactile Textures */
 .skeuo-card {
-  background-color: #fdfcf9;
-  background-image: url('https://www.transparenttextures.com/patterns/leather.png');
-  background-size: 200px;
+  @apply leather-light-textured;
   box-shadow: 
     /* Primary shadow for high elevation */
     0 80px 160px -40px rgba(0,0,0,0.8),
@@ -97,6 +95,12 @@
     inset 0 0 50px rgba(0,0,0,0.01);
   position: relative;
   border: 1px solid rgba(0,0,0,0.08);
+}
+
+@utility leather-light-textured {
+  background-color: #fdfcf9;
+  background-image: url('https://www.transparenttextures.com/patterns/leather.png');
+  background-size: 200px;
 }
 
 .skeuo-input {
@@ -214,14 +218,14 @@
   @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
 }
 
-.btn-leather {
+@utility btn-leather {
   @apply bg-leather-dark text-white hover:bg-leather-tan transition-all duration-300 rounded-lg px-4 py-2 font-medium shadow-md flex items-center justify-center gap-2;
 }
 
-.sidebar-link {
+@utility sidebar-link {
   @apply flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/10 rounded-xl transition-all;
 }
 
-.sidebar-link-active {
+@utility sidebar-link-active {
   @apply text-white bg-leather-dark/40 border-l-4 border-leather-tan;
 }

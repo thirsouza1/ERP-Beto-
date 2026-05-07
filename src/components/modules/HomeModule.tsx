@@ -58,10 +58,9 @@ export default function HomeModule({ onTabChange, user }: HomeModuleProps) {
           <motion.button
             whileHover={{ y: -8, scale: 1.02 }}
             onClick={() => onTabChange('orders')}
-            className="group relative h-[320px] bg-white rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.05)] border border-leather-dark/5 overflow-hidden flex flex-col items-center justify-center gap-8 transition-all"
+            className="group relative h-[320px] leather-light-textured rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.05)] border border-leather-dark/5 overflow-hidden flex flex-col items-center justify-center gap-8 transition-all"
           >
-             <div className="absolute inset-0 opacity-[0.03] pointer-events-none leather-texture" />
-             <div className="w-24 h-24 bg-[#F5F0E1] rounded-full flex items-center justify-center shadow-inner-lg border border-white relative">
+             <div className="w-24 h-24 leather-light-textured rounded-full flex items-center justify-center shadow-inner-lg border border-white relative">
                <ShoppingCart size={40} className="text-leather-dark/60 group-hover:scale-110 transition-transform" />
                <div className="absolute inset-0 rounded-full shadow-inner pointer-events-none" />
              </div>
@@ -77,10 +76,9 @@ export default function HomeModule({ onTabChange, user }: HomeModuleProps) {
           <motion.button
             whileHover={{ y: -8, scale: 1.02 }}
             onClick={() => onTabChange('clients')}
-            className="group relative h-[320px] bg-white rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.05)] border border-leather-dark/5 overflow-hidden flex flex-col items-center justify-center gap-8 transition-all"
+            className="group relative h-[320px] leather-light-textured rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.05)] border border-leather-dark/5 overflow-hidden flex flex-col items-center justify-center gap-8 transition-all"
           >
-             <div className="absolute inset-0 opacity-[0.03] pointer-events-none leather-texture" />
-             <div className="w-24 h-24 bg-[#F5F0E1] rounded-full flex items-center justify-center shadow-inner-lg border border-white relative">
+             <div className="w-24 h-24 leather-light-textured rounded-full flex items-center justify-center shadow-inner-lg border border-white relative">
                <Users size={40} className="text-leather-dark/60 group-hover:scale-110 transition-transform" />
                <div className="absolute inset-0 rounded-full shadow-inner pointer-events-none" />
              </div>

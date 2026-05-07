@@ -20,7 +20,7 @@ export default function HelpdeskModule() {
 
   return (
     <div className="space-y-8">
-      <div className="bg-white p-10 rounded-[40px] shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-10">
+      <div className="leather-light-textured p-10 rounded-[40px] shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-10">
          <div className="w-24 h-24 bg-leather-tan/10 text-leather-dark rounded-[32px] flex items-center justify-center flex-shrink-0 animate-bounce">
             <HelpCircle size={48} />
          </div>
@@ -40,7 +40,7 @@ export default function HelpdeskModule() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
          {guides.map((guide, idx) => (
-           <div key={idx} className="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm flex items-start justify-between group hover:border-leather-tan/40 transition-all cursor-pointer">
+           <div key={idx} className="leather-light-textured p-6 rounded-[32px] border border-slate-100 shadow-sm flex items-start justify-between group hover:border-leather-tan/40 transition-all cursor-pointer">
               <div className="flex items-start gap-4">
                  <div className="w-12 h-12 bg-slate-50 text-leather-tan rounded-2xl flex items-center justify-center group-hover:bg-leather-tan group-hover:text-white transition-all">
                     <guide.icon size={24} />

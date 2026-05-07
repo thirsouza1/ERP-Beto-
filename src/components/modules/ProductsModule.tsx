@@ -41,7 +41,7 @@ export default function ProductsModule() {
           <input 
             type="text" 
             placeholder="Pesquisar produtos, referências ou categorias..."
-            className="w-full pl-12 pr-4 py-3 bg-white rounded-2xl border border-slate-200 outline-none"
+            className="w-full pl-12 pr-4 py-3 leather-light-textured rounded-2xl border border-slate-200 outline-none"
           />
         </div>
         <button 
@@ -54,8 +54,7 @@ export default function ProductsModule() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="bg-white/80 backdrop-blur-md rounded-[32px] p-6 border-2 border-slate-200/50 shadow-xl hover:shadow-2xl transition-all group relative overflow-hidden leather-texture">
-             <div className="absolute inset-0 bg-white/60 pointer-events-none" />
+          <div key={i} className="leather-light-textured backdrop-blur-md rounded-[32px] p-6 border-2 border-slate-200/50 shadow-xl hover:shadow-2xl transition-all group relative overflow-hidden">
              <div className="relative z-10">
                <div className="absolute top-0 right-0 p-0 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button className="p-2 hover:bg-slate-100 rounded-lg text-slate-500"><Edit size={16} /></button>
@@ -73,13 +72,13 @@ export default function ProductsModule() {
                </div>
   
                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="bg-white/50 p-3 rounded-2xl border border-slate-100">
+                  <div className="leather-light-textured p-3 rounded-2xl border border-slate-100 shadow-inner">
                      <div className="flex items-center gap-2 text-slate-400 mb-1">
                         <Ruler size={14} className="text-leather-tan" /> <span className="text-[10px] font-black uppercase tracking-widest">Medida</span>
                      </div>
                      <p className="text-sm font-black text-navy-dark">2.20 m²</p>
                   </div>
-                  <div className="bg-white/50 p-3 rounded-2xl border border-slate-100">
+                  <div className="leather-light-textured p-3 rounded-2xl border border-slate-100 shadow-inner">
                      <div className="flex items-center gap-2 text-slate-400 mb-1">
                         <Tag size={14} className="text-leather-tan" /> <span className="text-[10px] font-black uppercase tracking-widest">Preço Base</span>
                      </div>
@@ -103,13 +102,12 @@ export default function ProductsModule() {
         {showAdd && (
           <div className="fixed inset-0 bg-navy-dark/60 backdrop-blur-sm z-[100] flex items-center justify-center p-6">
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-[#fdfaf6] w-full max-w-4xl rounded-[40px] shadow-2xl overflow-hidden border-2 border-white/50 leather-texture relative"
+               initial={{ opacity: 0, scale: 0.95 }}
+               animate={{ opacity: 1, scale: 1 }}
+               exit={{ opacity: 0, scale: 0.95 }}
+               className="leather-light-textured w-full max-w-4xl rounded-[40px] shadow-2xl overflow-hidden border-2 border-white/50 relative"
             >
-              <div className="absolute inset-0 bg-[#fdfaf6]/40 pointer-events-none" />
-              <div className="bg-navy-dark p-6 flex justify-between items-center text-white relative overflow-hidden">
+               <div className="bg-navy-dark p-6 flex justify-between items-center text-white relative overflow-hidden">
                 <div className="absolute inset-0 bg-navy-dark/20 mix-blend-overlay"></div>
                 <div className="flex items-center gap-4 relative z-10">
                    <Logo variant="compact" className="scale-125 origin-left" />

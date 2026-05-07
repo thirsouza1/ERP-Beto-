@@ -47,7 +47,7 @@ const navItems: NavItem[] = [
 ];
 
 export default function AppLayout({ children, activeTab, onTabChange, user }: any) {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const isMaster = user?.role === 'master';
   const { toggleFavorite, isFavorite } = useFavorites();
@@ -61,7 +61,9 @@ export default function AppLayout({ children, activeTab, onTabChange, user }: an
       <motion.aside 
         initial={false}
         animate={{ width: isSidebarOpen ? 260 : 80 }}
-        className="bg-black/20 h-screen relative z-30 shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col backdrop-blur-md border-r border-white/5"
+        onMouseEnter={() => setSidebarOpen(true)}
+        onMouseLeave={() => setSidebarOpen(false)}
+        className="bg-black/20 h-screen relative z-30 shadow-[10px_0_30px_rgba(0,0,0,0.5)] flex flex-col backdrop-blur-md border-r border-white/10"
       >
         <div className="p-6 h-28 flex items-center justify-center border-b border-white/5">
            <Logo variant={isSidebarOpen ? "full" : "icon"} />
@@ -132,25 +134,23 @@ export default function AppLayout({ children, activeTab, onTabChange, user }: an
           </button>
         </div>
 
-        <button 
-          onClick={() => setSidebarOpen(!isSidebarOpen)}
-          className="absolute -right-3 top-10 bg-leather-tan text-leather-dark w-6 h-6 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-all z-50 border border-[#F5F0E1]"
-        >
-          {isSidebarOpen ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
-        </button>
+
       </motion.aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto relative flex flex-col z-10">
-        <header className="h-24 px-10 flex items-center justify-between border-b border-white/5 bg-black/20 backdrop-blur-md sticky top-0 z-20">
+      <main className="flex-1 overflow-y-auto relative flex flex-col z-10 shadow-inner">
+        <header className="h-24 px-10 flex items-center justify-between border-b border-white/5 bg-black/20 backdrop-blur-md sticky top-0 z-20 shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
           <div className="w-1/3 flex items-center gap-4 relative">
             {/* User Profile on Left */}
-            <div className="relative">
+            <div 
+              className="relative"
+              onMouseEnter={() => setUserMenuOpen(true)}
+              onMouseLeave={() => setUserMenuOpen(false)}
+            >
               <button 
-                onClick={() => setUserMenuOpen(!isUserMenuOpen)}
                 className="flex items-center gap-3 p-2 rounded-full hover:bg-white/5 transition-colors group"
               >
-                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-leather-dark font-serif text-xl shadow-[0_0_20px_rgba(255,255,255,0.2)] border-2 border-leather-tan group-hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-full leather-light-textured flex items-center justify-center text-leather-dark font-serif text-xl shadow-[0_0_20px_rgba(255,255,255,0.2)] border-2 border-leather-tan group-hover:scale-105 transition-transform">
                   {user?.name?.[0] || 'T'}
                 </div>
                 <div className="text-left hidden md:block">
@@ -169,25 +169,17 @@ export default function AppLayout({ children, activeTab, onTabChange, user }: an
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute left-0 mt-4 w-56 bg-leather-dark border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] py-2 z-50 backdrop-blur-xl"
+                    className="absolute left-0 mt-2 w-56 bg-leather-dark border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] py-2 z-50 backdrop-blur-xl"
                   >
                     <button 
                       onClick={() => {
                         setUserMenuOpen(false);
-                        // Add switch user logic if needed
+                        onTabChange('logout');
                       }}
                       className="w-full flex items-center gap-3 px-4 py-3 text-leather-tan hover:bg-white/5 transition-colors text-xs font-serif uppercase tracking-widest"
                     >
                       <Users size={16} />
-                      Trocar Usuário
-                    </button>
-                    <div className="h-px bg-white/5 mx-2 my-1" />
-                    <button 
-                      onClick={() => onTabChange('logout')}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-500/10 transition-colors text-xs font-serif uppercase tracking-widest"
-                    >
-                      <LogOut size={16} />
-                      Sair do Sistema
+                      Trocar usuário
                     </button>
                   </motion.div>
                 )}

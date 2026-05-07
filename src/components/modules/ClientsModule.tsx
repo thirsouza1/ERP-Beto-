@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Search, Plus, UserPlus, Phone, Mail, Building2, MapPin, MoreVertical, Edit2, Trash2, Filter, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Logo from '../ui/Logo';

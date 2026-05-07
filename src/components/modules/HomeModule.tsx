@@ -33,7 +33,7 @@ export default function HomeModule({ onTabChange, user }: HomeModuleProps) {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-6xl font-serif text-leather-dark tracking-tight"
+            className="text-6xl font-serif text-[#F5F0E1] tracking-tight"
           >
             Bem-vindo, {user?.name?.split(' ')[0]}
           </motion.h1>
@@ -43,12 +43,12 @@ export default function HomeModule({ onTabChange, user }: HomeModuleProps) {
             transition={{ delay: 0.1 }}
             className="flex items-center gap-4 py-4"
           >
-            <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center text-green-600 border border-green-500/20 shadow-sm">
-              <Plus size={16} className="rotate-45" />
+            <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 border border-green-500/30 shadow-[0_0_20px_rgba(34,197,94,0.2)]">
+              <Plus size={20} className="rotate-45" />
             </div>
             <div>
-              <p className="text-leather-dark font-serif text-lg">Tudo está funcionando perfeitamente.</p>
-              <p className="text-leather-dark/40 text-xs font-bold uppercase tracking-widest">Aqui está o que está acontecendo com seu negócio hoje.</p>
+              <p className="text-[#F5F0E1] font-serif text-xl">Tudo está funcionando perfeitamente.</p>
+              <p className="text-leather-tan text-xs font-bold uppercase tracking-widest opacity-80">Aqui está o que está acontecendo com seu negócio hoje.</p>
             </div>
           </motion.div>
         </div>

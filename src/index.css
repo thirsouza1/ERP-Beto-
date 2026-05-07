@@ -24,34 +24,51 @@
 }
 
 .leather-texture-dark {
-  background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
+  background-color: #AD7D52; /* Premium Tan Leather base from reference */
+  position: relative;
+  overflow: hidden;
 }
 
-.leather-stitching {
-  position: absolute;
-  bottom: 40px;
-  right: 40px;
-  width: 200px;
-  height: 200px;
-  border-bottom: 3px dashed #A0785A;
-  border-right: 3px dashed #A0785A;
-  border-bottom-right-radius: 60px;
-  opacity: 0.3;
-  pointer-events: none;
-  z-index: 5;
-  box-shadow: inset -4px -4px 8px rgba(0,0,0,0.4);
-}
-
-.leather-stitching::after {
+/* Isolated Background Layer - Perforated High Fidelity Leather */
+.leather-texture-dark::after {
   content: '';
   position: absolute;
-  bottom: -6px;
-  right: -6px;
-  width: 210px;
-  height: 210px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  border-right: 1px solid rgba(255,255,255,0.05);
-  border-bottom-right-radius: 65px;
+  inset: 0;
+  background-image: 
+    /* Subtle 3D Perforation - Inner depth shadow and tiny bottom-rim highlight */
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.6) 0.8px, rgba(0, 0, 0, 0.2) 1.2px, transparent 1.5px),
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.6) 0.8px, rgba(0, 0, 0, 0.2) 1.2px, transparent 1.5px),
+    radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.04) 0px, transparent 1.4px),
+    radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.04) 0px, transparent 1.4px),
+    /* Photographic "Film Grain" noise for realism */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"),
+    /* Deep Lighting Falloff */
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 60%),
+    /* Ultra-High Res Full Grain Macro Texture */
+    url('https://images.unsplash.com/photo-1590490359683-658d3d23f972?q=80&w=2048');
+  background-size: 20px 20px, 20px 20px, 20px 20px, 20px 20px, 120px 120px, cover, cover;
+  background-position: 0 0, 10px 10px, 0 0, 10px 10px, center, center, center;
+  background-attachment: fixed;
+  filter: contrast(110%) brightness(92%) saturate(98%);
+  z-index: 0;
+  mix-blend-mode: normal;
+}
+
+/* Texture enhancement for organic hide depth */
+.leather-texture-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    url('https://www.transparenttextures.com/patterns/leather.png');
+  opacity: 0.12;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+
+.content-overlay {
+  background-color: rgba(43, 26, 18, 0.6); /* Subtle dark overlay to help text pop */
 }
 
 .paper-texture {
@@ -60,6 +77,102 @@
 
 .linen-texture {
   background-image: url('https://www.transparenttextures.com/patterns/linen-design.png');
+}
+
+/* Skeuomorphism & Tactile Textures */
+.skeuo-card {
+  background-color: #fdfcf9;
+  background-image: url('https://www.transparenttextures.com/patterns/leather.png');
+  background-size: 200px;
+  box-shadow: 
+    /* Primary shadow for high elevation */
+    0 80px 160px -40px rgba(0,0,0,0.8),
+    /* Soft ambient shadow */
+    0 20px 40px -10px rgba(0,0,0,0.5),
+    /* Sharp Rim Highlight (Top Left) */
+    inset 1px 1px 0px rgba(255,255,255,1),
+    /* Soft Bevel (Bottom Right) */
+    inset -1px -1px 4px rgba(0,0,0,0.06),
+    /* Deep channel for the stitching area */
+    inset 0 0 50px rgba(0,0,0,0.01);
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.skeuo-input {
+  @apply transition-all duration-200;
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: 
+    /* Inset shadow to look recessed */
+    inset 0 2px 4px rgba(0,0,0,0.1),
+    0 1px 0px rgba(255,255,255,1);
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.skeuo-input input::placeholder {
+  color: rgba(74, 44, 31, 0.8) !important;
+  font-weight: 600;
+}
+
+.skeuo-input:focus-within {
+  background-color: #fff;
+  box-shadow: 
+    /* Clear focused state */
+    inset 0 1px 2px rgba(0,0,0,0.1),
+    0 0 0 2px rgba(74, 44, 31, 0.1);
+  border-color: rgba(74, 44, 31, 0.4);
+}
+
+.embossed-text {
+  background: linear-gradient(to bottom, #4A2C1F, #2b1a12);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 1px rgba(255,255,255,0.8));
+}
+
+.leather-debossed {
+  color: rgba(74, 44, 31, 0.6);
+  text-shadow: 
+    -0.5px -0.5px 1px rgba(0, 0, 0, 0.4),
+    0.5px 0.5px 1px rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+}
+
+.btn-skeuo {
+  @apply transition-all duration-200 active:scale-95;
+  background: linear-gradient(to bottom, #4A2C1F 0%, #2b1a12 100%);
+  box-shadow: 
+    0 12px 24px -6px rgba(0,0,0,0.6),
+    inset 0 1px 0px rgba(255,255,255,0.2);
+  border: 1px solid rgba(0,0,0,0.3);
+}
+
+.btn-skeuo:active {
+  box-shadow: 
+    0 2px 4px -1px rgba(0,0,0,0.4),
+    inset 0 2px 6px rgba(0,0,0,0.5);
+  transform: translateY(2px);
+}
+
+/* Animations for Feedback */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes error-shake {
+  0%, 100% { transform: translateX(0) scale(1); }
+  25% { transform: translateX(-8px) scale(1.02); }
+  75% { transform: translateX(8px) scale(0.98); }
+}
+
+.error-vibration {
+  animation: error-shake 0.15s ease-in-out infinite;
 }
 
 /* Premium Scrollbar */

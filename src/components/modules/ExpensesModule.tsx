@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { 
   Plus, 
   MapPin, 
@@ -11,9 +11,10 @@ import {
   FileText, 
   ChevronRight, 
   Trash2, 
-  DollarSign 
+  DollarSign,
+  Save
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const CATEGORIES = [
   { id: 'fuel', label: 'Combustível', icon: Fuel, color: 'text-orange-600', bg: 'bg-orange-50' },

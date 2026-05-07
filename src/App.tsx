@@ -53,127 +53,138 @@ export default function App() {
     }
   }, [lockout]);
 
+  const [isError, setIsError] = useState(false);
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setIsError(false);
 
     if (lockout) {
       setError(`Muitas tentativas. Aguarde ${lockout}s`);
+      if (navigator.vibrate) navigator.vibrate(100);
       return;
     }
 
     if (loginForm.id === MASTER_UID && loginForm.password === MASTER_PWD) {
+      if (navigator.vibrate) navigator.vibrate(40);
       setUser({ id: MASTER_UID, name: 'Thiago Beto', role: 'master' });
       setAttempts(0);
     } else {
+      setIsError(true);
+      if (navigator.vibrate) navigator.vibrate([100, 30, 100]);
+      
       const newAttempts = attempts + 1;
       setAttempts(newAttempts);
       if (newAttempts >= 3) {
         setLockout(newAttempts === 3 ? 60 : 120);
-        setError(`Senha incorreta. Penalidade de ${newAttempts === 3 ? '1' : '2'} minuto(s) aplicada.`);
+        setError(`Acesso Negado. Penalidade aplicada.`);
       } else {
-        setError('Usuário ou senha inválidos.');
+        setError('Usuário ou senha incorretos.');
       }
+      
+      // Reset error state after animation
+      setTimeout(() => setIsError(false), 400);
     }
   };
 
   if (!user) {
     return (
-      <div className="h-screen bg-leather-dark flex items-center justify-center p-6 leather-texture-dark relative overflow-hidden">
-        {/* Background Overlay for depth */}
-        <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+      <div className="h-screen bg-leather-dark flex items-center justify-center p-4 sm:p-6 leather-texture-dark relative overflow-hidden">
+        {/* Cinematic Backdrop Lighting */}
+        <div className="absolute inset-0 bg-radial-at-tl from-white/10 via-transparent to-black/60 pointer-events-none z-20" />
         
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-[420px] relative z-10"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          className={`w-full max-w-[400px] relative z-30 ${isError ? 'animate-shake' : ''}`}
         >
-          <div className="bg-[#F5F0E1] rounded-[32px] p-10 shadow-[0_40px_80px_rgba(0,0,0,0.5)] border border-white/20 relative overflow-hidden">
-            {/* Subtle texture in the card */}
-            <div className="absolute inset-0 opacity-5 pointer-events-none leather-texture" />
-            
+          {/* Skeuomorphic Off-White Card */}
+          <div className="skeuo-card rounded-[32px] sm:rounded-[48px] p-8 sm:p-10 relative overflow-hidden">
             <div className="relative z-10 flex flex-col items-center">
               {/* Branding */}
-              <div className="mb-8">
+              <div className="mb-10 sm:mb-12 hover:scale-105 transition-transform duration-500 scale-90 sm:scale-100">
                 <Logo />
               </div>
 
-              {/* Title */}
-              <div className="mb-10 text-center">
-                <h3 className="text-3xl font-serif text-leather-dark tracking-tight">
-                  Portal de Acesso
-                </h3>
-              </div>
-
-              <form onSubmit={handleLogin} className="w-full space-y-4">
-                <div className="relative">
-                  <div className="absolute left-5 top-1/2 -translate-y-1/2 text-leather-dark/40">
-                    <Mail size={18} />
+              <form onSubmit={handleLogin} className="w-full space-y-4 sm:space-y-5">
+                <div className="space-y-1.5">
+                  <label className="text-[9px] uppercase tracking-[0.4em] block px-1 leather-debossed">
+                    LOGIN
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-leather-dark/40">
+                      <Mail size={16} />
+                    </div>
+                    <input 
+                      type="text"
+                      required
+                      placeholder="Username"
+                      className="w-full pl-12 pr-5 py-4 rounded-xl sm:rounded-2xl skeuo-input outline-none font-semibold text-leather-dark placeholder:text-leather-dark/30"
+                      value={loginForm.id}
+                      onChange={(e) => setLoginForm({ ...loginForm, id: e.target.value })}
+                    />
                   </div>
-                  <input 
-                    type="text"
-                    required
-                    placeholder="Username"
-                    className="w-full pl-14 pr-6 py-4 rounded-xl border border-leather-dark/10 bg-white/50 focus:bg-white focus:border-leather-dark outline-none transition-all font-medium text-leather-dark placeholder:text-leather-dark/30 shadow-none"
-                    value={loginForm.id}
-                    onChange={(e) => setLoginForm({ ...loginForm, id: e.target.value })}
-                  />
                 </div>
 
-                <div className="relative">
-                  <div className="absolute left-5 top-1/2 -translate-y-1/2 text-leather-dark/40">
-                    <Lock size={18} />
+                <div className="space-y-1.5">
+                  <label className="text-[9px] uppercase tracking-[0.4em] block px-1 leather-debossed">
+                    SENHA
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-leather-dark/40">
+                      <Lock size={16} />
+                    </div>
+                    <input 
+                      type={showPassword ? "text" : "password"}
+                      required
+                      placeholder="Password"
+                      className="w-full pl-12 pr-12 py-4 rounded-xl sm:rounded-2xl skeuo-input outline-none font-semibold text-leather-dark placeholder:text-leather-dark/30"
+                      value={loginForm.password}
+                      onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                    />
+                    <button 
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-leather-dark/30 hover:text-leather-dark transition-colors"
+                    >
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
                   </div>
-                  <input 
-                    type={showPassword ? "text" : "password"}
-                    required
-                    placeholder="Password"
-                    className="w-full pl-14 pr-14 py-4 rounded-xl border border-leather-dark/10 bg-white/50 focus:bg-white focus:border-leather-dark outline-none transition-all font-medium text-leather-dark placeholder:text-leather-dark/30 shadow-none"
-                    value={loginForm.password}
-                    onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
-                  />
-                  <button 
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-5 top-1/2 -translate-y-1/2 text-leather-dark/30 hover:text-leather-dark transition-colors"
-                  >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
                 </div>
 
-                {error && (
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-2 text-red-700 text-xs font-bold"
-                  >
-                    <AlertCircle size={14} />
-                    {error}
-                  </motion.div>
-                )}
+                <AnimatePresence>
+                  {error && (
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0, y: -10 }}
+                      animate={{ opacity: 1, height: 'auto', y: 0 }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="p-3 bg-red-600/5 border border-red-600/20 rounded-xl flex items-center gap-3 text-red-700 text-[11px] font-black uppercase tracking-wider"
+                    >
+                      <AlertCircle size={14} />
+                      {error}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 <button 
                   type="submit"
                   disabled={!!lockout}
-                  className="w-full bg-leather-dark text-white py-5 rounded-2xl font-bold text-lg hover:bg-black transition-all disabled:opacity-50 mt-4 shadow-xl shadow-leather-dark/20"
+                  className="w-full bg-leather-dark text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-black text-xs tracking-[0.5em] uppercase btn-skeuo disabled:opacity-30 mt-2"
                 >
-                  {lockout ? `AGUARDE (${lockout}S)` : 'LOGIN'}
+                  {lockout ? `LOCKOUT (${lockout}S)` : 'ENTRAR'}
                 </button>
 
-                <div className="pt-6 text-center">
-                  <button type="button" className="text-leather-dark/40 font-bold text-[10px] uppercase tracking-[0.3em] hover:text-leather-dark transition-colors">
-                    FORGOT PASSWORD?
+                <div className="pt-4 text-center">
+                  <button type="button" className="leather-debossed text-[9px] uppercase tracking-[0.4em] hover:opacity-80 transition-all">
+                    Esqueceu sua senha?
                   </button>
                 </div>
               </form>
             </div>
           </div>
           
-          <div className="mt-8 text-center">
-            <p className="text-[10px] font-medium text-white/30 uppercase tracking-[0.4em]">
-              Beto Marinzeck &copy; 2026
-            </p>
-          </div>
         </motion.div>
       </div>
     );

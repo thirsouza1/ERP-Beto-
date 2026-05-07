@@ -18,15 +18,11 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { cn } from '../../lib/utils';
 import { useFavorites } from '../../context/FavoritesContext';
 
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-
 import Logo from '../ui/Logo';
+import RealisticStitching from '../ui/RealisticStitching';
 
 export const ERP_NAME = "Beto Marinzeck ERP";
 export const PHONE = "(35) 99843-0843";
@@ -52,6 +48,7 @@ const navItems: NavItem[] = [
 
 export default function AppLayout({ children, activeTab, onTabChange, user }: any) {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const isMaster = user?.role === 'master';
   const { toggleFavorite, isFavorite } = useFavorites();
 
@@ -145,37 +142,81 @@ export default function AppLayout({ children, activeTab, onTabChange, user }: an
 
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto relative flex flex-col z-10">
-        <header className="h-24 px-10 flex items-center justify-between border-b border-white/5 bg-black/10 backdrop-blur-md sticky top-0 z-20">
-          <div className="w-1/3">
-            {/* Left side empty for balance */}
+        <header className="h-24 px-10 flex items-center justify-between border-b border-white/5 bg-black/20 backdrop-blur-md sticky top-0 z-20">
+          <div className="w-1/3 flex items-center gap-4 relative">
+            {/* User Profile on Left */}
+            <div className="relative">
+              <button 
+                onClick={() => setUserMenuOpen(!isUserMenuOpen)}
+                className="flex items-center gap-3 p-2 rounded-full hover:bg-white/5 transition-colors group"
+              >
+                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-leather-dark font-serif text-xl shadow-[0_0_20px_rgba(255,255,255,0.2)] border-2 border-leather-tan group-hover:scale-105 transition-transform">
+                  {user?.name?.[0] || 'T'}
+                </div>
+                <div className="text-left hidden md:block">
+                  <p className="text-sm font-serif text-[#F5F0E1] leading-none mb-1 group-hover:text-leather-tan transition-colors">
+                    {user?.name || 'Thiago'}
+                  </p>
+                  <p className="text-[9px] font-sans font-bold text-leather-tan uppercase tracking-widest">
+                    {user?.role || 'Master'}
+                  </p>
+                </div>
+              </button>
+
+              <AnimatePresence>
+                {isUserMenuOpen && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    className="absolute left-0 mt-4 w-56 bg-leather-dark border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] py-2 z-50 backdrop-blur-xl"
+                  >
+                    <button 
+                      onClick={() => {
+                        setUserMenuOpen(false);
+                        // Add switch user logic if needed
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-leather-tan hover:bg-white/5 transition-colors text-xs font-serif uppercase tracking-widest"
+                    >
+                      <Users size={16} />
+                      Trocar Usuário
+                    </button>
+                    <div className="h-px bg-white/5 mx-2 my-1" />
+                    <button 
+                      onClick={() => onTabChange('logout')}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-500/10 transition-colors text-xs font-serif uppercase tracking-widest"
+                    >
+                      <LogOut size={16} />
+                      Sair do Sistema
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
           
           <div className="w-1/3 text-center">
-            <h1 className="font-serif text-2xl tracking-[0.2em] text-[#F5F0E1] uppercase drop-shadow-lg">
-              Beto Marinzeck
-            </h1>
-            <p className="text-[10px] font-sans font-medium tracking-[0.4em] text-leather-tan uppercase">
-              CK COUROS
-            </p>
+            {/* Branding Removed from Center */}
+            {currentItem && (
+              <h2 className="font-serif text-lg tracking-[0.3em] text-leather-tan uppercase">
+                {currentItem.label}
+              </h2>
+            )}
           </div>
 
           <div className="w-1/3 flex justify-end items-center gap-4">
-            <div className="text-right">
-              <p className="text-sm font-serif text-[#F5F0E1] leading-none">Thiago</p>
-              <p className="text-[9px] font-sans font-bold text-leather-tan uppercase tracking-widest">Master</p>
-            </div>
-            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-leather-dark font-serif text-lg shadow-md border-2 border-leather-tan">
-              T
-            </div>
+             <div className="text-[10px] font-sans font-bold text-leather-tan/40 uppercase tracking-[0.3em]">
+               {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' })}
+             </div>
           </div>
         </header>
         
-        <div className="flex-1 p-10 max-w-7xl mx-auto w-full relative">
+        <div className="flex-1 p-10 max-w-7xl mx-auto w-full relative content-overlay">
           {children}
         </div>
 
         {/* Global Stitching Detail */}
-        <div className="leather-stitching" />
+        <RealisticStitching className="bottom-10 right-10" />
       </main>
     </div>
   );

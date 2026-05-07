@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-leather-dark: #3d2b1f;
+  --color-leather-tan: #c19a6b;
+  --color-leather-light: #e6d5c3;
+  --color-navy-dark: #121a2d;
+  --color-navy-light: #1a233e;
+  
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: "Playfair Display", serif;
+}
+
+@layer base {
+  body {
+    @apply bg-[#f5f2ed] text-slate-900;
+  }
+}
+
+/* Leather Texture Overlay */
+.leather-texture {
+  background-image: url('https://www.transparenttextures.com/patterns/leather.png');
+}
+
+.paper-texture {
+  background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+}
+
+.linen-texture {
+  background-image: url('https://www.transparenttextures.com/patterns/linen-design.png');
+}
+
+/* Premium Scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(193, 154, 107, 0.2) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(193, 154, 107, 0.2);
+  border-radius: 20px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  transition: all 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(193, 154, 107, 0.5);
+}
+
+/* Dark version for Sidebar */
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
+}
+
+.btn-leather {
+  @apply bg-leather-dark text-white hover:bg-leather-tan transition-all duration-300 rounded-lg px-4 py-2 font-medium shadow-md flex items-center justify-center gap-2;
+}
+
+.sidebar-link {
+  @apply flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/10 rounded-xl transition-all;
+}
+
+.sidebar-link-active {
+  @apply text-white bg-leather-dark/40 border-l-4 border-leather-tan;
+}

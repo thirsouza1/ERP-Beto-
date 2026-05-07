@@ -1,0 +1,8 @@
+{
+  "name": "Beto Marinzeck ERP",
+  "description": "ERP completo para representantes comerciais de couro, peles e calçados. Controle de pedidos, finanças e dashboard interativo.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": []
+}

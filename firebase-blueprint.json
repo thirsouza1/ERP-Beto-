@@ -1,0 +1,108 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "System users with access control and security status",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["master", "user"] },
+        "status": { "type": "string", "enum": ["active", "blocked", "change_password"] },
+        "loginAttempts": { "type": "integer" },
+        "lastAttempt": { "type": "string", "format": "date-time" },
+        "penaltyUntil": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "role", "status"]
+    },
+    "Client": {
+      "title": "Client",
+      "description": "Commercial representative clients",
+      "type": "object",
+      "properties": {
+        "companyName": { "type": "string" },
+        "tradingName": { "type": "string" },
+        "cnpj": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "address": { "type": "object" },
+        "contactPerson": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Leather, skins and safety footwear products",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "category": { "type": "string", "enum": ["leather", "skin", "safety_shoe"] },
+        "price": { "type": "number" },
+        "unit": { "type": "string" },
+        "stock": { "type": "number" },
+        "description": { "type": "string" }
+      }
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Sales orders that generate accounts receivable",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "items": { "type": "array" },
+        "totalAmount": { "type": "number" },
+        "commissionRate": { "type": "number" },
+        "commissionAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "approved", "shipped", "cancelled"] },
+        "paymentTerms": { "type": "string" },
+        "orderDate": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Finance": {
+      "title": "Finance",
+      "description": "Accounts Payable and Receivable entries",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["payable", "receivable"] },
+        "orderId": { "type": "string" },
+        "description": { "type": "string" },
+        "amount": { "type": "number" },
+        "dueDate": { "type": "string", "format": "date" },
+        "status": { "type": "string", "enum": ["unpaid", "paid", "overdue"] },
+        "checkImages": {
+          "type": "object",
+          "properties": {
+            "front": { "type": "string" },
+            "back": { "type": "string" }
+          }
+        },
+        "fine": { "type": "number" },
+        "interest": { "type": "number" }
+      }
+    },
+    "TravelExpense": {
+      "title": "Travel Expense",
+      "description": "Expenses incurred during business trips",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "description": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "amount": { "type": "number" },
+        "category": { "type": "string" },
+        "receiptUrl": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "users": { "schema": "User", "description": "System users" },
+    "clients": { "schema": "Client", "description": "Customer catalog" },
+    "products": { "schema": "Product", "description": "Product catalog" },
+    "orders": { "schema": "Order", "description": "Sales orders" },
+    "finance": { "schema": "Finance", "description": "Accounts payable and receivable" },
+    "travel_expenses": { "schema": "TravelExpense", "description": "Travel activity logging" }
+  }
+}

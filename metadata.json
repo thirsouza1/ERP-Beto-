@@ -1,6 +1,6 @@
 {
-  "name": "Beto Marinzeck ERP",
-  "description": "ERP completo para representantes comerciais de couro, peles e calçados. Controle de pedidos, finanças e dashboard interativo.",
+  "name": "CK Couros ERP",
+  "description": "Sistema ERP de luxo para Beto Marinzeck - CK Couros. Gestão premium para couros, solados e representação comercial.",
   "requestFramePermissions": [
     "camera"
   ],

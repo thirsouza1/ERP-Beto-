@@ -24,6 +24,29 @@ const CATEGORIES = [
 
 export default function ExpensesModule() {
   const [showAdd, setShowAdd] = useState(false);
+  const [formData, setFormData] = useState({
+    description: '',
+    value: '',
+    date: '',
+    category: 'fuel',
+    location: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleClose = () => {
+    setShowAdd(false);
+    setFormData({
+      description: '',
+      value: '',
+      date: '',
+      category: 'fuel',
+      location: ''
+    });
+  };
 
   return (
     <div className="space-y-8">
@@ -109,7 +132,10 @@ export default function ExpensesModule() {
                </div>
             </div>
 
-            <button className="w-full p-8 bg-white border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col items-center gap-4 text-slate-400 hover:border-leather-tan hover:text-leather-dark transition-all group shadow-sm bg-gradient-to-br from-white to-slate-50">
+            <button 
+              onClick={() => setShowAdd(true)}
+              className="w-full p-8 bg-white border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col items-center gap-4 text-slate-400 hover:border-leather-tan hover:text-leather-dark transition-all group shadow-sm bg-gradient-to-br from-white to-slate-50"
+            >
                <div className="w-16 h-16 bg-navy-dark/5 rounded-full flex items-center justify-center group-hover:bg-leather-tan group-hover:text-white transition-all transform group-hover:rotate-6">
                   <Camera size={28} />
                </div>
@@ -117,6 +143,99 @@ export default function ExpensesModule() {
             </button>
          </div>
       </div>
+
+      <AnimatePresence>
+        {showAdd && (
+          <div className="fixed inset-0 bg-navy-dark/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-[#fdfaf6] w-full max-w-2xl rounded-[40px] shadow-2xl overflow-hidden border-2 border-white/50 leather-texture relative"
+            >
+              <div className="absolute inset-0 bg-[#fdfaf6]/40 pointer-events-none" />
+              <div className="bg-navy-dark p-8 text-white flex justify-between items-center relative overflow-hidden">
+                <div className="absolute inset-0 bg-white/5 pointer-events-none"></div>
+                <h3 className="text-xl font-bold relative z-10 flex items-center gap-2">
+                   <DollarSign /> Lançar Despesa
+                </h3>
+                <button onClick={handleClose} className="bg-white/10 p-2 rounded-xl hover:bg-white/20 transition-colors relative z-10">
+                   <ChevronRight />
+                </button>
+              </div>
+
+              <form className="p-8 space-y-6 relative z-10">
+                 <div className="space-y-2">
+                    <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Descrição</label>
+                    <input 
+                      type="text" 
+                      name="description"
+                      value={formData.description}
+                      onChange={handleChange}
+                      placeholder="Ex: Almoço Cliente"
+                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none bg-white font-bold text-navy-dark"
+                    />
+                 </div>
+                 <div className="grid grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                       <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Valor (R$)</label>
+                       <input 
+                         type="number" 
+                         step="0.01"
+                         name="value"
+                         value={formData.value}
+                         onChange={handleChange}
+                         placeholder="0,00"
+                         className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none bg-white font-bold text-navy-dark"
+                       />
+                    </div>
+                    <div className="space-y-2">
+                       <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Data</label>
+                       <input 
+                         type="date"
+                         name="date"
+                         value={formData.date}
+                         onChange={handleChange}
+                         className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none bg-white font-bold text-navy-dark"
+                       />
+                    </div>
+                 </div>
+                 <div className="space-y-2">
+                    <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Categoria</label>
+                    <select 
+                      name="category"
+                      value={formData.category}
+                      onChange={handleChange}
+                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none bg-white font-bold text-navy-dark appearance-none"
+                    >
+                       {CATEGORIES.map(cat => (
+                         <option key={cat.id} value={cat.id}>{cat.label}</option>
+                       ))}
+                    </select>
+                 </div>
+                 <div className="space-y-2">
+                    <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Cidade / Local</label>
+                    <input 
+                      type="text" 
+                      name="location"
+                      value={formData.location}
+                      onChange={handleChange}
+                      placeholder="Ex: Poços de Caldas - MG"
+                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none bg-white font-bold text-navy-dark"
+                    />
+                 </div>
+
+                 <button type="submit" className="w-full bg-navy-dark text-white py-5 rounded-2xl font-black text-xl shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.4)] hover:bg-black hover:scale-[1.02] transition-all border-2 border-white/10 relative overflow-hidden group">
+                    <span className="relative z-10 flex items-center justify-center gap-2 text-white/90">
+                       <Save size={20} /> Salvar Lançamento
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-tr from-leather-tan/0 via-leather-tan/20 to-leather-tan/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                 </button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

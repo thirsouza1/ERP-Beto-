@@ -69,7 +69,7 @@ export default function AppLayout({ children, activeTab, onTabChange, user }: an
   };
 
   return (
-    <div className="min-h-screen bg-[#fdfaf6] leather-texture flex overflow-hidden">
+    <div className="h-screen bg-[#fdfaf6] leather-texture flex overflow-hidden">
       <div className="absolute inset-0 bg-[#fdfaf6]/60 pointer-events-none z-0" />
       {/* Sidebar */}
       <motion.aside 
@@ -90,7 +90,10 @@ export default function AppLayout({ children, activeTab, onTabChange, user }: an
             return (
               <div key={item.id} className="relative group px-1">
                 <button
-                  onClick={() => onTabChange(item.id)}
+                  onClick={() => {
+                    onTabChange(item.id);
+                    setSidebarOpen(false); // Recoil sidebar after selection
+                  }}
                   className={cn(
                     "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 relative overflow-hidden",
                     isActive 
@@ -183,7 +186,7 @@ export default function AppLayout({ children, activeTab, onTabChange, user }: an
       </motion.aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto relative z-10">
+      <main className="flex-1 overflow-y-auto relative">
         <header className="p-8 pb-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div>

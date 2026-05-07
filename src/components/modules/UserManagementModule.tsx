@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, UserPlus, Key, Lock, Unlock, RefreshCcw, MoreHorizontal, UserCheck, UserX, AlertTriangle, Plus, CheckCircle2, Loader2 } from 'lucide-react';
+import { Shield, UserPlus, Key, Lock, Unlock, RefreshCcw, MoreHorizontal, UserCheck, UserX, AlertTriangle, Plus, CheckCircle2, Loader2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function UserManagementModule() {
@@ -136,7 +136,7 @@ export default function UserManagementModule() {
       </div>
 
       {showAddUser && (
-        <div className="fixed inset-0 bg-navy-dark/80 backdrop-blur-md z-[200] flex items-center justify-center p-6">
+        <div className="fixed inset-0 bg-navy-dark/80 backdrop-blur-md z-[100] flex items-center justify-center p-6">
            <motion.div 
              initial={{ opacity: 0, scale: 0.9 }}
              animate={{ opacity: 1, scale: 1 }}
@@ -148,7 +148,7 @@ export default function UserManagementModule() {
                     <h3 className="text-xl font-bold">{editingUser ? 'Editar Usuário' : 'Novo Usuário'}</h3>
                  </div>
                  <button onClick={handleClose} className="text-white/40 hover:text-white transition-colors">
-                    <XIcon size={24} />
+                    <X size={24} />
                  </button>
               </div>
 
@@ -295,11 +295,5 @@ export default function UserManagementModule() {
         </div>
       )}
     </div>
-  );
-}
-
-function XIcon({ size }: { size: number }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
   );
 }

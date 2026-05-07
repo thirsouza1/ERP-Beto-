@@ -5,6 +5,33 @@ import Logo from '../ui/Logo';
 
 export default function ProductsModule() {
   const [showAdd, setShowAdd] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    ref: '',
+    category: 'Couros',
+    unit: 'm² (Metro Quadrado)',
+    price: '',
+    stock: '',
+    observations: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleClose = () => {
+    setShowAdd(false);
+    setFormData({
+      name: '',
+      ref: '',
+      category: 'Couros',
+      unit: 'm² (Metro Quadrado)',
+      price: '',
+      stock: '',
+      observations: ''
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -74,7 +101,7 @@ export default function ProductsModule() {
 
       <AnimatePresence>
         {showAdd && (
-          <div className="fixed inset-0 bg-navy-dark/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-navy-dark/60 backdrop-blur-sm z-[100] flex items-center justify-center p-6">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -91,7 +118,7 @@ export default function ProductsModule() {
                      <Package /> Novo Produto
                    </h3>
                 </div>
-                <button onClick={() => setShowAdd(false)} className="hover:bg-white/10 p-2 rounded-lg transition-colors relative z-10">
+                <button onClick={handleClose} className="hover:bg-white/10 p-2 rounded-lg transition-colors relative z-10">
                    <X size={20} />
                 </button>
               </div>
@@ -103,15 +130,34 @@ export default function ProductsModule() {
                  
                  <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-700">Nome do Produto</label>
-                    <input type="text" placeholder="Ex: Pele Vaqueta Nappa" className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" />
+                    <input 
+                      type="text" 
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Ex: Pele Vaqueta Nappa" 
+                      className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
+                    />
                  </div>
                  <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-700">Referência / Código</label>
-                    <input type="text" placeholder="Ex: VK-2024" className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" />
+                    <input 
+                      type="text" 
+                      name="ref"
+                      value={formData.ref}
+                      onChange={handleChange}
+                      placeholder="Ex: VK-2024" 
+                      className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
+                    />
                  </div>
                  <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-700">Categoria</label>
-                    <select className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none bg-white">
+                    <select 
+                      name="category"
+                      value={formData.category}
+                      onChange={handleChange}
+                      className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none bg-white"
+                    >
                        <option>Couros</option>
                        <option>Solados</option>
                        <option>Ferragens</option>
@@ -120,7 +166,12 @@ export default function ProductsModule() {
                  </div>
                  <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-700">Unidade de Medida</label>
-                    <select className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none bg-white">
+                    <select 
+                      name="unit"
+                      value={formData.unit}
+                      onChange={handleChange}
+                      className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none bg-white"
+                    >
                        <option>m² (Metro Quadrado)</option>
                        <option>un (Unidade)</option>
                        <option>kg (Quilo)</option>
@@ -129,16 +180,32 @@ export default function ProductsModule() {
                  </div>
                  <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-700">Preço por Unidade (R$)</label>
-                    <input type="number" step="0.01" className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" />
+                    <input 
+                      type="number" 
+                      step="0.01" 
+                      name="price"
+                      value={formData.price}
+                      onChange={handleChange}
+                      className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
+                    />
                  </div>
                  <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-700">Estoque Inicial</label>
-                    <input type="number" className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" />
+                    <input 
+                      type="number" 
+                      name="stock"
+                      value={formData.stock}
+                      onChange={handleChange}
+                      className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
+                    />
                  </div>
 
                  <div className="space-y-2 md:col-span-2">
                     <label className="text-sm font-semibold text-slate-700">Observações</label>
                     <textarea 
+                       name="observations"
+                       value={formData.observations}
+                       onChange={handleChange}
                        placeholder="Informações adicionais sobre o material, cor, textura, etc..." 
                        rows={3}
                        className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none resize-none"

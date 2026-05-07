@@ -34,15 +34,43 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const orderRef = useRef<HTMLDivElement>(null);
 
-  const [items, setItems] = useState<any[]>([
-    { id: 1, name: 'Pele Vaqueta Nappa', price: 145.90, qty: 10, unit: 'm²' },
-    { id: 2, name: 'Sola de Couro Premium', price: 85.00, qty: 5, unit: 'un' }
-  ]);
-  
-  const [paymentTerm, setPaymentTerm] = useState('30 dias');
-  const [commissionRate, setCommissionRate] = useState(5);
+  const [newOrderData, setNewOrderData] = useState({
+    client: '',
+    observations: '',
+    paymentTerm: '30 dias',
+    items: [
+      { id: 1, name: 'Pele Vaqueta Nappa', price: 145.90, qty: 10, unit: 'm²' },
+      { id: 2, name: 'Sola de Couro Premium', price: 85.00, qty: 5, unit: 'un' }
+    ]
+  });
 
-  const totalAmount = items.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const handleNewOrderChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setNewOrderData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleItemChange = (id: number, field: string, value: any) => {
+    setNewOrderData(prev => ({
+      ...prev,
+      items: prev.items.map(item => item.id === id ? { ...item, [field]: value } : item)
+    }));
+  };
+
+  const addItem = () => {
+    setNewOrderData(prev => ({
+      ...prev,
+      items: [...prev.items, { id: Date.now(), name: '', price: 0, qty: 1, unit: 'un' }]
+    }));
+  };
+
+  const removeItem = (id: number) => {
+    setNewOrderData(prev => ({
+      ...prev,
+      items: prev.items.filter(item => item.id !== id)
+    }));
+  };
+
+  const totalAmount = newOrderData.items.reduce((sum, item) => sum + (item.price * item.qty), 0);
   const discountAmount = totalAmount * 0.05; // Sample calculation
   const finalTotal = totalAmount - discountAmount;
 
@@ -66,14 +94,6 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
     } finally {
       setIsGeneratingPdf(false);
     }
-  };
-
-  const addItem = () => {
-    setItems([...items, { id: Date.now(), name: 'Novo Produto', price: 0, qty: 1, unit: 'un' }]);
-  };
-
-  const removeItem = (id: number) => {
-    setItems(items.filter(item => item.id !== id));
   };
 
   const mockOrders = [
@@ -230,7 +250,7 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                  </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                 {items.map((item, idx) => (
+                 {newOrderData.items.map((item, idx) => (
                     <tr key={idx} className="text-sm">
                        <td className="px-4 py-4 font-bold">{item.name}</td>
                        <td className="px-4 py-4 text-center">{item.unit}</td>
@@ -368,7 +388,7 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                               </tr>
                            </thead>
                            <tbody className="divide-y divide-slate-100">
-                              {items.map((item, idx) => (
+                              {newOrderData.items.map((item, idx) => (
                                  <tr key={idx} className="hover:bg-white/30 transition-colors">
                                     <td className="px-6 py-4 font-bold text-navy-dark">{item.name}</td>
                                     <td className="px-6 py-4 text-slate-600 font-medium">{item.qty} {item.unit}</td>
@@ -434,6 +454,9 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-leather-tan transition-colors" size={20} />
                      <input 
                        type="text" 
+                       name="client"
+                       value={newOrderData.client}
+                       onChange={handleNewOrderChange}
                        placeholder="Buscar cliente cadastrado..."
                        className="w-full pl-12 pr-4 py-4 bg-white rounded-2xl border-2 border-transparent focus:border-leather-tan outline-none shadow-sm transition-all"
                      />
@@ -466,16 +489,44 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                            </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
-                           {items.map((item) => (
+                           {newOrderData.items.map((item) => (
                               <tr key={item.id} className="text-sm">
                                  <td className="px-6 py-4">
-                                    <p className="font-bold text-navy-dark">{item.name}</p>
-                                    <p className="text-xs text-slate-400 uppercase">{item.unit}</p>
+                                    <input 
+                                      type="text" 
+                                      value={item.name}
+                                      onChange={(e) => handleItemChange(item.id, 'name', e.target.value)}
+                                      className="font-bold text-navy-dark bg-transparent border-b border-dashed border-slate-200 outline-none w-full"
+                                      placeholder="Nome do Produto"
+                                    />
+                                    <select 
+                                      value={item.unit}
+                                      onChange={(e) => handleItemChange(item.id, 'unit', e.target.value)}
+                                      className="text-xs text-slate-400 uppercase bg-transparent outline-none mt-1"
+                                    >
+                                       <option>m²</option>
+                                       <option>un</option>
+                                       <option>kg</option>
+                                       <option>par</option>
+                                    </select>
                                  </td>
                                  <td className="px-6 py-4 text-center">
-                                    <input type="number" defaultValue={item.qty} className="w-16 p-1 border border-slate-200 rounded text-center font-bold" />
+                                    <input 
+                                      type="number" 
+                                      value={item.qty} 
+                                      onChange={(e) => handleItemChange(item.id, 'qty', parseFloat(e.target.value) || 0)}
+                                      className="w-16 p-1 border border-slate-200 rounded text-center font-bold" 
+                                    />
                                  </td>
-                                 <td className="px-6 py-4 text-right font-medium text-slate-600">R$ {item.price.toFixed(2)}</td>
+                                 <td className="px-6 py-4 text-right">
+                                    <input 
+                                      type="number" 
+                                      value={item.price} 
+                                      step="0.01"
+                                      onChange={(e) => handleItemChange(item.id, 'price', parseFloat(e.target.value) || 0)}
+                                      className="w-24 p-1 border border-slate-200 rounded text-right font-medium text-slate-600" 
+                                    />
+                                 </td>
                                  <td className="px-6 py-4 text-right font-bold text-navy-dark">R$ {(item.price * item.qty).toFixed(2)}</td>
                                  <td className="px-6 py-4 text-right">
                                     <button onClick={() => removeItem(item.id)} className="text-red-300 hover:text-red-500 transition-colors">
@@ -495,8 +546,9 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                        <CreditCard size={14} /> Condições de Pagamento
                     </div>
                     <select 
-                      value={paymentTerm}
-                      onChange={(e) => setPaymentTerm(e.target.value)}
+                      name="paymentTerm"
+                      value={newOrderData.paymentTerm}
+                      onChange={handleNewOrderChange}
                       className="w-full p-4 bg-white rounded-2xl border-2 border-transparent focus:border-leather-tan outline-none shadow-sm cursor-pointer"
                     >
                        <option>30 dias</option>
@@ -534,6 +586,9 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                      <FileText size={14} /> Observações do Pedido
                   </div>
                   <textarea 
+                     name="observations"
+                     value={newOrderData.observations}
+                     onChange={handleNewOrderChange}
                      placeholder="Instruções de entrega, detalhes de acabamento, observações do cliente..." 
                      rows={4}
                      className="w-full p-4 bg-white rounded-2xl border-2 border-transparent focus:border-leather-tan outline-none shadow-sm resize-none transition-all"

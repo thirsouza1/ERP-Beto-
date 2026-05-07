@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Plus, UserPlus, Phone, Mail, Building2, MapPin, MoreVertical, Edit2, Trash2, Filter } from 'lucide-react';
+import { Search, Plus, UserPlus, Phone, Mail, Building2, MapPin, MoreVertical, Edit2, Trash2, Filter, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Logo from '../ui/Logo';
 
@@ -7,15 +7,47 @@ export default function ClientsModule() {
   const [showAdd, setShowAdd] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingClient, setEditingClient] = useState<any>(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    fantasyName: '',
+    cnpj: '',
+    ie: '',
+    phone: '',
+    email: '',
+    address: ''
+  });
 
   const handleEdit = (client: any) => {
     setEditingClient(client);
+    setFormData({
+      name: client.name || '',
+      fantasyName: client.fantasyName || '',
+      cnpj: client.cnpj || '',
+      ie: client.ie || '',
+      phone: client.phone || '',
+      email: client.email || '',
+      address: `${client.city || ''} - ${client.state || ''}`
+    });
     setShowAdd(true);
   };
 
   const handleClose = () => {
     setShowAdd(false);
     setEditingClient(null);
+    setFormData({
+      name: '',
+      fantasyName: '',
+      cnpj: '',
+      ie: '',
+      phone: '',
+      email: '',
+      address: ''
+    });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const mockClients = [
@@ -115,7 +147,7 @@ export default function ClientsModule() {
       </div>
 
       {showAdd && (
-        <div className="fixed inset-0 bg-navy-dark/60 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+        <div className="fixed inset-0 bg-navy-dark/60 backdrop-blur-sm z-[100] flex items-center justify-center p-6">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -145,25 +177,41 @@ export default function ClientsModule() {
                  <label className="text-sm font-semibold text-slate-700">Razão Social</label>
                  <input 
                   type="text" 
-                  defaultValue={editingClient?.name}
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
                 />
                </div>
                <div className="space-y-2">
                  <label className="text-sm font-semibold text-slate-700">Nome Fantasia</label>
-                 <input type="text" className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" />
+                 <input 
+                   type="text"
+                   name="fantasyName"
+                   value={formData.fantasyName}
+                   onChange={handleChange} 
+                   className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
+                 />
                </div>
                <div className="space-y-2">
                  <label className="text-sm font-semibold text-slate-700">CNPJ / CPF</label>
                  <input 
                   type="text" 
-                  defaultValue={editingClient?.cnpj}
+                  name="cnpj"
+                  value={formData.cnpj}
+                  onChange={handleChange}
                   className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
                 />
                </div>
                <div className="space-y-2">
                  <label className="text-sm font-semibold text-slate-700">Inscrição Estadual</label>
-                 <input type="text" className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" />
+                 <input 
+                   type="text" 
+                   name="ie"
+                   value={formData.ie}
+                   onChange={handleChange}
+                   className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
+                 />
                </div>
 
                <div className="space-y-4 md:col-span-2 border-b border-slate-100 pb-4 pt-4">
@@ -174,19 +222,29 @@ export default function ClientsModule() {
                  <label className="text-sm font-semibold text-slate-700">Telefone Principal</label>
                  <input 
                   type="text" 
-                  defaultValue={editingClient?.phone}
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
                   className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
                 />
                </div>
                <div className="space-y-2">
                  <label className="text-sm font-semibold text-slate-700">E-mail para Faturamento</label>
-                 <input type="email" className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" />
+                 <input 
+                   type="email" 
+                   name="email"
+                   value={formData.email}
+                   onChange={handleChange}
+                   className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
+                 />
                </div>
                <div className="space-y-2 md:col-span-2">
                  <label className="text-sm font-semibold text-slate-700">Logradouro / Endereço Completo</label>
                  <input 
                   type="text" 
-                  defaultValue={editingClient ? `${editingClient.city} - ${editingClient.state}` : ''}
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
                   className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
                 />
                </div>
@@ -204,24 +262,5 @@ export default function ClientsModule() {
         </div>
       )}
     </div>
-  );
-}
-
-function X({ size }: { size: number }) {
-  return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
-    </svg>
   );
 }

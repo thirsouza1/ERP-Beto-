@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Camera, Image as ImageIcon, Upload, CheckCircle2, AlertCircle, RotateCcw, Save, Trash2, Plus } from 'lucide-react';
+import { Camera, Image as ImageIcon, Upload, CheckCircle2, AlertCircle, RotateCcw, Save, Trash2, Plus, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '../ui/Logo';
 
@@ -7,6 +7,18 @@ export default function FinanceModule() {
   const [activeTab, setActiveTab] = useState<'payable' | 'receivable'>('receivable');
   const [showCheckScanner, setShowCheckScanner] = useState(false);
   const [scanStep, setScanStep] = useState<'front' | 'back' | 'preview'>('front');
+  const [showPayableAdd, setShowPayableAdd] = useState(false);
+  const [payableFormData, setPayableFormData] = useState({
+    description: '',
+    value: '',
+    dueDate: '',
+    category: 'Fornecedores'
+  });
+
+  const handlePayableChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setPayableFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   return (
     <div className="space-y-6">
@@ -34,7 +46,7 @@ export default function FinanceModule() {
                 <div className="flex items-center justify-between mb-8">
                    <h3 className="font-black text-navy-dark text-lg uppercase tracking-tight">Últimos Lançamentos</h3>
                    <button 
-                     onClick={() => activeTab === 'receivable' ? setShowCheckScanner(true) : null}
+                     onClick={() => activeTab === 'receivable' ? setShowCheckScanner(true) : setShowPayableAdd(true)}
                      className="px-6 py-2 bg-navy-dark text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-lg border border-white/10"
                    >
                      <Plus size={14} className="inline mr-1" /> Novo Registro
@@ -171,26 +183,92 @@ export default function FinanceModule() {
             </div>
           </motion.div>
         )}
+        {showPayableAdd && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-navy-dark/95 z-[100] flex items-center justify-center p-6 backdrop-blur-xl"
+          >
+            <div className="w-full max-w-2xl bg-[#fdfaf6] rounded-[40px] overflow-hidden shadow-2xl border-2 border-white/50 leather-texture relative">
+              <div className="absolute inset-0 bg-[#fdfaf6]/40 pointer-events-none" />
+              <div className="p-8 bg-navy-dark border-b border-white/10 flex items-center justify-between relative overflow-hidden">
+                <div className="absolute inset-0 bg-white/5 pointer-events-none"></div>
+                <div className="flex items-center gap-4 relative z-10">
+                  <Logo variant="compact" className="scale-125 origin-left" />
+                  <div className="h-10 w-px bg-white/20"></div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">Contas a Pagar</h3>
+                    <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">Novo Lançamento Financeiro</p>
+                  </div>
+                </div>
+                <button onClick={() => setShowPayableAdd(false)} className="bg-white/10 p-2 rounded-xl text-white hover:bg-white/20 relative z-10 transition-colors">
+                  <X size={24} />
+                </button>
+              </div>
+
+              <form className="p-8 space-y-6 relative z-10">
+                 <div className="space-y-2">
+                    <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Descrição do Lançamento</label>
+                    <input 
+                      type="text" 
+                      name="description"
+                      value={payableFormData.description}
+                      onChange={handlePayableChange}
+                      placeholder="Ex: Pagamento Fornecedor Couros"
+                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 bg-white focus:border-leather-tan outline-none transition-all font-bold text-navy-dark"
+                    />
+                 </div>
+                 <div className="grid grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                       <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Valor (R$)</label>
+                       <input 
+                         type="number" 
+                         name="value"
+                         value={payableFormData.value}
+                         onChange={handlePayableChange}
+                         placeholder="0,00"
+                         className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 bg-white focus:border-leather-tan outline-none transition-all font-bold text-navy-dark"
+                       />
+                    </div>
+                    <div className="space-y-2">
+                       <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Data de Vencimento</label>
+                       <input 
+                         type="date" 
+                         name="dueDate"
+                         value={payableFormData.dueDate}
+                         onChange={handlePayableChange}
+                         className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 bg-white focus:border-leather-tan outline-none transition-all font-bold text-navy-dark"
+                       />
+                    </div>
+                 </div>
+                 <div className="space-y-2">
+                    <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Categoria</label>
+                    <select 
+                      name="category"
+                      value={payableFormData.category}
+                      onChange={handlePayableChange}
+                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 bg-white focus:border-leather-tan outline-none transition-all font-bold text-navy-dark appearance-none"
+                    >
+                       <option>Fornecedores</option>
+                       <option>Impostos</option>
+                       <option>Logística</option>
+                       <option>Administrativo</option>
+                       <option>Outros</option>
+                    </select>
+                 </div>
+
+                 <button type="submit" className="w-full bg-navy-dark text-white py-5 rounded-2xl font-black text-xl shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.4)] hover:bg-black hover:scale-[1.02] active:scale-[0.98] transition-all border-2 border-white/10 relative overflow-hidden group">
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                       <Save size={20} /> Salvar Lançamento
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-tr from-leather-tan/0 via-leather-tan/20 to-leather-tan/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                 </button>
+              </form>
+            </div>
+          </motion.div>
+        )}
       </AnimatePresence>
     </div>
-  );
-}
-
-function X({ size }: { size: number }) {
-  return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
-    </svg>
   );
 }

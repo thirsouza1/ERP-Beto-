@@ -54,6 +54,19 @@
   mix-blend-mode: normal;
 }
 
+@media (max-width: 768px) {
+  .leather-texture-dark::after {
+    background-attachment: scroll;
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4) 0.5px, transparent 1.5px),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"),
+      url('https://www.transparenttextures.com/patterns/leather.png');
+    background-size: 20px 20px, 120px 120px, 200px 200px;
+    background-color: #3d2419;
+    filter: none;
+  }
+}
+
 /* Texture enhancement for organic hide depth */
 .leather-texture-dark::before {
   content: '';
@@ -220,6 +233,19 @@
 
 @utility btn-leather {
   @apply bg-leather-dark text-white hover:bg-leather-tan transition-all duration-300 rounded-lg px-4 py-2 font-medium shadow-md flex items-center justify-center gap-2;
+}
+
+@utility shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
 }
 
 @utility sidebar-link {

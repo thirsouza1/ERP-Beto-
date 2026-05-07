@@ -138,7 +138,7 @@ export default function AppLayout({ children, activeTab, onTabChange, user }: an
       </motion.aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto relative flex flex-col z-10 shadow-inner">
+      <main className="flex-1 overflow-y-auto relative flex flex-col z-10 shadow-[inset_10px_0_40px_rgba(0,0,0,0.3)]">
         <header className="h-24 px-10 flex items-center justify-between border-b border-white/5 bg-black/20 backdrop-blur-md sticky top-0 z-20 shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
           <div className="w-1/3 flex items-center gap-4 relative">
             {/* User Profile on Left */}

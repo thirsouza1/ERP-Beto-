@@ -92,7 +92,7 @@ export default function App() {
     return (
       <div className="h-screen bg-leather-dark flex items-center justify-center p-4 sm:p-6 leather-texture-dark relative overflow-hidden">
         {/* Cinematic Backdrop Lighting */}
-        <div className="absolute inset-0 bg-radial-at-tl from-white/10 via-transparent to-black/60 pointer-events-none z-20" />
+        <div className="absolute inset-0 bg-radial-at-tl from-white/10 via-transparent to-black/60 pointer-events-none z-20 hidden sm:block" />
         
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}

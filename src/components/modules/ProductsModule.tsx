@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Search, Plus, Package, Ruler, Hash, BarChart, Tag, Trash2, Edit, X } from 'lucide-react';
+import { Search, Plus, Package, Ruler, Hash, BarChart, Tag, Trash2, Edit, X, LayoutGrid } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import Logo from '../ui/Logo';
 
-export default function ProductsModule() {
+export default function ProductsModule({ onTabChange }: { onTabChange?: (tab: string) => void }) {
   const [showAdd, setShowAdd] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -125,6 +125,14 @@ export default function ProductsModule() {
                
                <div className="flex items-center gap-2 relative z-10">
                   <div className="flex items-center gap-2 mr-1">
+                     <button 
+                       type="button"
+                       onClick={() => onTabChange?.('dashboard')}
+                       className="p-2 mr-2 bg-white/5 hover:bg-white/10 text-leather-tan/60 hover:text-leather-tan rounded-xl transition-all border border-white/5 group"
+                       title="Voltar ao Início"
+                     >
+                       <LayoutGrid size={16} />
+                     </button>
                      <button 
                        type="button" 
                        onClick={handleClose}

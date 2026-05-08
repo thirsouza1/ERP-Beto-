@@ -6,11 +6,13 @@ import {
   Package, 
   Wallet, 
   TrendingUp, 
-  ChevronRight,
-  Plus
+  ArrowUpRight,
+  Plus,
+  MapPin,
+  Settings,
+  HelpCircle,
+  LogOut
 } from 'lucide-react';
-import { useFavorites, ModuleInfo } from '../../context/FavoritesContext';
-import Logo from '../ui/Logo';
 
 const iconMap: Record<string, any> = {
   ShoppingCart,
@@ -26,71 +28,117 @@ interface HomeModuleProps {
 }
 
 export default function HomeModule({ onTabChange, user }: HomeModuleProps) {
+  const isMaster = user?.role === 'master';
+
+  const menuItems = [
+    { id: 'orders', label: 'Pedidos', icon: ShoppingCart },
+    { id: 'clients', label: 'Clientes', icon: Users },
+    { id: 'products', label: 'Produtos', icon: Package },
+    { id: 'finance', label: 'Financeiro', icon: Wallet },
+    { id: 'expenses', label: 'Despesas Viagem', icon: MapPin },
+    { id: 'reports', label: 'Relatórios', icon: TrendingUp },
+    { id: 'users', label: 'Usuários', icon: Settings, masterOnly: true },
+    { id: 'help', label: 'Helpdesk', icon: HelpCircle },
+  ];
+
   return (
-    <div className="relative min-h-[60vh] flex flex-col justify-center max-w-4xl mx-auto">
-      <div className="space-y-16">
-        <div className="space-y-6">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-6xl font-serif text-[#F5F0E1] tracking-tight"
-          >
-            Bem-vindo, {user?.name?.split(' ')[0]}
-          </motion.h1>
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="flex items-center gap-4 py-4"
-          >
-            <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 border border-green-500/30 shadow-[0_0_20px_rgba(34,197,94,0.2)]">
-              <Plus size={20} className="rotate-45" />
-            </div>
-            <div>
-              <p className="text-[#F5F0E1] font-serif text-xl">Tudo está funcionando perfeitamente.</p>
-              <p className="text-leather-tan text-xs font-bold uppercase tracking-widest opacity-80">Aqui está o que está acontecendo com seu negócio hoje.</p>
-            </div>
-          </motion.div>
-        </div>
+    <div className="max-w-5xl mx-auto py-2 md:py-4">
+      <div className="space-y-6 md:space-y-8">
+        {/* Even More Simplified Functional Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col md:flex-row md:items-end justify-between gap-2 px-4"
+        >
+          <div className="space-y-0 text-left">
+             <h1 className="text-xl md:text-2xl font-black text-[#F5F0E1] tracking-tight leading-none mb-0.5">
+               Olá, {user?.name?.split(' ')[0]}
+             </h1>
+             <p className="text-leather-tan/20 text-[7px] font-bold uppercase tracking-[0.3em]">
+               Painel de Controle
+             </p>
+          </div>
 
-        {/* Primary Shortcuts */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          {/* Ultra Minimalist System Status */}
+          <div className="flex items-center gap-1.5 bg-white/5 backdrop-blur-sm px-2 py-1 rounded-full border border-white/5 w-fit">
+             <div className="w-1 h-1 rounded-full bg-green-500/60 shadow-[0_0_4px_rgba(34,197,94,0.3)]" />
+             <span className="text-[7px] font-black uppercase text-[#F5F0E1]/30 tracking-wider">Online</span>
+          </div>
+        </motion.div>
+
+        {/* Scaled Down Menu Hub */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 px-3">
+          {menuItems.map((item) => {
+            if (item.masterOnly && !isMaster) return null;
+            
+            return (
+              <motion.button
+                key={item.id}
+                whileHover={{ y: -2, scale: 1.01 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => onTabChange(item.id)}
+                className="group relative h-[70px] md:h-[90px] leather-light-textured rounded-[20px] shadow-md border border-leather-dark/5 overflow-hidden flex items-center gap-4 px-6 transition-all hover:shadow-lg"
+              >
+                 <div className="w-9 h-9 md:w-11 md:h-11 bg-white rounded-[14px] flex items-center justify-center shadow-inner border border-slate-100 shrink-0">
+                   <item.icon size={18} className="text-leather-dark/40 group-hover:text-leather-dark/70 group-hover:scale-110 transition-all" />
+                 </div>
+                 <div className="text-left flex-1">
+                   <h3 className="font-black text-base md:text-lg text-navy-dark tracking-tighter leading-none mb-0.5">
+                     {item.label}
+                   </h3>
+                   <div className="w-4 h-0.5 bg-leather-tan/20 group-hover:w-8 transition-all duration-500" />
+                 </div>
+                 <div className="absolute top-2 right-4 opacity-5 group-hover:opacity-20 transition-opacity">
+                   <Plus size={14} className="text-navy-dark" />
+                 </div>
+                 <div className="absolute bottom-3 right-5 opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
+                   <ArrowUpRight size={14} className="text-leather-tan" />
+                 </div>
+              </motion.button>
+            );
+          })}
+
+          {/* Logout Action */}
           <motion.button
-            whileHover={{ y: -8, scale: 1.02 }}
-            onClick={() => onTabChange('orders')}
-            className="group relative h-[320px] leather-light-textured rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.05)] border border-leather-dark/5 overflow-hidden flex flex-col items-center justify-center gap-8 transition-all"
+            whileHover={{ y: -2, scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => onTabChange('logout')}
+            className="group relative h-[70px] md:h-[90px] bg-red-500/5 hover:bg-red-500/10 rounded-[20px] shadow-md border border-red-500/10 overflow-hidden flex items-center gap-4 px-6 transition-all hover:shadow-lg lg:col-start-1"
           >
-             <div className="w-24 h-24 leather-light-textured rounded-full flex items-center justify-center shadow-inner-lg border border-white relative">
-               <ShoppingCart size={40} className="text-leather-dark/60 group-hover:scale-110 transition-transform" />
-               <div className="absolute inset-0 rounded-full shadow-inner pointer-events-none" />
+             <div className="w-9 h-9 md:w-11 md:h-11 bg-white rounded-[14px] flex items-center justify-center shadow-inner border border-red-100 shrink-0">
+               <LogOut size={18} className="text-red-500/40 group-hover:text-red-500 group-hover:scale-110 transition-all" />
              </div>
-             <div className="text-center space-y-2">
-               <h3 className="font-serif text-3xl text-leather-dark">Pedidos</h3>
-               <p className="text-leather-dark/40 text-sm font-medium">Visualize e gerencie as encomendas.</p>
-             </div>
-             <div className="absolute bottom-10 right-10 text-leather-dark/20 group-hover:text-leather-dark transition-colors">
-               <Plus size={24} />
+             <div className="text-left flex-1">
+               <h3 className="font-black text-base md:text-lg text-red-900 tracking-tighter leading-none mb-0.5">
+                 Sair
+               </h3>
+               <div className="w-4 h-0.5 bg-red-500/20 group-hover:w-8 transition-all duration-500" />
              </div>
           </motion.button>
-
-          <motion.button
-            whileHover={{ y: -8, scale: 1.02 }}
-            onClick={() => onTabChange('clients')}
-            className="group relative h-[320px] leather-light-textured rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.05)] border border-leather-dark/5 overflow-hidden flex flex-col items-center justify-center gap-8 transition-all"
-          >
-             <div className="w-24 h-24 leather-light-textured rounded-full flex items-center justify-center shadow-inner-lg border border-white relative">
-               <Users size={40} className="text-leather-dark/60 group-hover:scale-110 transition-transform" />
-               <div className="absolute inset-0 rounded-full shadow-inner pointer-events-none" />
-             </div>
-             <div className="text-center space-y-2">
-               <h3 className="font-serif text-3xl text-leather-dark">Clientes</h3>
-               <p className="text-leather-dark/40 text-sm font-medium">Gerencie informações e histórico.</p>
-             </div>
-             <div className="absolute bottom-10 right-10 text-leather-dark/20 group-hover:text-leather-dark transition-colors">
-               <Plus size={24} />
-             </div>
-          </motion.button>
         </div>
+
+        {/* Secondary Indicators - Extremely subtle and compact */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="flex justify-center gap-6 py-4 border-t border-white/5 opacity-30 hover:opacity-100 transition-all"
+        >
+          <div className="flex items-center gap-1.5">
+            <TrendingUp size={10} className="text-leather-tan" />
+            <span className="text-[7px] font-bold text-leather-tan uppercase tracking-[0.2em]">Faturamento estável</span>
+          </div>
+          <div className="w-px h-2 bg-white/5" />
+          <div className="flex items-center gap-1.5">
+            <Wallet size={10} className="text-leather-tan" />
+            <span className="text-[7px] font-bold text-leather-tan uppercase tracking-[0.2em]">Fluxo Verificado</span>
+          </div>
+          <div className="w-px h-2 bg-white/5" />
+          <div className="flex items-center gap-1.5">
+            <Package size={10} className="text-leather-tan" />
+            <span className="text-[7px] font-bold text-leather-tan uppercase tracking-[0.2em]">Estoque Monitorado</span>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

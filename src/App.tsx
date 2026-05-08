@@ -104,7 +104,7 @@ export default function App() {
           <div className="skeuo-card rounded-[32px] sm:rounded-[48px] p-8 sm:p-10 relative overflow-hidden">
             <div className="relative z-10 flex flex-col items-center">
               {/* Branding */}
-              <div className="mb-10 sm:mb-12 hover:scale-105 transition-transform duration-500 scale-90 sm:scale-100">
+              <div className="mb-10 sm:mb-12 hover:scale-105 transition-transform duration-500 scale-125 sm:scale-[1.4]">
                 <Logo />
               </div>
 
@@ -194,14 +194,14 @@ export default function App() {
     switch (activeTab) {
       case 'dashboard':
         return <HomeModule onTabChange={setActiveTab} user={user} />;
-      case 'clients': return <ClientsModule />;
-      case 'products': return <ProductsModule />;
-      case 'orders': return <OrdersModule user={user} />;
-      case 'finance': return <FinanceModule />;
-      case 'reports': return <ReportsModule />;
-      case 'expenses': return <ExpensesModule />;
-      case 'users': return <UserManagementModule />;
-      case 'help': return <HelpdeskModule />;
+      case 'clients': return <ClientsModule onTabChange={setActiveTab} />;
+      case 'products': return <ProductsModule onTabChange={setActiveTab} />;
+      case 'orders': return <OrdersModule user={user} onTabChange={setActiveTab} />;
+      case 'finance': return <FinanceModule onTabChange={setActiveTab} />;
+      case 'reports': return <ReportsModule onTabChange={setActiveTab} />;
+      case 'expenses': return <ExpensesModule onTabChange={setActiveTab} />;
+      case 'users': return <UserManagementModule onTabChange={setActiveTab} />;
+      case 'help': return <HelpdeskModule onTabChange={setActiveTab} />;
       case 'logout':
         setUser(null);
         setActiveTab('dashboard');

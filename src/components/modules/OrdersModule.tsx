@@ -13,7 +13,8 @@ import {
   Search,
   ChevronRight,
   X,
-  Printer
+  Printer,
+  LayoutGrid
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { jsPDF } from 'jspdf';
@@ -21,6 +22,7 @@ import html2canvas from 'html2canvas';
 import Logo from '../ui/Logo';
 
 interface OrdersModuleProps {
+  onTabChange?: (tab: string) => void;
   user?: {
     name: string;
     id: string;
@@ -28,7 +30,7 @@ interface OrdersModuleProps {
   };
 }
 
-export default function OrdersModule({ user }: OrdersModuleProps) {
+export default function OrdersModule({ user, onTabChange }: OrdersModuleProps) {
   const [showNewOrder, setShowNewOrder] = useState(false);
   const [viewOrder, setViewOrder] = useState<any>(null);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
@@ -448,6 +450,14 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
                  
                  <div className="flex items-center gap-2 relative z-10">
                     <div className="flex items-center gap-2 mr-1">
+                       <button 
+                         type="button"
+                         onClick={() => onTabChange?.('dashboard')}
+                         className="p-2 mr-2 bg-white/5 hover:bg-white/10 text-leather-tan/60 hover:text-leather-tan rounded-xl transition-all border border-white/5 group"
+                         title="Voltar ao Início"
+                       >
+                         <LayoutGrid size={16} />
+                       </button>
                        <button 
                          type="button" 
                          onClick={() => setShowNewOrder(false)}

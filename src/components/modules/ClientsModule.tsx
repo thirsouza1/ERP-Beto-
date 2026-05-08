@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Search, Plus, UserPlus, Phone, Mail, Building2, MapPin, MoreVertical, Edit2, Trash2, Filter, X, Camera } from 'lucide-react';
+import { Search, Plus, UserPlus, Phone, Mail, Building2, MapPin, MoreVertical, Edit2, Trash2, Filter, X, Camera, LayoutGrid } from 'lucide-react';
 import { motion } from 'motion/react';
 import Logo from '../ui/Logo';
 
-export default function ClientsModule() {
+export default function ClientsModule({ onTabChange }: { onTabChange?: (tab: string) => void }) {
   const [showAdd, setShowAdd] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingClient, setEditingClient] = useState<any>(null);
@@ -252,6 +252,14 @@ export default function ClientsModule() {
                
                <div className="flex items-center gap-2 relative z-10">
                   <div className="flex items-center gap-2 mr-1">
+                     <button 
+                       type="button"
+                       onClick={() => onTabChange?.('dashboard')}
+                       className="p-2 mr-2 bg-white/5 hover:bg-white/10 text-leather-tan/60 hover:text-leather-tan rounded-xl transition-all border border-white/5 group"
+                       title="Voltar ao Início"
+                     >
+                       <LayoutGrid size={16} />
+                     </button>
                      <button 
                        type="button" 
                        onClick={handleClose}

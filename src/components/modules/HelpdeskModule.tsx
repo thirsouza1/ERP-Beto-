@@ -7,10 +7,11 @@ import {
   AlertCircle,
   ChevronRight,
   ExternalLink,
-  Phone
+  Phone,
+  LayoutGrid
 } from 'lucide-react';
 
-export default function HelpdeskModule() {
+export default function HelpdeskModule({ onTabChange }: { onTabChange?: (tab: string) => void }) {
   const guides = [
     { title: 'Como cadastrar clientes de couro?', icon: BookOpen, desc: 'Aprenda os campos obrigatórios para o setor de curtumes.' },
     { title: 'Scan de Cheques: Dicas de Imagem', icon: CameraIcon, desc: 'Como garantir uma leitura perfeita da frente e verso.' },
@@ -21,9 +22,13 @@ export default function HelpdeskModule() {
   return (
     <div className="space-y-8">
       <div className="leather-light-textured p-10 rounded-[40px] shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-10">
-         <div className="w-24 h-24 bg-leather-tan/10 text-leather-dark rounded-[32px] flex items-center justify-center flex-shrink-0 animate-bounce">
-            <HelpCircle size={48} />
-         </div>
+         <button 
+           onClick={() => onTabChange?.('dashboard')}
+           className="w-24 h-24 bg-leather-tan/10 text-leather-dark hover:bg-leather-tan/20 rounded-[32px] flex items-center justify-center flex-shrink-0 animate-bounce transition-all group/home"
+           title="Voltar ao Início"
+         >
+            <LayoutGrid size={48} className="group-hover/home:scale-110 transition-transform" />
+         </button>
          <div className="space-y-2">
             <h2 className="text-3xl font-bold text-navy-dark">Central de Ajuda</h2>
             <p className="text-slate-500 text-lg">Precisa de suporte ou quer aprender a usar as ferramentas?</p>

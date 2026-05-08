@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Camera, Image as ImageIcon, Upload, CheckCircle2, AlertCircle, RotateCcw, Save, Trash2, Plus, X } from 'lucide-react';
+import { Camera, Image as ImageIcon, Upload, CheckCircle2, AlertCircle, RotateCcw, Save, Trash2, Plus, X, LayoutGrid } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import Logo from '../ui/Logo';
 
-export default function FinanceModule() {
+export default function FinanceModule({ onTabChange }: { onTabChange?: (tab: string) => void }) {
   const [activeTab, setActiveTab] = useState<'payable' | 'receivable'>('receivable');
   const [showCheckScanner, setShowCheckScanner] = useState(false);
   const [scanStep, setScanStep] = useState<'front' | 'back' | 'preview'>('front');
@@ -132,6 +132,14 @@ export default function FinanceModule() {
               <div className="bg-leather-dark p-3 md:p-4 border-b border-leather-tan/20 flex justify-between items-center text-white relative overflow-hidden shadow-xl">
                 <div className="absolute inset-0 bg-leather-texture opacity-10 pointer-events-none"></div>
                 <div className="flex items-center gap-3 relative z-10">
+                  <button 
+                    type="button"
+                    onClick={() => onTabChange?.('dashboard')}
+                    className="p-2 mr-1 bg-white/5 hover:bg-white/10 text-leather-tan/60 hover:text-leather-tan rounded-xl transition-all border border-white/5 group"
+                    title="Voltar ao Início"
+                  >
+                    <LayoutGrid size={16} />
+                  </button>
                   <div className="">
                     <h3 className="text-base md:text-lg font-black tracking-tight flex items-center gap-2">
                       <Camera size={18} className="text-leather-tan" />
@@ -195,6 +203,14 @@ export default function FinanceModule() {
               <div className="bg-leather-dark p-3 md:p-4 border-b border-leather-tan/20 flex justify-between items-center text-white relative overflow-hidden shadow-xl">
                 <div className="absolute inset-0 bg-leather-texture opacity-10 pointer-events-none"></div>
                 <div className="flex items-center gap-3 relative z-10">
+                  <button 
+                    type="button"
+                    onClick={() => onTabChange?.('dashboard')}
+                    className="p-2 mr-1 bg-white/5 hover:bg-white/10 text-leather-tan/60 hover:text-leather-tan rounded-xl transition-all border border-white/5 group"
+                    title="Voltar ao Início"
+                  >
+                    <LayoutGrid size={16} />
+                  </button>
                   <div className="">
                     <h3 className="text-base md:text-lg font-black tracking-tight flex items-center gap-2">
                       <AlertCircle size={18} className="text-leather-tan" />

@@ -95,7 +95,7 @@ const TRAVEL_EXPENSES = [
 
 // --- COMPONENTS ---
 
-export default function ReportsModule() {
+export default function ReportsModule({ onTabChange }: { onTabChange?: (tab: string) => void }) {
   const [dateRange, setDateRange] = useState('Este Mês');
   const [comparePrevious, setComparePrevious] = useState(true);
   const [activeTab, setActiveTab] = useState('performance'); 
@@ -171,12 +171,13 @@ export default function ReportsModule() {
         
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 relative z-10">
           <div className="flex items-center gap-8">
-            <motion.div 
-              whileHover={{ rotate: 10, scale: 1.1 }}
-              className="w-20 h-20 bg-white/10 backdrop-blur-xl rounded-[24px] flex items-center justify-center border border-white/20 shadow-2xl shadow-black/20"
+            <button 
+              onClick={() => onTabChange?.('dashboard')}
+              className="w-20 h-20 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-[24px] flex items-center justify-center border border-white/20 shadow-2xl shadow-black/20 transition-all group/home"
+              title="Voltar ao Início"
             >
-              <TrendingUp className="text-leather-tan" size={36} />
-            </motion.div>
+              <LayoutGrid className="text-leather-tan group-hover/home:scale-110 transition-transform" size={36} />
+            </button>
             <div>
               <h2 className="text-4xl font-black text-white tracking-tight leading-none">Business Intelligence</h2>
               <p className="text-leather-tan/60 text-[11px] font-black uppercase tracking-[0.4em] mt-3">Análise de Performance Corporativa & Auditoria</p>

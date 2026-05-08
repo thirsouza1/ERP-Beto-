@@ -13,7 +13,8 @@ import {
   Trash2, 
   DollarSign,
   Save,
-  X
+  X,
+  LayoutGrid
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -24,7 +25,7 @@ const CATEGORIES = [
   { id: 'misc', label: 'Diversos', icon: Coffee, color: 'text-slate-600', bg: 'bg-slate-50' },
 ];
 
-export default function ExpensesModule() {
+export default function ExpensesModule({ onTabChange }: { onTabChange?: (tab: string) => void }) {
   const [showAdd, setShowAdd] = useState(false);
   const [formData, setFormData] = useState({
     description: '',
@@ -168,6 +169,14 @@ export default function ExpensesModule() {
                  </div>
                  
                  <div className="flex items-center gap-2 relative z-10">
+                    <button 
+                       type="button"
+                       onClick={() => onTabChange?.('dashboard')}
+                       className="p-2 mr-2 bg-white/5 hover:bg-white/10 text-leather-tan/60 hover:text-leather-tan rounded-xl transition-all border border-white/5 group"
+                       title="Voltar ao Início"
+                     >
+                       <LayoutGrid size={16} />
+                     </button>
                     <button onClick={handleClose} className="hover:bg-red-500/20 p-2 rounded-xl transition-all">
                       <X size={18} className="text-white" />
                     </button>

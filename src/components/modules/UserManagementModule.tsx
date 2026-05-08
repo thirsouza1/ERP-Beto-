@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Shield, UserPlus, Key, Lock, Unlock, RefreshCcw, MoreHorizontal, UserCheck, UserX, AlertTriangle, Plus, CheckCircle2, Loader2, X } from 'lucide-react';
+import { Shield, UserPlus, Key, Lock, Unlock, RefreshCcw, MoreHorizontal, UserCheck, UserX, AlertTriangle, Plus, CheckCircle2, Loader2, X, LayoutGrid } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-export default function UserManagementModule() {
+export default function UserManagementModule({ onTabChange }: { onTabChange?: (tab: string) => void }) {
   const [showAddUser, setShowAddUser] = useState(false);
   const [editingUser, setEditingUser] = useState<any>(null);
   const [roles, setRoles] = useState(['Proprietário', 'Representante Externo', 'Apoio Administrativo', 'Auditor Comercial']);

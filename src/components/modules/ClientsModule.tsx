@@ -526,17 +526,27 @@ export default function ClientsModule() {
                           ].map((sample, i) => {
                             const isActive = (formData.rating > (i * 2)) && (formData.rating <= (i * 2 + 2));
                             
-                            return (
-                               <button
+                             return (
+                               <motion.button
                                  key={i}
                                  type="button"
                                  onClick={() => setFormData({ ...formData, rating: (i * 2 + 2) })}
-                                 className={`relative transition-all duration-300 flex flex-col items-center group
-                                   ${isActive ? 'scale-105 translate-y-[-2px] opacity-100' : 'scale-90 opacity-40 hover:opacity-60'}
-                                 `}
+                                 whileHover={{ y: -2 }}
+                                 whileTap={{ y: 0.5, scale: 0.98 }}
+                                 animate={{ 
+                                   y: isActive ? 0.5 : 0,
+                                   opacity: isActive ? 1 : 0.4
+                                 }}
+                                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                 className="relative flex flex-col items-center group outline-none"
                                >
                                   {/* Leather Tag SVG */}
-                                  <svg viewBox="0 0 100 125" className="w-5 h-7 drop-shadow-sm">
+                                  <svg 
+                                    viewBox="0 0 100 125" 
+                                    className={`w-5 h-7 transition-all duration-300 ${
+                                      isActive ? 'drop-shadow-none filter brightness-95' : 'drop-shadow-md'
+                                    }`}
+                                  >
                                      <path 
                                        d="M 50 5 L 85 18 C 92 40 82 55 82 85 C 82 100 92 110 100 120 L 0 120 C 8 110 18 100 18 85 C 18 55 8 40 15 18 L 50 5 Z" 
                                        fill={sample.color}
@@ -546,15 +556,21 @@ export default function ClientsModule() {
                                      {isActive && (
                                        <path 
                                          d="M 50 5 L 85 18 C 92 40 82 55 82 85 C 82 100 92 110 100 120 L 0 120 C 8 110 18 100 18 85 C 18 55 8 40 15 18 L 50 5 Z" 
+                                         fill="rgba(0,0,0,0.05)" 
+                                       />
+                                     )}
+                                     {isActive && (
+                                       <path 
+                                         d="M 50 5 L 85 18 C 92 40 82 55 82 85 C 82 100 92 110 100 120 L 0 120 C 8 110 18 100 18 85 C 18 55 8 40 15 18 L 50 5 Z" 
                                          fill="none" 
-                                         stroke="white" 
-                                         strokeWidth="3"
-                                         strokeOpacity="0.15"
+                                         stroke="black" 
+                                         strokeWidth="1"
+                                         strokeOpacity="0.1"
                                        />
                                      )}
                                   </svg>
                                   <div className={`mt-1 w-0.5 h-0.5 rounded-full bg-leather-tan transition-all duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`} />
-                               </button>
+                               </motion.button>
                             );
                           })}
                        </div>

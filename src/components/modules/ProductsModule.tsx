@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Plus, Package, Ruler, Hash, BarChart, Tag, Trash2, Edit, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import Logo from '../ui/Logo';
 
 export default function ProductsModule() {
@@ -35,20 +35,24 @@ export default function ProductsModule() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-          <input 
-            type="text" 
-            placeholder="Pesquisar produtos, referências ou categorias..."
-            className="w-full pl-12 pr-4 py-3 leather-light-textured rounded-2xl border border-slate-200 outline-none"
-          />
+      <div className="bg-leather-dark/5 p-4 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-leather-dark/10">
+        <div className="flex items-center gap-2 flex-1 max-w-2xl">
+           <div className="relative flex-1">
+             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+             <input 
+               type="text" 
+               placeholder="Pesquisar produtos, referências ou categorias..."
+               className="w-full pl-12 pr-4 py-3 bg-white rounded-2xl border border-slate-200 focus:border-leather-tan outline-none transition-all shadow-sm font-medium text-leather-dark"
+             />
+           </div>
         </div>
+        
         <button 
           onClick={() => setShowAdd(true)}
-          className="btn-leather !px-8"
+          className="btn-leather !px-8 !py-3 shadow-lg !bg-leather-dark hover:!bg-leather-tan group"
         >
-          <Plus size={18} /> Novo Produto
+          <Plus size={18} className="group-hover:scale-110 transition-transform" /> 
+          <span className="font-bold">Novo Produto</span>
         </button>
       </div>
 
@@ -107,116 +111,177 @@ export default function ProductsModule() {
                exit={{ opacity: 0, scale: 0.95 }}
                className="leather-light-textured w-full max-w-4xl rounded-[40px] shadow-2xl overflow-hidden border-2 border-white/50 relative"
             >
-               <div className="bg-navy-dark p-6 flex justify-between items-center text-white relative overflow-hidden">
-                <div className="absolute inset-0 bg-navy-dark/20 mix-blend-overlay"></div>
-                <div className="flex items-center gap-4 relative z-10">
-                   <Logo variant="compact" className="scale-125 origin-left" />
-                   <div className="h-8 w-px bg-white/20"></div>
-                   <h3 className="text-xl font-bold flex items-center gap-2">
-                     <Package /> Novo Produto
-                   </h3>
-                </div>
-                <button onClick={handleClose} className="hover:bg-white/10 p-2 rounded-lg transition-colors relative z-10">
-                   <X size={20} />
-                </button>
-              </div>
-              
-              <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
-                 <div className="space-y-4 md:col-span-2 border-b border-slate-100 pb-2">
-                    <h4 className="text-xs font-bold text-leather-tan uppercase tracking-widest">Informações do Material</h4>
-                 </div>
-                 
-                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-slate-700">Nome do Produto</label>
-                    <input 
-                      type="text" 
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Ex: Pele Vaqueta Nappa" 
-                      className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
-                    />
-                 </div>
-                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-slate-700">Referência / Código</label>
-                    <input 
-                      type="text" 
-                      name="ref"
-                      value={formData.ref}
-                      onChange={handleChange}
-                      placeholder="Ex: VK-2024" 
-                      className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
-                    />
-                 </div>
-                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-slate-700">Categoria</label>
-                    <select 
-                      name="category"
-                      value={formData.category}
-                      onChange={handleChange}
-                      className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none bg-white"
-                    >
-                       <option>Couros</option>
-                       <option>Solados</option>
-                       <option>Ferragens</option>
-                       <option>Acessórios</option>
-                    </select>
-                 </div>
-                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-slate-700">Unidade de Medida</label>
-                    <select 
-                      name="unit"
-                      value={formData.unit}
-                      onChange={handleChange}
-                      className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none bg-white"
-                    >
-                       <option>m² (Metro Quadrado)</option>
-                       <option>un (Unidade)</option>
-                       <option>kg (Quilo)</option>
-                       <option>par (Par)</option>
-                    </select>
-                 </div>
-                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-slate-700">Preço por Unidade (R$)</label>
-                    <input 
-                      type="number" 
-                      step="0.01" 
-                      name="price"
-                      value={formData.price}
-                      onChange={handleChange}
-                      className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
-                    />
-                 </div>
-                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-slate-700">Estoque Inicial</label>
-                    <input 
-                      type="number" 
-                      name="stock"
-                      value={formData.stock}
-                      onChange={handleChange}
-                      className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none" 
-                    />
-                 </div>
+               <div className="bg-leather-dark p-3 md:p-4 border-b border-leather-tan/20 flex justify-between items-center text-white relative overflow-hidden shadow-xl">
+               <div className="absolute inset-0 bg-leather-texture opacity-10 pointer-events-none"></div>
+               <div className="flex items-center gap-3 relative z-10">
+                  <div className="">
+                    <h3 className="text-base md:text-lg font-black tracking-tight flex items-center gap-2">
+                      <Package size={18} className="text-leather-tan" />
+                      Cadastro de Produto
+                    </h3>
+                    <p className="text-[8px] font-bold uppercase text-white/40 tracking-widest mt-0.5">Gestão de Materiais</p>
+                  </div>
+               </div>
+               
+               <div className="flex items-center gap-2 relative z-10">
+                  <div className="flex items-center gap-2 mr-1">
+                     <button 
+                       type="button" 
+                       onClick={handleClose}
+                       className="px-3 md:px-4 py-1.5 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white rounded-full font-bold text-[8px] md:text-[9px] uppercase tracking-wider transition-all border border-white/5"
+                     >
+                       Descartar
+                     </button>
+                     <button 
+                       form="product-form"
+                       type="submit" 
+                       className="px-4 md:px-5 py-1.5 bg-leather-tan hover:bg-white text-white hover:text-leather-dark rounded-full font-black text-[8px] md:text-[9px] uppercase tracking-widest shadow-lg transition-all"
+                     >
+                       Finalizar
+                     </button>
+                  </div>
+                  <div className="w-px h-4 bg-white/10 mx-1"></div>
+                  <button onClick={handleClose} className="hover:bg-red-500/20 p-2 rounded-xl transition-all">
+                    <X size={18} className="text-white" />
+                  </button>
+               </div>
+            </div>
+            
+            <form id="product-form" onSubmit={(e) => { e.preventDefault(); handleClose(); }} className="p-2 space-y-2 relative max-h-[88vh] overflow-y-auto custom-scrollbar bg-slate-50/50">
+               {/* System Metadata Tag - Read Only */}
+               <div className="flex justify-between items-center px-1">
+                  <div className="flex items-center gap-2 px-1.5 py-0.5 bg-white border border-slate-200 rounded-lg shadow-sm">
+                     <span className="text-[6px] font-black text-slate-400 uppercase tracking-widest">Sys-Ref</span>
+                     <code className="text-[8px] font-mono font-bold text-leather-tan">PRD-{(Math.floor(Math.random() * 900) + 100)}</code>
+                  </div>
+                  <div className="text-[6px] font-bold text-slate-400 uppercase tracking-widest italic opacity-60">Processamento Seguro</div>
+               </div>
 
-                 <div className="space-y-2 md:col-span-2">
-                    <label className="text-sm font-semibold text-slate-700">Observações</label>
-                    <textarea 
-                       name="observations"
-                       value={formData.observations}
-                       onChange={handleChange}
-                       placeholder="Informações adicionais sobre o material, cor, textura, etc..." 
-                       rows={3}
-                       className="w-full p-3 rounded-xl border border-slate-200 focus:border-leather-tan outline-none resize-none"
-                    ></textarea>
-                 </div>
+               {/* 1. Primary Fields */}
+               <div className="bg-white p-2 md:p-3 rounded-[16px] border border-slate-200/60 shadow-sm space-y-2">
+                  <div className="flex flex-col md:flex-row gap-2 items-start">
+                     <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-12 gap-2">
+                        {/* Primary Field: Name */}
+                        <div className="md:col-span-8 relative">
+                           <input 
+                              id="name"
+                              name="name"
+                              type="text"
+                              required
+                              value={formData.name}
+                              onChange={handleChange}
+                              placeholder=" "
+                              className="peer w-full p-2 pt-4 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-sm text-leather-dark transition-all placeholder-transparent rounded-lg shadow-sm"
+                           />
+                           <label 
+                              htmlFor="name"
+                              className="absolute left-2.5 top-1 text-[8px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-xs peer-placeholder-shown:top-2.5 peer-placeholder-shown:font-medium peer-focus:top-1 peer-focus:text-[8px] peer-focus:font-bold peer-focus:text-leather-tan"
+                           >
+                              Nome do Produto / Material
+                           </label>
+                        </div>
+                        
+                        {/* Reference Field */}
+                        <div className="md:col-span-4 relative">
+                           <input 
+                              id="ref"
+                              name="ref"
+                              type="text"
+                              value={formData.ref}
+                              onChange={handleChange}
+                              placeholder=" "
+                              className="peer w-full p-2 pt-4 bg-slate-50/50 border border-slate-200 focus:border-leather-tan outline-none font-bold text-xs text-leather-dark transition-all placeholder-transparent rounded-lg shadow-sm"
+                           />
+                           <label 
+                              htmlFor="ref"
+                              className="absolute left-2.5 top-1 text-[7px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-[10px] peer-placeholder-shown:top-2.5 peer-placeholder-shown:font-medium peer-focus:top-1 peer-focus:text-[7px] peer-focus:font-bold peer-focus:text-leather-tan"
+                           >
+                              Referência / Código
+                           </label>
+                        </div>
+                     </div>
+                  </div>
 
-                 <div className="space-y-4 md:col-span-2 pt-4 relative z-10">
-                    <button type="submit" className="w-full bg-navy-dark text-white py-5 rounded-2xl font-black text-xl shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.4)] hover:bg-black hover:scale-[1.02] active:scale-[0.98] transition-all border-2 border-white/10 relative overflow-hidden group">
-                       <span className="relative z-10">Salvar Novo Produto</span>
-                       <div className="absolute inset-0 bg-gradient-to-tr from-leather-tan/0 via-leather-tan/20 to-leather-tan/0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </button>
-                 </div>
-              </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                     <div className="relative">
+                        <select 
+                           id="category"
+                           name="category"
+                           value={formData.category}
+                           onChange={handleChange}
+                           className="peer w-full p-1.5 pt-3.5 bg-white border border-slate-200 focus:border-leather-tan outline-none font-black text-[10px] text-leather-dark transition-all appearance-none rounded-lg cursor-pointer shadow-sm"
+                        >
+                           <option>Couros</option>
+                           <option>Solados</option>
+                           <option>Ferragens</option>
+                           <option>Acessórios</option>
+                        </select>
+                        <label htmlFor="category" className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-focus:text-leather-tan">Categoria</label>
+                     </div>
+
+                     <div className="relative">
+                        <select 
+                           id="unit"
+                           name="unit"
+                           value={formData.unit}
+                           onChange={handleChange}
+                           className="peer w-full p-1.5 pt-3.5 bg-white border border-slate-200 focus:border-leather-tan outline-none font-black text-[10px] text-leather-dark transition-all appearance-none rounded-lg cursor-pointer shadow-sm"
+                        >
+                           <option>m² (Metro Quadrado)</option>
+                           <option>un (Unidade)</option>
+                           <option>kg (Quilo)</option>
+                           <option>par (Par)</option>
+                        </select>
+                        <label htmlFor="unit" className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-focus:text-leather-tan">Unidade de Medida</label>
+                     </div>
+                  </div>
+               </div>
+
+               {/* 2. Secondary Sections */}
+               <div className="space-y-2 px-1">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                     <div className="relative">
+                        <input 
+                           id="price"
+                           name="price"
+                           type="number"
+                           step="0.01"
+                           value={formData.price}
+                           onChange={handleChange}
+                           placeholder=" "
+                           className="peer w-full p-1.5 pt-3.5 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-[10px] text-leather-dark rounded-lg shadow-sm transition-all"
+                        />
+                        <label htmlFor="price" className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-[9px] peer-placeholder-shown:top-2 peer-focus:top-0.5 peer-focus:text-[7px]">Preço por Unidade (R$)</label>
+                     </div>
+
+                     <div className="relative">
+                        <input 
+                           id="stock"
+                           name="stock"
+                           type="number"
+                           value={formData.stock}
+                           onChange={handleChange}
+                           placeholder=" "
+                           className="peer w-full p-1.5 pt-3.5 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-[10px] text-leather-dark rounded-lg shadow-sm transition-all"
+                        />
+                        <label htmlFor="stock" className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-[9px] peer-placeholder-shown:top-2 peer-focus:top-0.5 peer-focus:text-[7px]">Estoque Inicial</label>
+                     </div>
+                  </div>
+
+                  <div className="relative">
+                     <textarea 
+                        id="observations"
+                        name="observations"
+                        value={formData.observations}
+                        onChange={handleChange}
+                        placeholder=" "
+                        rows={2}
+                        className="peer w-full p-1.5 pt-3.5 bg-slate-50/80 border border-slate-200 focus:border-leather-tan outline-none font-medium text-[9px] text-slate-500 rounded-lg shadow-sm transition-all resize-none italic"
+                     ></textarea>
+                     <label htmlFor="observations" className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-[8px] peer-placeholder-shown:top-2 peer-focus:top-0.5 peer-focus:text-[7px]">Observações (Opcional)</label>
+                  </div>
+               </div>
+            </form>
             </motion.div>
           </div>
         )}

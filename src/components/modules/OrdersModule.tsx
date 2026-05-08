@@ -15,7 +15,7 @@ import {
   X,
   Printer
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import Logo from '../ui/Logo';
@@ -129,21 +129,21 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-4">
-           <div className="w-12 h-12 leather-light-textured rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-leather-dark leather-texture">
-              <FileText size={24} />
-           </div>
-           <div>
-              <h2 className="text-xl font-bold text-navy-dark">Talão de Pedidos</h2>
-              <p className="text-sm text-slate-500">Gerencie suas vendas e comissões</p>
-           </div>
+      <div className="bg-leather-dark/5 p-4 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-leather-dark/10">
+        <div className="flex flex-col flex-1 max-w-2xl">
+           <h2 className="text-xl font-black text-leather-dark flex items-center gap-2">
+             <FileText size={20} className="text-leather-tan" />
+             Talão de Pedidos
+           </h2>
+           <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Controle de Vendas e Comissões</p>
         </div>
+        
         <button 
           onClick={() => setShowNewOrder(true)}
-          className="btn-leather !px-8 shadow-xl hover:scale-105 transition-transform"
+          className="btn-leather !px-8 !py-3 shadow-lg !bg-leather-dark hover:!bg-leather-tan group"
         >
-          <Plus size={18} /> Novo Pedido
+          <Plus size={18} className="group-hover:scale-110 transition-transform" /> 
+          <span className="font-bold">Novo Pedido</span>
         </button>
       </div>
 
@@ -418,193 +418,261 @@ export default function OrdersModule({ user }: OrdersModuleProps) {
         )}
       </AnimatePresence>
 
-      {/* New Order Drawer - Unchanged Logic, just ensuring icons and structure */}
       <AnimatePresence>
         {showNewOrder && (
-            <motion.div 
-               initial={{ x: '100%' }}
-               animate={{ x: 0 }}
-               exit={{ x: '100%' }}
-               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-               className="fixed inset-y-0 right-0 w-full max-w-4xl leather-light-textured shadow-2xl z-[150] flex flex-col border-l-4 border-leather-tan relative"
+          <>
+             <motion.div 
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               exit={{ opacity: 0 }}
+               onClick={() => setShowNewOrder(false)}
+               className="fixed inset-0 bg-black/80 backdrop-blur-xl z-[250]"
+             />
+             <motion.div 
+               initial={{ opacity: 0, scale: 0.95, y: 20, x: '-50%' }}
+               animate={{ opacity: 1, scale: 1, y: 0, x: '-50%' }}
+               exit={{ opacity: 0, scale: 0.95, y: 20, x: '-50%' }}
+               className="fixed top-1/2 left-1/2 w-[98%] md:w-[95%] h-[98%] md:h-[95%] max-w-6xl leather-light-textured shadow-[0_30px_120px_rgba(0,0,0,0.8)] z-[300] flex flex-col rounded-[20px] md:rounded-[40px] border-2 border-white/20 overflow-hidden transform -translate-y-1/2"
             >
-               <div className="bg-navy-dark p-8 text-white flex justify-between items-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-white/5 pointer-events-none"></div>
-                <div className="flex items-center gap-6 relative z-10">
-                   <Logo variant="compact" className="scale-125 origin-left" />
-                   <div className="h-10 w-px bg-white/20"></div>
-                   <div>
-                     <h3 className="text-2xl font-bold">Novo Pedido</h3>
-                     <p className="text-white/40 text-sm">Talão Digital • {user?.name || 'Beto Marinzeck'}</p>
-                   </div>
-                </div>
-                <button onClick={() => setShowNewOrder(false)} className="bg-white/10 p-3 rounded-2xl hover:bg-white/20 transition-colors relative z-10">
-                   <X size={24} />
-                </button>
-             </div>
-
-            <div className="flex-1 overflow-y-auto p-8 space-y-8">
-               <section className="space-y-4">
-                  <div className="flex items-center gap-2 text-xs font-bold text-leather-tan uppercase tracking-widest">
-                     <User size={14} /> Seleção de Cliente
-                  </div>
-                  <div className="relative group">
-                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-leather-tan transition-colors" size={20} />
-                     <input 
-                       type="text" 
-                       name="client"
-                       value={newOrderData.client}
-                       onChange={handleNewOrderChange}
-                       placeholder="Buscar cliente cadastrado..."
-                       className="w-full pl-12 pr-4 py-4 leather-light-textured rounded-2xl border-2 border-transparent focus:border-leather-tan outline-none shadow-sm transition-all"
-                     />
-                  </div>
-               </section>
-
-               <section className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-xs font-bold text-leather-tan uppercase tracking-widest">
-                       <Package size={14} /> Itens do Pedido
+               <div className="bg-leather-dark p-3 md:p-4 border-b border-leather-tan/20 flex justify-between items-center text-white relative overflow-hidden shadow-xl">
+                 <div className="absolute inset-0 bg-leather-texture opacity-10 pointer-events-none"></div>
+                 <div className="flex items-center gap-3 relative z-10">
+                    <div className="">
+                      <h3 className="text-base md:text-lg font-black tracking-tight flex items-center gap-2">
+                        <FileText size={18} className="text-leather-tan" />
+                        Novo Pedido de Venda
+                      </h3>
+                      <p className="text-[8px] font-bold uppercase text-white/40 tracking-widest mt-0.5">Talão Digital • {user?.name || 'Beto Marinzeck'}</p>
                     </div>
-                    <button 
-                      onClick={addItem}
-                      className="text-xs font-bold text-leather-dark hover:text-navy-dark flex items-center gap-1 bg-leather-tan/10 px-3 py-1.5 rounded-full"
-                    >
-                       <Plus size={14} /> Adicionar Produto
+                 </div>
+                 
+                 <div className="flex items-center gap-2 relative z-10">
+                    <div className="flex items-center gap-2 mr-1">
+                       <button 
+                         type="button" 
+                         onClick={() => setShowNewOrder(false)}
+                         className="px-3 md:px-4 py-1.5 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white rounded-full font-bold text-[8px] md:text-[9px] uppercase tracking-wider transition-all border border-white/5"
+                       >
+                         Descartar
+                       </button>
+                       <button 
+                         form="order-form"
+                         type="submit" 
+                         className="px-4 md:px-5 py-1.5 bg-leather-tan hover:bg-white text-white hover:text-leather-dark rounded-full font-black text-[8px] md:text-[9px] uppercase tracking-widest shadow-lg transition-all"
+                       >
+                         Finalizar
+                       </button>
+                    </div>
+                    <div className="w-px h-4 bg-white/10 mx-1"></div>
+                    <button onClick={() => setShowNewOrder(false)} className="hover:bg-red-500/20 p-2 rounded-xl transition-all">
+                      <X size={18} className="text-white" />
                     </button>
-                  </div>
+                 </div>
+              </div>
 
-                  <div className="leather-light-textured rounded-3xl overflow-hidden shadow-sm border border-slate-100 relative overflow-hidden">
-                     <table className="w-full text-left relative z-10">
-                        <thead className="bg-[#fdfcf9]/40 border-b border-slate-100">
-                           <tr className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                              <th className="px-6 py-4">Produto / Descrição</th>
-                              <th className="px-6 py-4 text-center text-center">Qtd.</th>
-                              <th className="px-6 py-4 text-right">Preço Un.</th>
-                              <th className="px-6 py-4 text-right">Total</th>
-                              <th className="px-6 py-4"></th>
-                           </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-50">
-                           {newOrderData.items.map((item) => (
-                              <tr key={item.id} className="text-sm">
-                                 <td className="px-6 py-4">
-                                    <input 
-                                      type="text" 
-                                      value={item.name}
-                                      onChange={(e) => handleItemChange(item.id, 'name', e.target.value)}
-                                      className="font-bold text-navy-dark bg-transparent border-b border-dashed border-slate-200 outline-none w-full"
-                                      placeholder="Nome do Produto"
-                                    />
-                                    <select 
-                                      value={item.unit}
-                                      onChange={(e) => handleItemChange(item.id, 'unit', e.target.value)}
-                                      className="text-xs text-slate-400 uppercase bg-transparent outline-none mt-1"
-                                    >
-                                       <option>m²</option>
-                                       <option>un</option>
-                                       <option>kg</option>
-                                       <option>par</option>
-                                    </select>
-                                 </td>
-                                 <td className="px-6 py-4 text-center">
-                                    <input 
-                                      type="number" 
-                                      value={item.qty} 
-                                      onChange={(e) => handleItemChange(item.id, 'qty', parseFloat(e.target.value) || 0)}
-                                      className="w-16 p-1 border border-slate-200 rounded text-center font-bold" 
-                                    />
-                                 </td>
-                                 <td className="px-6 py-4 text-right">
-                                    <input 
-                                      type="number" 
-                                      value={item.price} 
-                                      step="0.01"
-                                      onChange={(e) => handleItemChange(item.id, 'price', parseFloat(e.target.value) || 0)}
-                                      className="w-24 p-1 border border-slate-200 rounded text-right font-medium text-slate-600" 
-                                    />
-                                 </td>
-                                 <td className="px-6 py-4 text-right font-bold text-navy-dark">R$ {(item.price * item.qty).toFixed(2)}</td>
-                                 <td className="px-6 py-4 text-right">
-                                    <button onClick={() => removeItem(item.id)} className="text-red-300 hover:text-red-500 transition-colors">
-                                       <Trash2 size={18} />
-                                    </button>
-                                 </td>
-                              </tr>
-                           ))}
-                        </tbody>
-                     </table>
+            <form id="order-form" onSubmit={(e) => { e.preventDefault(); setShowNewOrder(false); }} className="flex-1 overflow-y-auto p-2 space-y-4 bg-slate-50/50">
+               {/* System Metadata Tag - Read Only */}
+               <div className="flex justify-between items-center px-1">
+                  <div className="flex items-center gap-2 px-1.5 py-0.5 bg-white border border-slate-200 rounded-lg shadow-sm">
+                     <span className="text-[6px] font-black text-slate-400 uppercase tracking-widest">Sys-Ref</span>
+                     <code className="text-[8px] font-mono font-bold text-leather-tan">PED-{(Math.floor(Math.random() * 9000) + 1000)}</code>
+                  </div>
+                  <div className="text-[6px] font-bold text-slate-400 uppercase tracking-widest italic opacity-60">Processamento Seguro</div>
+               </div>
+
+               <section className="space-y-2">
+                  <div className="bg-white p-2 md:p-3 rounded-[16px] border border-slate-200/60 shadow-sm">
+                     <div className="flex items-center gap-2 text-[8px] font-black text-leather-tan uppercase tracking-widest mb-2 px-1">
+                        <User size={12} /> Seleção de Cliente
+                     </div>
+                     <div className="relative group">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-leather-tan transition-colors" size={16} />
+                        <input 
+                          type="text" 
+                          name="client"
+                          required
+                          value={newOrderData.client}
+                          onChange={handleNewOrderChange}
+                          placeholder="Pesquisar cliente por nome, CNPJ ou cidade..."
+                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50/50 border border-slate-200 focus:border-leather-tan outline-none font-bold text-sm text-leather-dark transition-all rounded-lg shadow-sm"
+                        />
+                     </div>
                   </div>
                </section>
 
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10">
-                  <section className="space-y-4">
-                    <div className="flex items-center gap-2 text-xs font-bold text-leather-tan uppercase tracking-widest">
-                       <CreditCard size={14} /> Condições de Pagamento
-                    </div>
-                    <select 
-                      name="paymentTerm"
-                      value={newOrderData.paymentTerm}
-                      onChange={handleNewOrderChange}
-                      className="w-full p-4 leather-light-textured rounded-2xl border-2 border-transparent focus:border-leather-tan outline-none shadow-sm cursor-pointer"
-                    >
-                       <option>30 dias</option>
-                       <option>30 / 60 dias</option>
-                       <option>30 / 60 / 90 dias</option>
-                       <option>À vista (5% desconto)</option>
-                       <option>Condição Especial (Ajustar Manual)</option>
-                    </select>
+               <section className="space-y-2">
+                  <div className="bg-white p-2 md:p-3 rounded-[16px] border border-slate-200/60 shadow-sm">
+                     <div className="flex items-center justify-between mb-2 px-1">
+                        <div className="flex items-center gap-2 text-[8px] font-black text-leather-tan uppercase tracking-widest">
+                           <Package size={12} /> Itens do Pedido
+                        </div>
+                        <button 
+                          type="button"
+                          onClick={addItem}
+                          className="text-[8px] font-black text-leather-dark hover:text-navy-dark flex items-center gap-1 bg-leather-tan/10 px-2 py-1 rounded-full uppercase tracking-tighter transition-colors"
+                        >
+                           <Plus size={10} /> Adicionar Produto
+                        </button>
+                     </div>
+
+                     <div className="rounded-xl overflow-hidden border border-slate-100">
+                        <table className="w-full text-left">
+                           <thead className="bg-slate-50 border-b border-slate-100">
+                              <tr className="text-[7px] font-black text-slate-400 uppercase tracking-widest">
+                                 <th className="px-3 py-2">Produto / Descrição</th>
+                                 <th className="px-3 py-2 text-center w-20">Qtd.</th>
+                                 <th className="px-3 py-2 text-right w-24">Preço Un.</th>
+                                 <th className="px-3 py-2 text-right w-24">Total</th>
+                                 <th className="px-3 py-2 w-10"></th>
+                              </tr>
+                           </thead>
+                           <tbody className="divide-y divide-slate-50">
+                              {newOrderData.items.map((item) => (
+                                 <tr key={item.id} className="text-xs group hover:bg-slate-50/50 transition-colors">
+                                    <td className="px-3 py-2">
+                                       <input 
+                                         type="text" 
+                                         value={item.name}
+                                         onChange={(e) => handleItemChange(item.id, 'name', e.target.value)}
+                                         className="font-bold text-leather-dark bg-transparent border-b border-transparent focus:border-leather-tan/30 outline-none w-full text-sm"
+                                         placeholder="Descreva o produto..."
+                                       />
+                                       <select 
+                                         value={item.unit}
+                                         onChange={(e) => handleItemChange(item.id, 'unit', e.target.value)}
+                                         className="text-[8px] text-slate-400 font-black uppercase bg-transparent outline-none mt-0.5 cursor-pointer hover:text-leather-tan transition-colors"
+                                       >
+                                          <option>m² (Metro)</option>
+                                          <option>un (Unidade)</option>
+                                          <option>kg (Quilo)</option>
+                                          <option>par (Par)</option>
+                                       </select>
+                                    </td>
+                                    <td className="px-3 py-2 text-center">
+                                       <input 
+                                         type="number" 
+                                         value={item.qty} 
+                                         onChange={(e) => handleItemChange(item.id, 'qty', parseFloat(e.target.value) || 0)}
+                                         className="w-full p-1 bg-white border border-slate-100 rounded text-center font-bold text-leather-dark focus:border-leather-tan outline-none" 
+                                       />
+                                    </td>
+                                    <td className="px-3 py-2 text-right">
+                                       <div className="relative">
+                                          <span className="absolute left-1 top-1/2 -translate-y-1/2 text-[8px] text-slate-300 font-bold">R$</span>
+                                          <input 
+                                            type="number" 
+                                            value={item.price} 
+                                            step="0.01"
+                                            onChange={(e) => handleItemChange(item.id, 'price', parseFloat(e.target.value) || 0)}
+                                            className="w-full p-1 pl-4 bg-white border border-slate-100 rounded text-right font-medium text-slate-600 focus:border-leather-tan outline-none" 
+                                          />
+                                       </div>
+                                    </td>
+                                    <td className="px-3 py-2 text-right font-black text-leather-dark text-sm">
+                                       {(item.price * item.qty).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                    </td>
+                                    <td className="px-3 py-2 text-right">
+                                       <button 
+                                          type="button"
+                                          onClick={() => removeItem(item.id)} 
+                                          className="text-slate-200 hover:text-red-500 transition-colors p-1"
+                                       >
+                                          <Trash2 size={14} />
+                                       </button>
+                                    </td>
+                                 </tr>
+                              ))}
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </section>
+
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <section className="space-y-2">
+                     <div className="bg-white p-2 md:p-3 rounded-[16px] border border-slate-200/60 shadow-sm h-full">
+                        <div className="flex items-center gap-2 text-[8px] font-black text-leather-tan uppercase tracking-widest mb-2 px-1">
+                           <CreditCard size={12} /> Condições de Pagamento
+                        </div>
+                        <div className="relative">
+                           <select 
+                             name="paymentTerm"
+                             value={newOrderData.paymentTerm}
+                             onChange={handleNewOrderChange}
+                             className="w-full p-2 pt-4 bg-slate-50 border border-slate-200 focus:border-leather-tan outline-none font-black text-[10px] text-leather-dark transition-all appearance-none rounded-lg cursor-pointer shadow-sm"
+                           >
+                              <option>30 dias</option>
+                              <option>30 / 60 dias</option>
+                              <option>30 / 60 / 90 dias</option>
+                              <option>À vista (5% desconto)</option>
+                              <option>Condição Especial (Ajustar Manual)</option>
+                           </select>
+                           <label className="absolute left-2.5 top-1 text-[7px] font-bold text-slate-400 uppercase tracking-wider">Prazo Selecionado</label>
+                        </div>
+                     </div>
                   </section>
 
-                  <section className="space-y-4">
-                    <div className="flex items-center gap-2 text-xs font-bold text-leather-tan uppercase tracking-widest">
-                       <Calculator size={14} /> Resumo Financeiro
-                    </div>
-                    <div className="leather-light-textured rounded-3xl p-6 shadow-sm border border-slate-100 space-y-4 leather-texture relative overflow-hidden">
-                       <div className="absolute inset-0 bg-white/40 pointer-events-none"></div>
-                       <div className="flex justify-between items-center text-sm relative z-10">
-                          <span className="text-slate-400 font-medium">Subtotal</span>
-                          <span className="text-navy-dark font-bold">R$ {totalAmount.toFixed(2)}</span>
-                       </div>
-                       <div className="flex justify-between items-center text-sm border-t border-slate-50 pt-2">
-                          <span className="text-slate-400 font-medium italic">Desconto Previsto (5%)</span>
-                          <span className="text-red-500 font-bold">- R$ {discountAmount.toFixed(2)}</span>
-                       </div>
-                       <div className="flex justify-between items-center text-xl font-black text-navy-dark border-t border-slate-50 pt-4">
-                          <span>TOTAL FINAL</span>
-                          <span className="text-leather-dark tracking-tighter">R$ {finalTotal.toFixed(2)}</span>
-                       </div>
-                    </div>
+                  <section className="space-y-2">
+                     <div className="bg-leather-dark p-3 rounded-[16px] border border-white/10 shadow-xl relative overflow-hidden h-full">
+                        <div className="absolute inset-0 bg-leather-texture opacity-5 pointer-events-none"></div>
+                        <div className="flex items-center gap-2 text-[8px] font-black text-leather-tan uppercase tracking-widest mb-3 relative z-10">
+                           <Calculator size={12} /> Resumo Financeiro
+                        </div>
+                        <div className="space-y-2 relative z-10">
+                           <div className="flex justify-between items-center text-[10px]">
+                              <span className="text-white/40 font-bold uppercase tracking-tighter">Subtotal Bruto</span>
+                              <span className="text-white font-black">R$ {totalAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                           </div>
+                           <div className="flex justify-between items-center text-[10px] border-t border-white/5 pt-1">
+                              <span className="text-red-400/80 font-bold italic uppercase tracking-tighter">Bonificação (5%)</span>
+                              <span className="text-red-400 font-black">- R$ {discountAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                           </div>
+                           <div className="flex justify-between items-center border-t border-white/10 pt-2 mt-1">
+                              <span className="text-leather-tan font-black text-[9px] uppercase tracking-widest">Total Líquido</span>
+                              <span className="text-white font-black text-xl tracking-tighter italic">R$ {finalTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                           </div>
+                        </div>
+                     </div>
                   </section>
                </div>
 
-               <section className="space-y-4 pb-10">
-                  <div className="flex items-center gap-2 text-xs font-bold text-leather-tan uppercase tracking-widest">
-                     <FileText size={14} /> Observações do Pedido
+               <section className="space-y-2 pb-6">
+                  <div className="bg-white p-2 md:p-3 rounded-[16px] border border-slate-200/60 shadow-sm">
+                     <div className="flex items-center gap-2 text-[8px] font-black text-leather-tan uppercase tracking-widest mb-2 px-1">
+                        <FileText size={12} /> Observações do Pedido
+                     </div>
+                     <textarea 
+                        name="observations"
+                        value={newOrderData.observations}
+                        onChange={handleNewOrderChange}
+                        placeholder="Instruções de entrega, detalhes de acabamento..." 
+                        rows={3}
+                        className="w-full p-2 bg-slate-50/50 border border-slate-200 focus:border-leather-tan outline-none font-medium text-[10px] text-slate-500 rounded-lg shadow-sm resize-none transition-all italic"
+                     ></textarea>
                   </div>
-                  <textarea 
-                     name="observations"
-                     value={newOrderData.observations}
-                     onChange={handleNewOrderChange}
-                     placeholder="Instruções de entrega, detalhes de acabamento, observações do cliente..." 
-                     rows={4}
-                     className="w-full p-4 bg-white rounded-2xl border-2 border-transparent focus:border-leather-tan outline-none shadow-sm resize-none transition-all"
-                  ></textarea>
                </section>
-            </div>
-
-            <div className="p-8 bg-[#fdfcf9]/50 backdrop-blur-md border-t-2 border-slate-200 flex gap-4 relative z-10">
-               <button className="flex-1 py-4 leather-light-textured text-slate-600 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors border-2 border-slate-200 shadow-sm transition-all">
-                  <Printer size={20} /> Preview do Pedido
+            </form>
+            
+            <div className="p-4 bg-[#fdfcf9]/80 backdrop-blur-md border-t border-slate-200 flex gap-4 relative z-10 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]">
+               <button 
+                  type="button"
+                  className="flex-1 py-3 bg-white text-slate-600 rounded-xl font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-50 transition-all border border-slate-200 shadow-sm"
+               >
+                  <Printer size={16} /> Preview do Pedido
                </button>
-               <button className="flex-1 py-4 bg-navy-dark text-white rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.4)] hover:bg-black hover:scale-[1.02] active:scale-[0.98] transition-all border-2 border-white/10 relative overflow-hidden group">
+               <button 
+                  form="order-form"
+                  type="submit"
+                  className="flex-1 py-3 bg-leather-dark text-white rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg hover:bg-black transition-all border border-white/10 relative overflow-hidden group"
+               >
                   <span className="relative z-10 flex items-center gap-2">
-                   <CheckCircle2 size={20} /> Finalizar e Gerar Financeiro
+                    <CheckCircle2 size={16} /> Finalizar Pedido
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-tr from-leather-tan/0 via-leather-tan/20 to-leather-tan/0 opacity-0 group-hover:opacity-100 transition-opacity" />
                </button>
             </div>
           </motion.div>
+        </>
         )}
       </AnimatePresence>
     </div>

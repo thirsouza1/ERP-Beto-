@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Shield, UserPlus, Key, Lock, Unlock, RefreshCcw, MoreHorizontal, UserCheck, UserX, AlertTriangle, Plus, CheckCircle2, Loader2, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
 export default function UserManagementModule() {
   const [showAddUser, setShowAddUser] = useState(false);
@@ -145,7 +145,10 @@ export default function UserManagementModule() {
               <div className="bg-navy-dark p-8 text-white leather-texture flex justify-between items-center">
                  <div className="flex items-center gap-3">
                     <UserPlus size={24} className="text-leather-tan" />
-                    <h3 className="text-xl font-bold">{editingUser ? 'Editar Usuário' : 'Novo Usuário'}</h3>
+                    <h3 className="text-base md:text-lg font-black tracking-tight flex items-center gap-2">
+                       <UserPlus size={18} className="text-leather-tan" />
+                       {editingUser ? 'Editar Registro de Usuário' : 'Novo Cadastro de Usuário'}
+                    </h3>
                  </div>
                  <button onClick={handleClose} className="text-white/40 hover:text-white transition-colors">
                     <X size={24} />
@@ -178,110 +181,127 @@ export default function UserManagementModule() {
                     </div>
                  )}
 
-                 <div className="grid grid-cols-1 gap-4">
-                    <div className="space-y-1.5">
-                       <label className="text-xs font-bold text-slate-500 uppercase">Nome Completo</label>
+                 <div className="bg-white p-3 rounded-[16px] border border-slate-200/60 shadow-sm space-y-3">
+                    <div className="relative">
                        <input 
+                        id="name"
                         type="text" 
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        placeholder="Nome do representante" 
-                        className="w-full p-4 leather-light-textured border border-slate-200 rounded-2xl outline-none focus:border-navy-dark font-bold text-navy-dark" 
+                        placeholder=" " 
+                        className="peer w-full p-2 pt-4 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-sm text-leather-dark transition-all placeholder-transparent rounded-lg shadow-sm" 
                       />
+                      <label 
+                        htmlFor="name"
+                        className="absolute left-2.5 top-1 text-[8px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-xs peer-placeholder-shown:top-2.5 peer-placeholder-shown:font-medium peer-focus:top-1 peer-focus:text-[8px] peer-focus:font-bold peer-focus:text-leather-tan"
+                      >
+                         Nome Completo do Usuário
+                      </label>
                     </div>
-                    <div className="space-y-1.5">
-                       <label className="text-xs font-bold text-slate-500 uppercase">E-mail de Acesso</label>
+
+                    <div className="relative">
                        <input 
+                        id="email"
                         type="email" 
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        placeholder="email@exemplo.com" 
-                        className="w-full p-4 leather-light-textured border border-slate-200 rounded-2xl outline-none focus:border-navy-dark font-bold text-navy-dark" 
+                        placeholder=" " 
+                        className="peer w-full p-2 pt-4 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-sm text-leather-dark transition-all placeholder-transparent rounded-lg shadow-sm" 
                       />
+                      <label 
+                        htmlFor="email"
+                        className="absolute left-2.5 top-1 text-[8px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-xs peer-placeholder-shown:top-2.5 peer-placeholder-shown:font-medium peer-focus:top-1 peer-focus:text-[8px] peer-focus:font-bold peer-focus:text-leather-tan"
+                      >
+                         E-mail de Acesso Corporativo
+                      </label>
                     </div>
                     
                     {!editingUser && (
-                      <div className="space-y-1.5">
-                         <div className="flex justify-between items-center">
-                            <label className="text-xs font-bold text-slate-500 uppercase">Senha de Acesso Inicial</label>
-                            <span className="text-[9px] font-black text-orange-600 uppercase">Obrigatório</span>
-                         </div>
-                         <div className="relative">
-                            <input 
-                              type="text" 
-                              required
-                              value={formData.password}
-                              onChange={(e) => setFormData({...formData, password: e.target.value})}
-                              placeholder="Defina a senha temporária" 
-                              className="w-full p-4 leather-light-textured border border-slate-200 rounded-2xl outline-none focus:border-navy-dark font-mono text-sm" 
-                            />
-                            <Lock size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300" />
-                         </div>
-                      </div>
+                       <div className="relative">
+                          <input 
+                            id="password"
+                            type="text" 
+                            required
+                            value={formData.password}
+                            onChange={(e) => setFormData({...formData, password: e.target.value})}
+                            placeholder=" " 
+                            className="peer w-full p-2 pt-4 bg-slate-50 border border-slate-200 focus:border-leather-tan outline-none font-mono text-sm text-leather-dark transition-all placeholder-transparent rounded-lg shadow-sm" 
+                          />
+                          <label 
+                            htmlFor="password"
+                            className="absolute left-2.5 top-1 text-[8px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-xs peer-placeholder-shown:top-2.5 peer-placeholder-shown:font-medium peer-focus:top-1 peer-focus:text-[8px] peer-focus:font-bold peer-focus:text-leather-tan"
+                          >
+                             Senha de Acesso Inicial
+                          </label>
+                          <Lock size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300" />
+                       </div>
                     )}
 
-                    <div className="space-y-3">
-                       <div className="space-y-1.5 text-left">
-                          <label className="text-xs font-bold text-slate-500 uppercase">Cargo / Função</label>
-                          <select 
-                            value={isCreatingRole ? 'CREATE_NEW' : selectedRole || editingUser?.role} 
-                            onChange={handleRoleChange}
-                            className="w-full p-4 leather-light-textured border border-slate-200 rounded-2xl outline-none focus:border-navy-dark font-bold text-navy-dark"
-                          >
-                             <option value="" disabled>Selecione um cargo...</option>
-                             {roles.map(r => <option key={r} value={r}>{r}</option>)}
-                             <option value="CREATE_NEW" className="text-leather-tan font-black">+ Criar Novo Cargo...</option>
-                          </select>
-                       </div>
-
-                       <AnimatePresence>
-                          {isCreatingRole && (
-                            <motion.div 
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              className="overflow-hidden"
-                            >
-                               <div className="p-4 bg-orange-50/50 border border-orange-100 rounded-2xl space-y-3">
-                                  <div className="flex justify-between items-center">
-                                     <p className="text-[10px] font-black text-orange-600 uppercase tracking-widest">Nome do Novo Cargo</p>
-                                     <button 
-                                       onClick={() => setIsCreatingRole(false)}
-                                       className="text-[9px] font-bold text-slate-400 hover:text-red-500 uppercase"
-                                     >
-                                       Cancelar
-                                     </button>
-                                  </div>
-                                  <div className="flex gap-2">
-                                     <input 
-                                       type="text" 
-                                       autoFocus
-                                       value={newRoleName}
-                                       onChange={(e) => setNewRoleName(e.target.value)}
-                                       placeholder="ex: Gerente Regional" 
-                                       className="flex-1 p-3 leather-light-textured border border-slate-200 rounded-xl outline-none focus:border-orange-300 text-sm font-bold" 
-                                     />
-                                     <button 
-                                       onClick={addNewRole}
-                                       className="px-4 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition-colors shadow-sm flex items-center gap-2 text-xs font-bold"
-                                     >
-                                       <Plus size={16} /> Adicionar
-                                     </button>
-                                  </div>
-                               </div>
-                            </motion.div>
-                          )}
-                       </AnimatePresence>
+                    <div className="relative">
+                       <select 
+                         id="role"
+                         value={isCreatingRole ? 'CREATE_NEW' : selectedRole || editingUser?.role} 
+                         onChange={handleRoleChange}
+                         className="peer w-full p-2 pt-4 bg-white border border-slate-200 focus:border-leather-tan outline-none font-black text-[11px] text-leather-dark transition-all appearance-none rounded-lg cursor-pointer shadow-sm"
+                       >
+                          <option value="" disabled>Selecione um cargo...</option>
+                          {roles.map(r => <option key={r} value={r}>{r}</option>)}
+                          <option value="CREATE_NEW" className="text-leather-tan font-black">+ Criar Novo Cargo...</option>
+                       </select>
+                       <label htmlFor="role" className="absolute left-2.5 top-1 text-[8px] font-bold text-slate-400 transition-all peer-focus:text-leather-tan">Cargo / Função</label>
                     </div>
                  </div>
+
+                  <AnimatePresence>
+                     {isCreatingRole && (
+                     <motion.div 
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden mt-4"
+                     >
+                        <div className="p-4 bg-orange-50/50 border border-orange-100 rounded-2xl space-y-3 text-left">
+                           <div className="flex justify-between items-center">
+                              <p className="text-[10px] font-black text-orange-600 uppercase tracking-widest">Nome do Novo Cargo</p>
+                              <button 
+                                 type="button"
+                                 onClick={() => setIsCreatingRole(false)}
+                                 className="text-[9px] font-bold text-slate-400 hover:text-red-500 uppercase"
+                              >
+                                 Cancelar
+                              </button>
+                           </div>
+                           <div className="flex gap-2">
+                              <input 
+                                 type="text" 
+                                 autoFocus
+                                 value={newRoleName}
+                                 onChange={(e) => setNewRoleName(e.target.value)}
+                                 placeholder="ex: Gerente Regional" 
+                                 className="flex-1 p-3 bg-white border border-slate-200 rounded-xl outline-none focus:border-orange-300 text-sm font-bold" 
+                              />
+                              <button 
+                                 type="button"
+                                 onClick={addNewRole}
+                                 className="px-4 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition-colors shadow-sm flex items-center gap-2 text-xs font-bold"
+                              >
+                                 <Plus size={16} /> Adicionar
+                              </button>
+                           </div>
+                        </div>
+                     </motion.div>
+                     )}
+                  </AnimatePresence>
+
 
                  <button 
                    type="submit"
                    disabled={isSubmitting || showSuccess}
-                   className="w-full btn-leather !py-4 font-bold shadow-xl flex items-center justify-center gap-3 disabled:opacity-70"
+                   className="w-full py-4 bg-leather-dark text-white rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.4)] hover:bg-black hover:scale-[1.01] active:scale-[0.98] transition-all border-2 border-white/10 relative overflow-hidden group disabled:opacity-70"
                  >
+                    <div className="absolute inset-0 bg-gradient-to-tr from-leather-tan/0 via-leather-tan/20 to-leather-tan/0 opacity-0 group-hover:opacity-100 transition-opacity" />
                     {isSubmitting ? (
                       <>
                         <Loader2 size={20} className="animate-spin" /> Processando...

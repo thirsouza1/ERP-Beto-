@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Camera, Image as ImageIcon, Upload, CheckCircle2, AlertCircle, RotateCcw, Save, Trash2, Plus, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import Logo from '../ui/Logo';
 
 export default function FinanceModule() {
@@ -129,18 +129,19 @@ export default function FinanceModule() {
           >
             <div className="w-full max-w-2xl bg-[#fdfaf6] rounded-[40px] overflow-hidden shadow-2xl border-2 border-white/50 leather-texture relative">
               <div className="absolute inset-0 bg-[#fdfaf6]/40 pointer-events-none" />
-              <div className="p-8 bg-navy-dark border-b border-white/10 flex items-center justify-between relative overflow-hidden">
-                <div className="absolute inset-0 bg-white/5 pointer-events-none"></div>
-                <div className="flex items-center gap-4 relative z-10">
-                  <Logo variant="compact" className="scale-125 origin-left" />
-                  <div className="h-10 w-px bg-white/20"></div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white">Captura Social</h3>
-                    <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">Escaneamento Digital</p>
+              <div className="bg-leather-dark p-3 md:p-4 border-b border-leather-tan/20 flex justify-between items-center text-white relative overflow-hidden shadow-xl">
+                <div className="absolute inset-0 bg-leather-texture opacity-10 pointer-events-none"></div>
+                <div className="flex items-center gap-3 relative z-10">
+                  <div className="">
+                    <h3 className="text-base md:text-lg font-black tracking-tight flex items-center gap-2">
+                      <Camera size={18} className="text-leather-tan" />
+                      Captura Social de Cheques
+                    </h3>
+                    <p className="text-[8px] font-bold uppercase text-white/40 tracking-widest mt-0.5">Escaneamento Digital • Inteligência Óptica</p>
                   </div>
                 </div>
-                <button onClick={() => setShowCheckScanner(false)} className="bg-white/10 p-2 rounded-xl text-white hover:bg-white/20 relative z-10 transition-colors">
-                  <X size={24} />
+                <button onClick={() => setShowCheckScanner(false)} className="hover:bg-red-500/20 p-2 rounded-xl transition-all relative z-10">
+                  <X size={18} className="text-white" />
                 </button>
               </div>
 
@@ -191,18 +192,19 @@ export default function FinanceModule() {
           >
             <div className="w-full max-w-2xl bg-[#fdfaf6] rounded-[40px] overflow-hidden shadow-2xl border-2 border-white/50 leather-texture relative">
               <div className="absolute inset-0 bg-[#fdfaf6]/40 pointer-events-none" />
-              <div className="p-8 bg-navy-dark border-b border-white/10 flex items-center justify-between relative overflow-hidden">
-                <div className="absolute inset-0 bg-white/5 pointer-events-none"></div>
-                <div className="flex items-center gap-4 relative z-10">
-                  <Logo variant="compact" className="scale-125 origin-left" />
-                  <div className="h-10 w-px bg-white/20"></div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white">Contas a Pagar</h3>
-                    <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">Novo Lançamento Financeiro</p>
+              <div className="bg-leather-dark p-3 md:p-4 border-b border-leather-tan/20 flex justify-between items-center text-white relative overflow-hidden shadow-xl">
+                <div className="absolute inset-0 bg-leather-texture opacity-10 pointer-events-none"></div>
+                <div className="flex items-center gap-3 relative z-10">
+                  <div className="">
+                    <h3 className="text-base md:text-lg font-black tracking-tight flex items-center gap-2">
+                      <AlertCircle size={18} className="text-leather-tan" />
+                      Novo Lançamento Financeiro
+                    </h3>
+                    <p className="text-[8px] font-bold uppercase text-white/40 tracking-widest mt-0.5">Gestão de Contas a Pagar • Tesouraria</p>
                   </div>
                 </div>
-                <button onClick={() => setShowPayableAdd(false)} className="bg-white/10 p-2 rounded-xl text-white hover:bg-white/20 relative z-10 transition-colors">
-                  <X size={24} />
+                <button onClick={() => setShowPayableAdd(false)} className="hover:bg-red-500/20 p-2 rounded-xl transition-all relative z-10">
+                  <X size={18} className="text-white" />
                 </button>
               </div>
 

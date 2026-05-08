@@ -12,9 +12,10 @@ import {
   ChevronRight, 
   Trash2, 
   DollarSign,
-  Save
+  Save,
+  X
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
 const CATEGORIES = [
   { id: 'fuel', label: 'Combustível', icon: Fuel, color: 'text-orange-600', bg: 'bg-orange-50' },
@@ -154,82 +155,134 @@ export default function ExpensesModule() {
                exit={{ opacity: 0, scale: 0.95 }}
                className="leather-light-textured w-full max-w-2xl rounded-[40px] shadow-2xl overflow-hidden border-2 border-white/50 relative"
             >
-               <div className="bg-navy-dark p-8 text-white flex justify-between items-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-white/5 pointer-events-none"></div>
-                <h3 className="text-xl font-bold relative z-10 flex items-center gap-2">
-                   <DollarSign /> Lançar Despesa
-                </h3>
-                <button onClick={handleClose} className="bg-white/10 p-2 rounded-xl hover:bg-white/20 transition-colors relative z-10">
-                   <ChevronRight />
-                </button>
+               <div className="bg-leather-dark p-3 md:p-4 border-b border-leather-tan/20 flex justify-between items-center text-white relative overflow-hidden shadow-xl">
+                 <div className="absolute inset-0 bg-leather-texture opacity-10 pointer-events-none"></div>
+                 <div className="flex items-center gap-3 relative z-10">
+                    <div className="">
+                      <h3 className="text-base md:text-lg font-black tracking-tight flex items-center gap-2">
+                        <DollarSign size={18} className="text-leather-tan" />
+                        Lançar Nova Despesa
+                      </h3>
+                      <p className="text-[8px] font-bold uppercase text-white/40 tracking-widest mt-0.5">Gestão de Reembolsos • Viagens</p>
+                    </div>
+                 </div>
+                 
+                 <div className="flex items-center gap-2 relative z-10">
+                    <button onClick={handleClose} className="hover:bg-red-500/20 p-2 rounded-xl transition-all">
+                      <X size={18} className="text-white" />
+                    </button>
+                 </div>
               </div>
 
-              <form className="p-8 space-y-6 relative z-10">
-                 <div className="space-y-2">
-                    <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Descrição</label>
-                    <input 
-                      type="text" 
-                      name="description"
-                      value={formData.description}
-                      onChange={handleChange}
-                      placeholder="Ex: Almoço Cliente"
-                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none leather-light-textured font-bold text-navy-dark"
-                    />
-                 </div>
-                 <div className="grid grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                       <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Valor (R$)</label>
-                       <input 
-                         type="number" 
-                         step="0.01"
-                         name="value"
-                         value={formData.value}
-                         onChange={handleChange}
-                         placeholder="0,00"
-                         className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none leather-light-textured font-bold text-navy-dark"
-                       />
+              <form onSubmit={(e) => { e.preventDefault(); handleClose(); }} className="p-3 space-y-3 relative z-10 bg-slate-50/50">
+                 {/* System Metadata Tag - Read Only */}
+                 <div className="flex justify-between items-center px-1">
+                    <div className="flex items-center gap-2 px-1.5 py-0.5 bg-white border border-slate-200 rounded-lg shadow-sm">
+                       <span className="text-[6px] font-black text-slate-400 uppercase tracking-widest">Sys-Ref</span>
+                       <code className="text-[8px] font-mono font-bold text-leather-tan">EXP-{(Math.floor(Math.random() * 900) + 100)}</code>
                     </div>
-                    <div className="space-y-2">
-                       <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Data</label>
-                       <input 
-                         type="date"
-                         name="date"
-                         value={formData.date}
-                         onChange={handleChange}
-                         className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none bg-white font-bold text-navy-dark"
-                       />
-                    </div>
-                 </div>
-                 <div className="space-y-2">
-                    <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Categoria</label>
-                    <select 
-                      name="category"
-                      value={formData.category}
-                      onChange={handleChange}
-                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none leather-light-textured font-bold text-navy-dark appearance-none"
-                    >
-                       {CATEGORIES.map(cat => (
-                         <option key={cat.id} value={cat.id}>{cat.label}</option>
-                       ))}
-                    </select>
-                 </div>
-                 <div className="space-y-2">
-                    <label className="text-sm font-black text-navy-dark uppercase tracking-widest">Cidade / Local</label>
-                    <input 
-                      type="text" 
-                      name="location"
-                      value={formData.location}
-                      onChange={handleChange}
-                      placeholder="Ex: Poços de Caldas - MG"
-                      className="w-full px-6 py-4 rounded-2xl border-2 border-slate-200 focus:border-leather-tan outline-none leather-light-textured font-bold text-navy-dark"
-                    />
+                    <div className="text-[6px] font-bold text-slate-400 uppercase tracking-widest italic opacity-60">Processamento Seguro</div>
                  </div>
 
-                 <button type="submit" className="w-full bg-navy-dark text-white py-5 rounded-2xl font-black text-xl shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.4)] hover:bg-black hover:scale-[1.02] transition-all border-2 border-white/10 relative overflow-hidden group">
-                    <span className="relative z-10 flex items-center justify-center gap-2 text-white/90">
-                       <Save size={20} /> Salvar Lançamento
-                    </span>
+                 <div className="bg-white p-3 rounded-[16px] border border-slate-200/60 shadow-sm space-y-3">
+                    <div className="relative">
+                       <input 
+                         id="description"
+                         type="text" 
+                         name="description"
+                         required
+                         value={formData.description}
+                         onChange={handleChange}
+                         placeholder=" "
+                         className="peer w-full p-2 pt-4 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-sm text-leather-dark transition-all placeholder-transparent rounded-lg shadow-sm"
+                       />
+                       <label 
+                         htmlFor="description"
+                         className="absolute left-2.5 top-1 text-[8px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-xs peer-placeholder-shown:top-2.5 peer-placeholder-shown:font-medium peer-focus:top-1 peer-focus:text-[8px] peer-focus:font-bold peer-focus:text-leather-tan"
+                       >
+                          Descrição da Despesa
+                       </label>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                       <div className="relative">
+                          <input 
+                            id="value"
+                            type="number" 
+                            step="0.01"
+                            name="value"
+                            required
+                            value={formData.value}
+                            onChange={handleChange}
+                            placeholder=" "
+                            className="peer w-full p-2 pt-4 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-sm text-leather-dark transition-all placeholder-transparent rounded-lg shadow-sm"
+                          />
+                          <label 
+                            htmlFor="value"
+                            className="absolute left-2.5 top-1 text-[8px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-xs peer-placeholder-shown:top-2.5 peer-placeholder-shown:font-medium peer-focus:top-1 peer-focus:text-[8px] peer-focus:font-bold peer-focus:text-leather-tan"
+                          >
+                             Valor (R$)
+                          </label>
+                       </div>
+                       <div className="relative">
+                          <input 
+                            id="date"
+                            type="date"
+                            name="date"
+                            required
+                            value={formData.date}
+                            onChange={handleChange}
+                            className="peer w-full p-2 pt-4 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-sm text-leather-dark transition-all rounded-lg shadow-sm"
+                          />
+                          <label 
+                            htmlFor="date"
+                            className="absolute left-2.5 top-1 text-[8px] font-bold text-leather-tan transition-all"
+                          >
+                             Data do Comprovante
+                          </label>
+                       </div>
+                    </div>
+
+                    <div className="relative">
+                       <select 
+                         id="category"
+                         name="category"
+                         value={formData.category}
+                         onChange={handleChange}
+                         className="peer w-full p-2 pt-4 bg-white border border-slate-200 focus:border-leather-tan outline-none font-black text-[11px] text-leather-dark transition-all appearance-none rounded-lg cursor-pointer shadow-sm"
+                       >
+                          {CATEGORIES.map(cat => (
+                            <option key={cat.id} value={cat.id}>{cat.label}</option>
+                          ))}
+                       </select>
+                       <label htmlFor="category" className="absolute left-2.5 top-1 text-[8px] font-bold text-slate-400 transition-all peer-focus:text-leather-tan">Categoria da Despesa</label>
+                    </div>
+
+                    <div className="relative">
+                       <input 
+                         id="location"
+                         type="text" 
+                         name="location"
+                         required
+                         value={formData.location}
+                         onChange={handleChange}
+                         placeholder=" "
+                         className="peer w-full p-2 pt-4 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-sm text-leather-dark transition-all placeholder-transparent rounded-lg shadow-sm"
+                       />
+                       <label 
+                         htmlFor="location"
+                         className="absolute left-2.5 top-1 text-[8px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-xs peer-placeholder-shown:top-2.5 peer-placeholder-shown:font-medium peer-focus:top-1 peer-focus:text-[8px] peer-focus:font-bold peer-focus:text-leather-tan"
+                       >
+                          Cidade / Local do Gasto
+                       </label>
+                    </div>
+                 </div>
+
+                 <button type="submit" className="w-full py-4 bg-leather-dark text-white rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.4)] hover:bg-black hover:scale-[1.01] active:scale-[0.98] transition-all border-2 border-white/10 relative overflow-hidden group">
                     <div className="absolute inset-0 bg-gradient-to-tr from-leather-tan/0 via-leather-tan/20 to-leather-tan/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                       <Save size={16} /> Salvar Lançamento
+                    </span>
                  </button>
               </form>
             </motion.div>

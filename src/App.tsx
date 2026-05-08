@@ -16,7 +16,7 @@ import {
   EyeOff,
   AlertCircle
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import AppLayout from './components/layout/AppLayout';
 import ClientsModule from './components/modules/ClientsModule';
 import ProductsModule from './components/modules/ProductsModule';

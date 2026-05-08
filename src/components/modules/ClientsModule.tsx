@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Search, Plus, UserPlus, Phone, Mail, Building2, MapPin, MoreVertical, Edit2, Trash2, Filter, X } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Search, Plus, UserPlus, Phone, Mail, Building2, MapPin, MoreVertical, Edit2, Trash2, Filter, X, Camera } from 'lucide-react';
+import { motion } from 'motion/react';
 import Logo from '../ui/Logo';
 
 export default function ClientsModule() {
@@ -18,17 +18,16 @@ export default function ClientsModule() {
     code: '003',
     personType: 'CNPJ',
     name: '',
-    fantasyName: '',
     cnpj: '',
-    ie: '',
     phone: '',
     email: '',
+    contact: '',
     street: '',
     number: '',
     neighborhood: '',
     city: '',
     state: '',
-    gender: 'Masculino',
+    cep: '',
     rating: 1,
     image: null as string | null
   });
@@ -44,17 +43,16 @@ export default function ClientsModule() {
       code: client.code || getNextCode(),
       personType: client.cnpj?.length > 14 ? 'CNPJ' : 'CPF',
       name: client.name || '',
-      fantasyName: client.fantasyName || '',
       cnpj: client.cnpj || '',
-      ie: client.ie || '',
       phone: client.phone || '',
       email: client.email || '',
+      contact: client.contact || '',
       street: client.street || '',
       number: client.number || '',
       neighborhood: client.neighborhood || '',
       city: client.city || '',
       state: client.state || '',
-      gender: client.gender || 'Masculino',
+      cep: client.cep || '',
       rating: client.rating || 1,
       image: client.image || null
     });
@@ -69,17 +67,16 @@ export default function ClientsModule() {
       code: getNextCode(),
       personType: 'CNPJ',
       name: '',
-      fantasyName: '',
       cnpj: '',
-      ie: '',
       phone: '',
       email: '',
+      contact: '',
       street: '',
       number: '',
       neighborhood: '',
       city: '',
       state: '',
-      gender: 'Masculino',
+      cep: '',
       rating: 1,
       image: null
     });
@@ -90,34 +87,39 @@ export default function ClientsModule() {
     let newValue = value;
 
     if (name === 'cnpj') {
-      const numbers = value.replace(/\D/g, "");
-      if (formData.personType === 'CPF') {
-        newValue = maskCPF(value);
-      } else {
-        newValue = maskCNPJ(value);
-      }
+      newValue = formData.personType === 'CPF' ? maskCPF(value) : maskCNPJ(value);
+    }
+
+    if (name === 'phone') {
+      newValue = maskPhone(value);
     }
 
     setFormData(prev => ({ ...prev, [name]: newValue }));
   };
 
   const maskCPF = (v: string) => {
-    v = v.replace(/\D/g, "");
-    if (v.length > 11) v = v.substring(0, 11);
-    v = v.replace(/(\d{3})(\d)/, "$1.$2");
-    v = v.replace(/(\d{3})(\d)/, "$1.$2");
-    v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-    return v;
+    const n = v.replace(/\D/g, "").substring(0, 11);
+    if (n.length <= 3) return n;
+    if (n.length <= 6) return n.replace(/(\d{3})(\d+)/, "$1.$2");
+    if (n.length <= 9) return n.replace(/(\d{3})(\d{3})(\d+)/, "$1.$2.$3");
+    return n.replace(/(\d{3})(\d{3})(\d{3})(\d+)/, "$1.$2.$3-$4");
   };
 
   const maskCNPJ = (v: string) => {
-    v = v.replace(/\D/g, "");
-    if (v.length > 14) v = v.substring(0, 14);
-    v = v.replace(/^(\d{2})(\d)/, "$1.$2");
-    v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-    v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
-    v = v.replace(/(\d{4})(\d)/, "$1-$2");
-    return v;
+    const n = v.replace(/\D/g, "").substring(0, 14);
+    if (n.length <= 2) return n;
+    if (n.length <= 5) return n.replace(/(\d{2})(\d+)/, "$1.$2");
+    if (n.length <= 8) return n.replace(/(\d{2})(\d{3})(\d+)/, "$1.$2.$3");
+    if (n.length <= 12) return n.replace(/(\d{2})(\d{3})(\d{3})(\d+)/, "$1.$2.$3/$4");
+    return n.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d+)/, "$1.$2.$3/$4-$5");
+  };
+
+  const maskPhone = (v: string) => {
+    const n = v.replace(/\D/g, "").substring(0, 11);
+    if (n.length <= 2) return n.length > 0 ? `(${n}` : n;
+    if (n.length <= 6) return n.replace(/(\d{2})(\d+)/, "($1) $2");
+    if (n.length <= 10) return n.replace(/(\d{2})(\d{4})(\d+)/, "($1) $2-$3");
+    return n.replace(/(\d{2})(\d{5})(\d+)/, "($1) $2-$3");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -148,20 +150,20 @@ export default function ClientsModule() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-navy-dark/5 p-6 rounded-[40px] flex flex-col md:flex-row md:items-center justify-between gap-6 border border-navy-dark/10">
-        <div className="flex items-center gap-4 flex-1 max-w-2xl">
+      <div className="bg-leather-dark/5 p-4 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-leather-dark/10">
+        <div className="flex items-center gap-2 flex-1 max-w-2xl">
            <div className="relative flex-1">
-             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
              <input 
                type="text" 
-               placeholder="Buscar parceiro por nome, documento ou cidade..."
-               className="w-full pl-14 pr-6 py-4 bg-white rounded-[24px] border-2 border-transparent focus:border-leather-tan outline-none transition-all shadow-xl font-medium text-navy-dark"
+               placeholder="Buscar parceiro..."
+               className="w-full pl-12 pr-4 py-3 bg-white rounded-2xl border border-slate-200 focus:border-leather-tan outline-none transition-all shadow-sm font-medium text-leather-dark"
                value={searchTerm}
                onChange={(e) => setSearchTerm(e.target.value)}
              />
            </div>
-           <button className="p-4 bg-white rounded-2xl text-slate-400 hover:text-leather-tan transition-all shadow-lg border border-slate-100 group">
-             <Filter size={20} className="group-hover:rotate-180 transition-transform duration-500" />
+           <button className="p-3 bg-white rounded-xl text-slate-400 hover:text-leather-tan transition-all shadow-sm border border-slate-100 group">
+             <Filter size={18} />
            </button>
         </div>
         
@@ -170,10 +172,10 @@ export default function ClientsModule() {
             setFormData({ ...formData, code: getNextCode() });
             setShowAdd(true);
           }}
-          className="btn-leather !px-10 !py-4 shadow-2xl !bg-navy-dark hover:!bg-leather-tan group"
+          className="btn-leather !px-8 !py-3 shadow-lg !bg-leather-dark hover:!bg-leather-tan group"
         >
-          <UserPlus size={20} className="group-hover:scale-110 transition-transform" /> 
-          <span className="font-bold">Efetivar Novo Cliente</span>
+          <UserPlus size={18} className="group-hover:scale-110 transition-transform" /> 
+          <span className="font-bold">Novo Cliente</span>
         </button>
       </div>
 
@@ -213,10 +215,6 @@ export default function ClientsModule() {
              </div>
              
              <div className="flex items-center gap-4 mt-8 md:mt-0 relative z-10">
-                <div className="text-right mr-8 hidden lg:block border-r border-slate-200 pr-8">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Interesse</p>
-                   <p className="text-base font-black text-navy-dark italic">{client.interest}</p>
-                </div>
                 <div className="flex gap-2">
                    <button 
                      onClick={(e) => { e.stopPropagation(); handleEdit(client); }}
@@ -240,293 +238,326 @@ export default function ClientsModule() {
             animate={{ opacity: 1, scale: 1 }}
             className="leather-light-textured w-full max-w-4xl rounded-[40px] shadow-2xl overflow-hidden border-2 border-white/50 relative"
           >
-            <div className="bg-navy-dark p-8 border-b-2 border-leather-tan/30 flex justify-between items-center text-white relative overflow-hidden shadow-2xl">
-               <div className="absolute inset-0 bg-leather-texture opacity-20 pointer-events-none"></div>
-               <div className="flex items-center gap-6 relative z-10">
-                  <div className="bg-white/5 p-3 rounded-2xl backdrop-blur-xl border border-white/10">
-                    <Logo variant="compact" className="scale-125" />
-                  </div>
-                  <div className="h-12 w-px bg-white/10 hidden sm:block"></div>
-                  <div className="hidden sm:block">
-                    <h3 className="text-2xl font-black tracking-tight flex items-center gap-3">
-                      {editingClient ? <Edit2 className="text-leather-tan" /> : <UserPlus className="text-leather-tan" />}
+            <div className="bg-leather-dark p-3 md:p-4 border-b border-leather-tan/20 flex justify-between items-center text-white relative overflow-hidden shadow-xl">
+               <div className="absolute inset-0 bg-leather-texture opacity-10 pointer-events-none"></div>
+               <div className="flex items-center gap-3 relative z-10">
+                  <div className="">
+                    <h3 className="text-base md:text-lg font-black tracking-tight flex items-center gap-2">
+                      {editingClient ? <Edit2 size={18} className="text-leather-tan" /> : <UserPlus size={18} className="text-leather-tan" />}
                       {editingClient ? 'Atualizar Perfil' : 'Cadastro de Cliente'}
                     </h3>
-                    <p className="text-[10px] font-black uppercase text-white/40 tracking-[0.3em] mt-1">Gestão Comercial Estratégica</p>
+                    <p className="text-[8px] font-bold uppercase text-white/40 tracking-widest mt-0.5">Gestão de Parceiros</p>
                   </div>
                </div>
-               <button onClick={handleClose} className="bg-white/5 hover:bg-red-500/20 p-3 rounded-2xl transition-all relative z-10 border border-white/5 group">
-                 <X size={24} className="text-white group-hover:scale-110 transition-transform" />
-               </button>
+               
+               <div className="flex items-center gap-2 relative z-10">
+                  <div className="flex items-center gap-2 mr-1">
+                     <button 
+                       type="button" 
+                       onClick={handleClose}
+                       className="px-3 md:px-4 py-1.5 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white rounded-full font-bold text-[8px] md:text-[9px] uppercase tracking-wider transition-all border border-white/5"
+                     >
+                       Descartar
+                     </button>
+                     <button 
+                       form="client-form"
+                       type="submit" 
+                       className="px-4 md:px-5 py-1.5 bg-leather-tan hover:bg-white text-white hover:text-leather-dark rounded-full font-black text-[8px] md:text-[9px] uppercase tracking-widest shadow-lg transition-all"
+                     >
+                       {editingClient ? 'Salvar' : 'Finalizar'}
+                     </button>
+                  </div>
+                  <div className="w-px h-4 bg-white/10 mx-1"></div>
+                  <button onClick={handleClose} className="hover:bg-red-500/20 p-2 rounded-xl transition-all">
+                    <X size={18} className="text-white" />
+                  </button>
+               </div>
             </div>
-            
-            <form onSubmit={handleSubmit} className="p-10 space-y-8 relative max-h-[85vh] overflow-y-auto custom-scrollbar">
-                 {/* Premium Header / Image Upload section */}
-                 <div className="flex flex-col md:flex-row gap-10 items-start">
-                    <div className="relative group mx-auto md:mx-0">
-                       <div className="w-48 h-48 rounded-[48px] bg-white border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-300 group-hover:border-leather-tan group-hover:text-leather-tan transition-all cursor-pointer overflow-hidden shadow-inner relative">
-                          {formData.image ? (
-                            <img src={formData.image} alt="Client" className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="flex flex-col items-center">
-                              <Camera className="w-12 h-12 mb-3 group-hover:scale-110 transition-transform duration-500" />
-                              <span className="text-[10px] font-black uppercase tracking-[0.2em] px-6 text-center leading-relaxed">Logo ou Foto do Parceiro</span>
-                            </div>
-                          )}
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                <form id="client-form" onSubmit={handleSubmit} className="p-2 space-y-2 relative max-h-[88vh] overflow-y-auto custom-scrollbar bg-slate-50/50">
+                 {/* System Metadata Tag - Read Only */}
+                 <div className="flex justify-between items-center px-1">
+                    <div className="flex items-center gap-2 px-1.5 py-0.5 bg-white border border-slate-200 rounded-lg shadow-sm">
+                       <span className="text-[6px] font-black text-slate-400 uppercase tracking-widest">Sys-Ref</span>
+                       <code className="text-[8px] font-mono font-bold text-leather-tan">{formData.code}</code>
+                    </div>
+                    <div className="text-[6px] font-bold text-slate-400 uppercase tracking-widest italic opacity-60">Processamento Seguro</div>
+                 </div>
+
+                 {/* 1. Primary Fields */}
+                 <div className="bg-white p-2 md:p-3 rounded-[16px] border border-slate-200/60 shadow-sm space-y-2">
+                    {/* Row 1: Logo | Razão Social | WhatsApp */}
+                    <div className="flex flex-col md:flex-row gap-2 items-start">
+                       {/* Logo Upload */}
+                       <div className="w-12 md:w-14 shrink-0">
+                          <div className="relative group aspect-square">
+                             <div className="w-full h-full rounded-[10px] bg-slate-50/50 border border-slate-100 flex flex-col items-center justify-center text-slate-300 group-hover:border-leather-tan/30 transition-all cursor-pointer overflow-hidden relative">
+                                {formData.image ? (
+                                  <img src={formData.image} alt="Client" className="w-full h-full object-cover" />
+                                ) : (
+                                  <div className="flex flex-col items-center">
+                                    <Camera className="w-4 h-4 mb-0.5 group-hover:scale-110 transition-transform text-slate-200" />
+                                    <span className="text-[5px] font-bold text-slate-400 uppercase text-center px-1">Logo</span>
+                                  </div>
+                                )}
+                             </div>
+                             <input 
+                               type="file" 
+                               className="absolute inset-0 opacity-0 cursor-pointer z-10" 
+                               onChange={(e) => {
+                                 const file = e.target.files?.[0];
+                                 if (file) {
+                                   const reader = new FileReader();
+                                   reader.onloadend = () => setFormData({ ...formData, image: reader.result as string });
+                                   reader.readAsDataURL(file);
+                                 }
+                               }}
+                             />
+                          </div>
                        </div>
-                       <input 
-                         type="file" 
-                         className="absolute inset-0 opacity-0 cursor-pointer z-10" 
-                         onChange={(e) => {
-                           const file = e.target.files?.[0];
-                           if (file) {
-                             const reader = new FileReader();
-                             reader.onloadend = () => setFormData({ ...formData, image: reader.result as string });
-                             reader.readAsDataURL(file);
-                           }
-                         }}
-                       />
-                       <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-navy-dark text-white px-5 py-2 rounded-2xl shadow-xl text-[10px] font-black uppercase tracking-widest border border-white/10 opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
-                          {formData.image ? 'Alterar' : 'Carregar'}
+
+                       <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-12 gap-2">
+                           {/* Primary Field: Name */}
+                           <div className="md:col-span-12 relative">
+                              <input 
+                                 id="name"
+                                 name="name"
+                                 type="text"
+                                 required
+                                 value={formData.name}
+                                 onChange={handleChange}
+                                 placeholder=" "
+                                 className="peer w-full p-2 pt-4 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-sm text-leather-dark transition-all placeholder-transparent rounded-lg shadow-sm"
+                              />
+                              <label 
+                                 htmlFor="name"
+                                 className="absolute left-2.5 top-1 text-[8px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-xs peer-placeholder-shown:top-2.5 peer-placeholder-shown:font-medium peer-focus:top-1 peer-focus:text-[8px] peer-focus:font-bold peer-focus:text-leather-tan"
+                              >
+                                 Razão Social ou Nome Completo
+                              </label>
+                           </div>
                        </div>
                     </div>
 
-                    <div className="flex-1 w-full space-y-8">
-                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                          <div className="space-y-3">
-                             <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] pl-1">Identificação Interna</label>
-                             <div className="p-5 leather-light-textured rounded-3xl border-2 border-slate-100 flex items-baseline justify-between shadow-inner">
-                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Código</span>
-                                <span className="font-serif text-3xl italic text-leather-tan tracking-tighter">#{formData.code}</span>
-                             </div>
-                          </div>
-                          <div className="space-y-3">
-                             <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] pl-1">Personalidade Jurídica</label>
-                             <div className="flex p-1.5 bg-slate-100 rounded-[28px] border border-slate-200">
-                                {['CNPJ', 'CPF'].map((t) => (
-                                  <button
-                                    key={t}
-                                    type="button"
-                                    onClick={() => setFormData({ ...formData, personType: t as any, cnpj: '' })}
-                                    className={`flex-1 py-4 rounded-[22px] text-xs font-black tracking-widest transition-all ${formData.personType === t ? 'bg-white text-navy-dark shadow-xl scale-[1.02]' : 'text-slate-400 hover:text-slate-600'}`}
-                                  >
-                                    {t}
-                                  </button>
-                                ))}
-                             </div>
-                          </div>
-                       </div>
-                       
-                       <div className="space-y-3">
-                          <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] pl-1">Nome de Exibição / Empresa</label>
-                          <div className="relative group">
-                            <Building2 className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-leather-tan transition-colors" size={22} />
-                            <input 
-                              name="name"
-                              value={formData.name}
+                    {/* Row 2: Documento | WhatsApp/Telefone */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {/* Integrated Document Field */}
+                        <div className="relative flex items-center bg-white border border-slate-200 focus-within:border-leather-tan transition-all rounded-lg overflow-hidden group shadow-sm">
+                           <div className="absolute left-2.5 top-0.5 text-[8px] font-bold text-slate-400 group-focus-within:text-leather-tan transition-colors">Nº do Documento Nacional</div>
+                           <div className="flex w-full items-end">
+                              <select 
+                                 value={formData.personType}
+                                 onChange={(e) => setFormData({ ...formData, personType: e.target.value as any, cnpj: '' })}
+                                 className="bg-transparent pl-2 pr-1 py-1.5 mt-1 text-[8px] font-black text-leather-tan outline-none border-r border-slate-100/50 cursor-pointer w-12 shrink-0"
+                              >
+                                 <option>CNPJ</option>
+                                 <option>CPF</option>
+                              </select>
+                              <input 
+                                 id="cnpj"
+                                 name="cnpj"
+                                 type="text"
+                                 required
+                                 value={formData.cnpj}
+                                 onChange={handleChange}
+                                 className={`flex-1 p-2 pt-4 bg-transparent outline-none font-bold text-sm text-leather-dark min-w-0 ${showError ? 'text-red-500' : ''}`}
+                                 placeholder={formData.personType === 'CPF' ? '000.000.000-00' : '00.000.000/0000-00'}
+                              />
+                           </div>
+                        </div>
+
+                        <div className="relative">
+                           <input 
+                              id="phone"
+                              name="phone"
+                              value={formData.phone}
                               onChange={handleChange}
-                              required
-                              placeholder="Digite a razão social ou nome..."
-                              className="w-full p-6 pl-16 leather-light-textured border-2 border-slate-200 rounded-[32px] outline-none focus:border-navy-dark font-black text-navy-dark transition-all text-lg placeholder:text-slate-300"
-                            />
+                              placeholder=" "
+                              className="peer w-full p-2 pt-4 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-sm text-leather-dark shadow-sm transition-all placeholder-transparent rounded-lg"
+                           />
+                           <label htmlFor="phone" className="absolute left-2.5 top-1 text-[8px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-xs peer-placeholder-shown:top-2.5 peer-focus:top-1 peer-focus:text-[8px]">WhatsApp / Telefone</label>
+                        </div>
+                    </div>
+                 </div>
+
+                 {/* 2. Secondary Sections */}
+                 <div className="space-y-2 px-1">
+                    {/* Row 3: Rua | Número | Bairro | CEP */}
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
+                       <div className="md:col-span-12 grid grid-cols-12 gap-2">
+                          <div className="col-span-8 relative">
+                             <input 
+                                id="street"
+                                name="street"
+                                value={formData.street}
+                                onChange={handleChange}
+                                placeholder=" "
+                                className="peer w-full p-1.5 pt-3.5 bg-white/60 border border-slate-200 focus:border-leather-tan outline-none font-bold text-[10px] text-leather-dark rounded-lg transition-all shadow-sm"
+                             />
+                             <label htmlFor="street" className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-[9px] peer-placeholder-shown:top-2 peer-focus:top-0.5 peer-focus:text-[7px]">Rua / Avenida</label>
+                          </div>
+                          <div className="col-span-4 relative">
+                             <input 
+                                id="number"
+                                name="number"
+                                value={formData.number}
+                                onChange={handleChange}
+                                placeholder=" "
+                                className="peer w-full p-1.5 pt-3.5 bg-white/60 border border-slate-200 focus:border-leather-tan outline-none font-bold text-[10px] text-leather-dark rounded-lg transition-all shadow-sm"
+                             />
+                             <label htmlFor="number" className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-[9px] peer-placeholder-shown:top-2 peer-focus:top-0.5 peer-focus:text-[7px]">Nº / Comp.</label>
                           </div>
                        </div>
                     </div>
-                 </div>
 
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div className="lg:col-span-2 space-y-3">
-                       <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] pl-1">
-                          Documento Oficial ({formData.personType})
-                       </label>
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
+                       <div className="md:col-span-7 relative">
+                          <input 
+                             id="neighborhood"
+                             name="neighborhood"
+                             value={formData.neighborhood}
+                             onChange={handleChange}
+                             placeholder=" "
+                             className="peer w-full p-1.5 pt-3.5 bg-white/60 border border-slate-200 focus:border-leather-tan outline-none font-bold text-[10px] text-leather-dark rounded-lg transition-all shadow-sm"
+                          />
+                          <label htmlFor="neighborhood" className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-[9px] peer-placeholder-shown:top-2 peer-focus:top-0.5 peer-focus:text-[7px]">Bairro</label>
+                       </div>
+                       <div className="md:col-span-5 relative">
+                           <input 
+                              id="cep"
+                              name="cep"
+                              value={formData.cep || ''}
+                              onChange={handleChange}
+                              placeholder=" "
+                              className="peer w-full p-1.5 pt-3.5 bg-white/60 border border-slate-200 focus:border-leather-tan outline-none font-bold text-[10px] text-leather-dark rounded-lg transition-all shadow-sm"
+                           />
+                           <label htmlFor="cep" className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-[9px] peer-placeholder-shown:top-2 peer-focus:top-0.5 peer-focus:text-[7px]">CEP</label>
+                       </div>
+                    </div>
+
+                    {/* Row 4: Cidade | UF | E-mail */}
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
+                       <div className="md:col-span-5 relative">
+                          <input 
+                             id="city"
+                             name="city"
+                             value={formData.city}
+                             onChange={handleChange}
+                             placeholder=" "
+                             className="peer w-full p-1.5 pt-3.5 bg-white/60 border border-slate-200 focus:border-leather-tan outline-none font-bold text-[10px] text-leather-dark rounded-lg transition-all shadow-sm"
+                          />
+                          <label htmlFor="city" className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-[9px] peer-placeholder-shown:top-2 peer-focus:top-0.5 peer-focus:text-[7px]">Cidade</label>
+                       </div>
+                       <div className="md:col-span-2 relative">
+                          <select 
+                             id="state"
+                             name="state"
+                             value={formData.state}
+                             onChange={handleChange}
+                             className="peer w-full p-1.5 pt-3.5 bg-white/60 border border-slate-200 focus:border-leather-tan outline-none font-black text-[10px] text-leather-dark transition-all appearance-none rounded-lg cursor-pointer shadow-sm"
+                          >
+                             <option value="">UF</option>
+                             {['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'].map(uf => (
+                                <option key={uf} value={uf}>{uf.toUpperCase()}</option>
+                             ))}
+                          </select>
+                          <label className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-focus:text-leather-tan">UF</label>
+                       </div>
+                       <div className="md:col-span-5 relative">
+                          <input 
+                             id="email"
+                             name="email"
+                             type="email"
+                             value={formData.email}
+                             onChange={handleChange}
+                             placeholder=" "
+                             className="peer w-full p-1.5 pt-3.5 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-[10px] text-leather-dark rounded-lg transition-all shadow-sm"
+                          />
+                          <label htmlFor="email" className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-[9px] peer-placeholder-shown:top-2 peer-focus:top-0.5 peer-focus:text-[7px]">E-mail</label>
+                       </div>
+                    </div>
+
+                    {/* Row 5: Nome do Responsável */}
+                    <div className="relative">
                        <input 
-                         name="cnpj"
-                         value={formData.cnpj}
-                         onChange={handleChange}
-                         required
-                         placeholder={formData.personType === 'CPF' ? '000.000.000-00' : '00.000.000/0000-00'}
-                         className={`w-full p-6 leather-light-textured border-2 rounded-[32px] outline-none font-black text-navy-dark transition-all text-xl ${showError ? 'border-red-500 animate-shake bg-red-50/30' : 'border-slate-200 focus:border-navy-dark'}`}
+                          id="contact"
+                          name="contact"
+                          value={formData.contact}
+                          onChange={handleChange}
+                          placeholder=" "
+                          className="peer w-full p-1.5 pt-3.5 bg-white border border-slate-200 focus:border-leather-tan outline-none font-bold text-[10px] text-leather-dark rounded-lg shadow-sm transition-all"
                        />
-                       {showError && (
-                         <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="flex items-center gap-2 text-[10px] font-black text-red-500 uppercase tracking-[0.2em] px-2 italic">
-                            <X size={12} strokeWidth={3} /> {formData.personType} INCORRETO OU INCOMPLETO
-                         </motion.div>
-                       )}
-                    </div>
-                    
-                    <div className="space-y-3 lg:col-span-2">
-                       <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] pl-1">E-mail Corporativo</label>
-                       <div className="relative group">
-                          <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-leather-tan transition-colors" size={22} />
-                          <input 
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            type="email"
-                            placeholder="faturamento@parceiro.com.br"
-                            className="w-full p-6 pl-16 leather-light-textured border-2 border-slate-200 rounded-[32px] outline-none focus:border-navy-dark font-black text-navy-dark transition-all"
-                          />
-                       </div>
-                    </div>
-
-                    <div className="space-y-3">
-                       <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] pl-1">Telefone Principal</label>
-                       <div className="relative group">
-                          <Phone className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300" size={20} />
-                          <input 
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            placeholder="(00) 00000-0000"
-                            className="w-full p-6 pl-16 leather-light-textured border-2 border-slate-200 rounded-[32px] outline-none focus:border-navy-dark font-black text-navy-dark transition-all"
-                          />
-                       </div>
-                    </div>
-                    
-                    <div className="space-y-3">
-                       <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] pl-1">Pessoa de Contato</label>
-                       <input 
-                         name="contact"
-                         value={formData.contact}
-                         onChange={handleChange}
-                         placeholder="Nome do Responsável"
-                         className="w-full p-6 leather-light-textured border-2 border-slate-200 rounded-[32px] outline-none focus:border-navy-dark font-black text-navy-dark transition-all"
-                       />
-                    </div>
-
-                    <div className="space-y-3">
-                       <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] pl-1">Gênero</label>
-                       <select 
-                         name="gender"
-                         value={formData.gender}
-                         onChange={handleChange}
-                         className="w-full p-6 leather-light-textured border-2 border-slate-200 rounded-[32px] outline-none focus:border-navy-dark font-black text-navy-dark appearance-none cursor-pointer"
-                       >
-                         <option>Masculino</option>
-                         <option>Feminino</option>
-                         <option>Prefiro não dizer</option>
-                       </select>
-                    </div>
-
-                    <div className="space-y-3 font-bold">
-                      <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] pl-1">Interesse</label>
-                      <select 
-                        name="interest"
-                        value={formData.interest}
-                        onChange={handleChange}
-                        className="w-full p-6 leather-light-textured border-2 border-slate-200 rounded-[32px] outline-none focus:border-navy-dark font-black text-navy-dark appearance-none cursor-pointer shadow-sm"
-                      >
-                        <option>Sola de Couro</option>
-                        <option>Vira para Calçado</option>
-                        <option>Couro Acabado</option>
-                      </select>
+                       <label htmlFor="contact" className="absolute left-2 top-0.5 text-[7px] font-bold text-slate-400 transition-all peer-placeholder-shown:text-[9px] peer-placeholder-shown:top-2 peer-focus:top-0.5 peer-focus:text-[7px]">Responsável</label>
                     </div>
                  </div>
 
-                 {/* Address Group */}
-                 <div className="p-10 bg-slate-50/50 rounded-[48px] border border-slate-200 shadow-inner space-y-8">
-                    <div className="flex items-center gap-4">
-                       <div className="w-10 h-10 bg-leather-tan/10 text-leather-tan rounded-2xl flex items-center justify-center">
-                          <MapPin size={20} />
-                       </div>
-                       <div>
-                          <h4 className="text-sm font-black text-navy-dark uppercase tracking-widest">Endereço de Logística</h4>
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Destino de Entrega e Faturamento</p>
-                       </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
-                       <div className="md:col-span-4 space-y-2">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Rua / Avenida / Praça</label>
-                          <input 
-                            name="street"
-                            value={formData.street}
-                            onChange={handleChange}
-                            className="w-full p-5 bg-white border-2 border-slate-100 rounded-2xl outline-none focus:border-leather-tan font-bold text-navy-dark"
-                          />
-                       </div>
-                       <div className="md:col-span-2 space-y-2">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Nº</label>
-                          <input 
-                            name="number"
-                            value={formData.number}
-                            onChange={handleChange}
-                            className="w-full p-5 bg-white border-2 border-slate-100 rounded-2xl outline-none focus:border-leather-tan font-bold text-navy-dark"
-                          />
-                       </div>
-                       <div className="md:col-span-2 space-y-2">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Bairro</label>
-                          <input 
-                            name="neighborhood"
-                            value={formData.neighborhood}
-                            onChange={handleChange}
-                            className="w-full p-5 bg-white border-2 border-slate-100 rounded-2xl outline-none focus:border-leather-tan font-bold text-navy-dark"
-                          />
-                       </div>
-                       <div className="md:col-span-3 space-y-2">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Cidade</label>
-                          <input 
-                            name="city"
-                            value={formData.city}
-                            onChange={handleChange}
-                            className="w-full p-5 bg-white border-2 border-slate-100 rounded-2xl outline-none focus:border-leather-tan font-bold text-navy-dark"
-                          />
-                       </div>
-                       <div className="md:col-span-1 space-y-2">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">UF</label>
-                          <input 
-                            name="state"
-                            value={formData.state}
-                            onChange={handleChange}
-                            maxLength={2}
-                            placeholder="MG"
-                            className="w-full p-5 bg-white border-2 border-slate-100 rounded-2xl outline-none focus:border-leather-tan font-black text-navy-dark text-center uppercase"
-                          />
-                       </div>
-                    </div>
-                 </div>
-
-                 {/* Premium Rating & Footer Actions */}
-                 <div className="flex flex-col xl:flex-row items-center justify-between gap-12 pt-6">
-                    <div className="w-full xl:w-2/3 space-y-4">
-                       <div className="flex justify-between items-end px-2">
-                          <div>
-                             <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em]">Qualificação Estratégica</label>
-                             <p className="text-[10px] font-bold text-leather-tan/60 uppercase tracking-widest mt-1">Rating Evolutivo (Baseado em Performance Operacional)</p>
-                          </div>
-                          <div className="text-4xl font-black text-navy-dark italic leading-none">{formData.rating}<span className="text-leather-tan/30 text-xl font-normal ml-1">/10</span></div>
-                       </div>
+                 {/* Qualificação Técnica - Leather Sample Scale */}
+                 <div className="pt-0.5 px-1">
+                    <div className="p-2 bg-slate-50/50 rounded-2xl border border-slate-200/40 space-y-2 flex flex-col items-center">
+                       <label className="text-[7px] font-black text-slate-400 uppercase tracking-[0.2em]">Qualificação Técnica</label>
                        
-                       <div className="flex items-center gap-3 bg-navy-dark p-8 rounded-[48px] shadow-2xl border-4 border-white/5 relative overflow-hidden group">
-                          <div className="absolute inset-0 bg-leather-texture opacity-20" />
-                          <div className="flex gap-2 flex-1 relative z-10">
-                             {[...Array(10)].map((_, i) => (
+                       {/* Principal Rating Display - Debossed Style */}
+                       <div className="flex items-center gap-4">
+                          <div className="relative px-3 py-1 bg-leather-dark/5 rounded-xl shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] border border-white/60">
+                             <div className="text-2xl font-black text-leather-dark tracking-tighter select-none flex items-baseline gap-0.5" style={{ 
+                                textShadow: '0.5px 0.5px 0.5px rgba(255,255,255,0.8), -0.2px -0.2px 0.5px rgba(0,0,0,0.2)' 
+                             }}>
+                                {formData.rating === 10 ? '10' : formData.rating}
+                                <span className="text-[10px] opacity-30 font-bold">,0</span>
+                             </div>
+                          </div>
+                          
+                          {/* Interpretive Text */}
+                          <p className="text-[9px] font-bold text-leather-tan uppercase tracking-tight">
+                             {formData.rating >= 9 ? 'Excelência Artesanal' : 
+                              formData.rating >= 7 ? 'Técnico Avançado' :
+                              formData.rating >= 5 ? 'Padrão Qualidade' :
+                              formData.rating >= 3 ? 'Operacional' : 'Potencial'}
+                          </p>
+                       </div>
+
+                       {/* Leather Samples Scale */}
+                       <div className="flex items-end justify-center gap-2 w-full py-1">
+                          {[
+                            { color: '#F5E6D3', threshold: 2 }, // Lightest
+                            { color: '#DCC4AA', threshold: 4 },
+                            { color: '#A67C52', threshold: 6 },
+                            { color: '#6F4E37', threshold: 8 },
+                            { color: '#3D2B1F', threshold: 10 } // Darkest
+                          ].map((sample, i) => {
+                            const isActive = (formData.rating > (i * 2)) && (formData.rating <= (i * 2 + 2));
+                            
+                            return (
                                <button
                                  key={i}
                                  type="button"
-                                 onClick={() => setFormData({ ...formData, rating: i + 1 })}
-                                 className={`h-12 flex-1 rounded-[14px] transition-all duration-500 transform ${i < formData.rating ? 'bg-gradient-to-t from-orange-600 via-leather-tan to-orange-200 shadow-[0_0_25px_rgba(193,154,107,0.7)] scale-105' : 'bg-white/10 hover:bg-white/20'}`}
-                               />
-                             ))}
-                          </div>
+                                 onClick={() => setFormData({ ...formData, rating: (i * 2 + 2) })}
+                                 className={`relative transition-all duration-300 flex flex-col items-center group
+                                   ${isActive ? 'scale-105 translate-y-[-2px] opacity-100' : 'scale-90 opacity-40 hover:opacity-60'}
+                                 `}
+                               >
+                                  {/* Leather Tag SVG */}
+                                  <svg viewBox="0 0 100 125" className="w-5 h-7 drop-shadow-sm">
+                                     <path 
+                                       d="M 50 5 L 85 18 C 92 40 82 55 82 85 C 82 100 92 110 100 120 L 0 120 C 8 110 18 100 18 85 C 18 55 8 40 15 18 L 50 5 Z" 
+                                       fill={sample.color}
+                                       fillOpacity="1"
+                                     />
+                                     <circle cx="50" cy="18" r="4" fill="white" fillOpacity="0.2" />
+                                     {isActive && (
+                                       <path 
+                                         d="M 50 5 L 85 18 C 92 40 82 55 82 85 C 82 100 92 110 100 120 L 0 120 C 8 110 18 100 18 85 C 18 55 8 40 15 18 L 50 5 Z" 
+                                         fill="none" 
+                                         stroke="white" 
+                                         strokeWidth="3"
+                                         strokeOpacity="0.15"
+                                       />
+                                     )}
+                                  </svg>
+                                  <div className={`mt-1 w-0.5 h-0.5 rounded-full bg-leather-tan transition-all duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`} />
+                               </button>
+                            );
+                          })}
                        </div>
-                    </div>
-
-                    <div className="flex gap-4 w-full xl:w-fit">
-                       <button 
-                         type="button" 
-                         onClick={handleClose}
-                         className="flex-1 xl:flex-none px-12 py-6 bg-slate-100 text-slate-500 rounded-[30px] font-black text-xs uppercase tracking-[0.3em] hover:bg-slate-200 transition-all border border-slate-200"
-                       >
-                         Descartar
-                       </button>
-                       <button 
-                         type="submit" 
-                         className="flex-1 xl:flex-none px-16 py-6 bg-navy-dark text-white rounded-[30px] font-black text-xs uppercase tracking-[0.3em] btn-skeuo"
-                       >
-                         {editingClient ? 'Salvar Edição' : 'Efetivar Parceiro'}
-                       </button>
                     </div>
                  </div>
               </form>

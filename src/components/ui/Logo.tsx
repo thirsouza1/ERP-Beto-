@@ -19,7 +19,7 @@ export default function Logo({ className, variant = 'full' }: { className?: stri
   if (variant === 'compact') {
     return (
       <div className={cn("flex items-center gap-3", className)}>
-        <div className="w-10 h-10 bg-navy-dark rounded-xl flex items-center justify-center text-white leather-texture shadow-lg border border-white/10">
+        <div className="w-10 h-10 bg-leather-dark rounded-xl flex items-center justify-center text-white leather-texture shadow-lg border border-white/10">
           <span className="text-xl font-black tracking-tighter">BM</span>
         </div>
         <div className="text-left">
